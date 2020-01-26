@@ -1,4 +1,4 @@
- 
+import java.util.HashMap;
 
 public class Room
 {
@@ -9,6 +9,7 @@ public class Room
     private Room aSouthExit;
     private Room aEastExit;
     private Room aWestExit;
+    private HashMap<String, Room> aExits;
     
     
     // Constructeurs
@@ -19,6 +20,7 @@ public class Room
      */
     public Room(final String pDescription){
         this.aDescription = pDescription;
+        aExits = new HashMap<String,Room>();
     }//Room()
     
     // Getters 
@@ -36,11 +38,7 @@ public class Room
      */
     public Room getExit(String pDir)
     {
-        if (pDir.equals("north")) return this.aNorthExit;
-        if (pDir.equals("south")) return this.aSouthExit;
-        if (pDir.equals("east")) return this.aEastExit;
-        if (pDir.equals("west")) return this.aWestExit;
-        return null;
+        return aExits.get(pDir);
     }//getExits()
     
     /**
@@ -53,6 +51,7 @@ public class Room
         if (this.aSouthExit != null) vExits += "south ";
         if (this.aEastExit != null) vExits += "east ";
         if (this.aWestExit != null) vExits += "west ";
+        
         return vExits;
     }//getExitString()
     
@@ -61,12 +60,8 @@ public class Room
     /**
      * Modifie les sorties
      */
-    public void setExits(final Room pNorthExit, final Room pSouthExit,
-                         final Room pEastExit, final Room pWestExit)
+    public void setExit(final String pDirection,final Room pNeighbor)
     {
-        this.aNorthExit = pNorthExit;
-        this.aSouthExit = pSouthExit;
-        this.aEastExit = pEastExit;
-        this.aWestExit = pWestExit;
+        this.aExits.put(pDirection, pNeighbor);
     }
 } // Room
