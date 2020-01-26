@@ -54,7 +54,7 @@ public class Game
         this.aCurrentRoom = vDesert;
     }
 
-     /**
+    /**
      * Gère le changement de lieu
      */
     private void goRoom(final Command pCommand)
@@ -85,12 +85,7 @@ public class Game
      */
     private void printLocationInfo()
     {
-        System.out.print("Exits : ");
-        if (this.aCurrentRoom.getExit("north") != null) System.out.print("north ");
-        if (this.aCurrentRoom.getExit("south") != null) System.out.print("south ");
-        if (this.aCurrentRoom.getExit("east") != null) System.out.print("east ");
-        if (this.aCurrentRoom.getExit("west") != null) System.out.print("west ");
-        System.out.println();        
+        System.out.println(this.aCurrentRoom.getExitString());      
     }//printLocationInfo()
     
     /**
