@@ -80,13 +80,21 @@ public class Game
 
         this.aCurrentRoom = vNextRoom;
         System.out.println(this.aCurrentRoom.getDescription());
+        printLocationInfo();
+    }//goRoom()
+    
+    /**
+     * Affiche les informations sur les sorties de la Room courante.
+     */
+    private void printLocationInfo()
+    {
         System.out.print("Exits : ");
         if (this.aCurrentRoom.aNorthExit != null) System.out.print("north ");
         if (this.aCurrentRoom.aSouthExit != null) System.out.print("south ");
         if (this.aCurrentRoom.aEastExit != null) System.out.print("east ");
         if (this.aCurrentRoom.aWestExit != null) System.out.print("west ");
-        System.out.println(); 
-    }//goRoom()
+        System.out.println();        
+    }//printLocationInfo()
     
     /**
      * Affiche le message de bienvenue
@@ -100,12 +108,7 @@ public class Game
         System.out.println("\nYou are outside the main entrance of the university.");
 
         // Affichage des sorties
-        System.out.print("Exits : ");
-        if (this.aCurrentRoom.aNorthExit != null) System.out.print("north ");
-        if (this.aCurrentRoom.aSouthExit != null) System.out.print("south ");
-        if (this.aCurrentRoom.aEastExit != null) System.out.print("east ");
-        if (this.aCurrentRoom.aWestExit != null) System.out.print("west ");
-        System.out.println(); 
+        printLocationInfo();
     }//printWelcome()
 
     /**
