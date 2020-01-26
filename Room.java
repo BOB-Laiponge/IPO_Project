@@ -5,12 +5,25 @@ public class Room
     // Attributs
     
     private String aDescription;
-    public Room aNorthExit;
-    public Room aSouthExit;
-    public Room aEastExit;
-    public Room aWestExit;
+    private Room aNorthExit;
+    private Room aSouthExit;
+    private Room aEastExit;
+    private Room aWestExit;
     
     
+    
+    // Getters
+    /**
+     * Retourne la sortie en fonction de la direction entrée. 
+     */
+    public Room getExit(String pDir)
+    {
+        if (pDir.equals("north")) return this.aNorthExit;
+        if (pDir.equals("south")) return this.aSouthExit;
+        if (pDir.equals("east")) return this.aEastExit;
+        if (pDir.equals("west")) return this.aWestExit;
+        return null;
+    }
     
     
     // Constructeurs

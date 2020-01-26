@@ -54,7 +54,7 @@ public class Game
         this.aCurrentRoom = vDesert;
     }
 
-    /**
+     /**
      * Gère le changement de lieu
      */
     private void goRoom(final Command pCommand)
@@ -66,11 +66,8 @@ public class Game
         Room vNextRoom = null;
         String vDirection = pCommand.getSecondWord();
 
-        if (vDirection.equals("north")){vNextRoom = this.aCurrentRoom.aNorthExit;}
-        else if (vDirection.equals("south")){vNextRoom = this.aCurrentRoom.aSouthExit;}
-        else if (vDirection.equals("east")){vNextRoom = this.aCurrentRoom.aEastExit;}
-        else if (vDirection.equals("west")){vNextRoom = this.aCurrentRoom.aWestExit;}
-        else {System.out.println("Unknown direction !"); return;}
+        vNextRoom = this.aCurrentRoom.getExit(vDirection);
+        /////{System.out.println("Unknown direction !"); return;}
 
         // On effectue ou pas le changement de lieu
         if (vNextRoom == null) {
@@ -89,10 +86,10 @@ public class Game
     private void printLocationInfo()
     {
         System.out.print("Exits : ");
-        if (this.aCurrentRoom.aNorthExit != null) System.out.print("north ");
-        if (this.aCurrentRoom.aSouthExit != null) System.out.print("south ");
-        if (this.aCurrentRoom.aEastExit != null) System.out.print("east ");
-        if (this.aCurrentRoom.aWestExit != null) System.out.print("west ");
+        if (this.aCurrentRoom.getExit("north") != null) System.out.print("north ");
+        if (this.aCurrentRoom.getExit("south") != null) System.out.print("south ");
+        if (this.aCurrentRoom.getExit("east") != null) System.out.print("east ");
+        if (this.aCurrentRoom.getExit("west") != null) System.out.print("west ");
         System.out.println();        
     }//printLocationInfo()
     
