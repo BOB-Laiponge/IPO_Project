@@ -123,7 +123,7 @@ public class Game
         System.out.println("You are lost. You are alone.");
         System.out.println("You wander around at the university.\n");
         System.out.println("Your command words are:");
-        System.out.println("go quit help");
+        aParser.showCommands();
     }//printHelp()
 
     /**
@@ -164,7 +164,7 @@ public class Game
     
     private void eat()
     {
-        System.out.println("You have eaten now, and you are not hungry anymone");
+        System.out.println("You have eaten now, and you are not hungry anymore");
     }//eat()
     
 } // Game
