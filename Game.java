@@ -151,7 +151,14 @@ public class Game
         if (pCommand.getCommandWord().equals("quit")) return this.quit(pCommand);
         else if (pCommand.getCommandWord().equals("go")) this.goRoom(pCommand);
         else if (pCommand.getCommandWord().equals("help")) this.printHelp();
-
+        else if (pCommand.getCommandWord().equals("look")) this.look();
+        
         return false;
     }//processCommand()
+    
+    private void look()
+    {
+        System.out.println(this.aCurrentRoom.getLongDescription());
+    }//look()
+    
 } // Game
