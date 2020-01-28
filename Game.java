@@ -152,6 +152,7 @@ public class Game
         else if (pCommand.getCommandWord().equals("go")) this.goRoom(pCommand);
         else if (pCommand.getCommandWord().equals("help")) this.printHelp();
         else if (pCommand.getCommandWord().equals("look")) this.look();
+        else if (pCommand.getCommandWord().equals("eat")) this.eat();
         
         return false;
     }//processCommand()
@@ -160,5 +161,10 @@ public class Game
     {
         System.out.println(this.aCurrentRoom.getLongDescription());
     }//look()
+    
+    private void eat()
+    {
+        System.out.println("You have eaten now, and you are not hungry anymone");
+    }//eat()
     
 } // Game
