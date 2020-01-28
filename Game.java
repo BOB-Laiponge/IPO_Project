@@ -32,7 +32,7 @@ public class Game
     }
 
     /**
-     * Instantier les salles et le réseau du jeu
+     * Instantie les salles et le "réseau" du jeu
      */
     private void createRooms()
     {
@@ -69,6 +69,8 @@ public class Game
 
     /**
      * Gère le changement de lieu
+     * 
+     * @params La commande entrée par le joueur
      */
     private void goRoom(final Command pCommand)
     {
@@ -127,7 +129,7 @@ public class Game
     }//printHelp()
 
     /**
-     * On détecte si le joueur veut quitter le jeu
+     * Détecte si le joueur veut quitter le jeu
      */
     private boolean quit(final Command pCommand)
     {
