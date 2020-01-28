@@ -46,12 +46,13 @@ public class CommandWords
     /**
      * Affiche les commandes valides 
      */
-    public void showAll()
+    public String getCommandList()
     {
+        String vCommandString = "";
         for(String command : this.aValidCommands) {
-            System.out.print(command + " ");
+            vCommandString += (command + " ");
         }
-        System.out.println();
+        return vCommandString;
     }//showAll
     
 } // CommandWords
