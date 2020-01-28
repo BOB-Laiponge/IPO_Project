@@ -42,6 +42,7 @@ public class Game
         Room vShipNorth = new Room("Ship - North");
         Room vShipEast = new Room("Ship - East");
         Room vShipWest = new Room("Ship - West");
+        Room vShipInside = new Room("inside the ship.");
 
         // Positionnement des sorties
         vDesert.setExit("north",vShipSouth);
@@ -52,12 +53,15 @@ public class Game
         
         vShipNorth.setExit("east", vShipEast);
         vShipNorth.setExit("west", vShipWest);
+        vShipNorth.setExit("up", vShipInside);
         
         vShipEast.setExit("north", vShipNorth);
         vShipEast.setExit("south", vShipSouth);
         
         vShipWest.setExit("north", vShipNorth);
         vShipWest.setExit("south", vShipSouth);
+        
+        vShipInside.setExit("down", vShipNorth);
 
         // Initialisation du lieu courant
         this.aCurrentRoom = vDesert;
@@ -85,7 +89,6 @@ public class Game
         }
 
         this.aCurrentRoom = vNextRoom;
-        System.out.println(this.aCurrentRoom.getDescription());
         printLocationInfo();
     }//goRoom()
     
