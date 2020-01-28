@@ -58,6 +58,17 @@ public class Room
         return vExits;
     }//getExitString()
     
+    /**
+     * Retourne une longe description de cette pièce, de la forme :
+     *  Vous êtes dans la cuisine.
+     *  Exits : north west
+     * @return Une description de la pièce et ses sorties.
+     */
+    public String getLongDescription()
+    {
+        return "You are in " + this.aDescription + ".\n" + this.getExitString();
+    }// getLongDescription()
+    
     // Setters
     
     /**
