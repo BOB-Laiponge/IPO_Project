@@ -48,14 +48,14 @@ public class Room
      */
     public String getExitString()
     {
-        String vExits = "Exits :";
+        StringBuilder vSB = new StringBuilder("Exits :");
         Set<String> keys = aExits.keySet();
         for (String exit : keys)
         {
-            vExits += " " + exit;
+            vSB.append(" ").append(exit);
         }
         
-        return vExits;
+        return vSB.toString();
     }//getExitString()
     
     /**

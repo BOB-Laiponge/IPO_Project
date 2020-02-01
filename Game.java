@@ -3,6 +3,7 @@ public class Game
     // Attributs
     private Room aCurrentRoom;
     private Parser aParser;
+    
     // Constructeurs
     /**
      * Constructeur : va instantier les salles et le réseau du jeu.
