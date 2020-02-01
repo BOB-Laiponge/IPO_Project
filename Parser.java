@@ -66,7 +66,9 @@ public class Parser
     } // getCommand()
     
     /**
-     * Affiche la liste des commandes
+     * Affiche la liste des commandes.
+     * 
+     * @returns la liste des commandes.
      */
     public String showCommands()
     {
