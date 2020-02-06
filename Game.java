@@ -1,3 +1,16 @@
+
+
+
+
+
+
+
+/**
+ * Classe principale du jeu. Game permet de lancer une partie.
+ * 
+ * @author PITIOT Pierre-Yves
+ * @version 06/02/2020
+ */
 public class Game
 {
     // Attributs

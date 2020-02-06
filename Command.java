@@ -1,5 +1,9 @@
  
-
+/**
+ * Classe qui permet de creer des commandes à partir des informations entrées par l'utilisateur.
+ * @author PITIOT Pierre-Yves
+ * @version 06/02/2020
+ */
 public class Command
 {
     private String aCommandWord;

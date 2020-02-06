@@ -7,8 +7,8 @@
  * This class holds an enumeration table of all command words known to the game.
  * It is used to recognise commands as they are typed in.
  *
- * @author  Michael Kolling and David J. Barnes + D.Bureau
- * @version 2008.03.30 + 2019.09.25
+ * @author  Michael Kolling and David J. Barnes + D.Bureau + PY.Pitiot
+ * @version 2008.03.30 + 2019.09.25 + 2020.02.06
  */
 public class CommandWords
 {

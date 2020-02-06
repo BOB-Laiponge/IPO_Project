@@ -1,7 +1,12 @@
 import java.util.HashMap; 
 import java.util.Set;
 import java.util.Iterator;
-
+/**
+ * Classe décrivant les pièces du jeu.
+ * 
+ * @author PITIOT Pierre-Yves
+ * @version 06/02/2020
+ */
 public class Room
 {
     // Attributs
