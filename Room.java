@@ -13,7 +13,7 @@ public class Room
     
     private String aDescription;
     private HashMap<String, Room> aExits;
-    
+    /**/ private String aImageName;
     
     // Constructeurs
     
@@ -21,9 +21,10 @@ public class Room
      * Constructeur de Room
      * @param pDescription : Description du lieu.
      */
-    public Room(final String pDescription){
+    public Room(final String pDescription, final String pImage){
         this.aDescription = pDescription;
         aExits = new HashMap<String,Room>();
+        this.aImageName = pImage;
     }//Room()
     
     // Getters 
@@ -82,5 +83,13 @@ public class Room
     public void setExit(final String pDirection,final Room pNeighbor)
     {
         this.aExits.put(pDirection, pNeighbor);
+    }
+    
+    /**
+     * Return a string describing the room's image name
+     */
+    public String getImageName()
+    {
+         return this.aImageName;
     }
 } // Room

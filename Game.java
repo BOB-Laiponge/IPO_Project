@@ -1,186 +1,29 @@
-
-
-
-
-
-
-
 /**
- * Classe principale du jeu. Game permet de lancer une partie.
+ *  This class is the main class of the "World of Zuul" application. 
+ *  "World of Zuul" is a very simple, text based adventure game.  Users 
+ *  can walk around some scenery. That's all. It should really be extended 
+ *  to make it more interesting!
  * 
- * @author PITIOT Pierre-Yves
- * @version 06/02/2020
+ *  To play this game, create an instance of this class.
+ * 
+ *  This main class creates the necessary implementation objects and starts the game off.
+ * 
+ * @author  Michael Kolling and David J. Barnes
+ * @version 2.0 (Jan 2003) DB edited (2019)
  */
+
 public class Game
 {
-    // Attributs
-    private Room aCurrentRoom;
-    private Parser aParser;
-    
-    // Constructeurs
+	private UserInterface aGui;
+	private GameEngine aEngine;
+
     /**
-     * Constructeur : va instantier les salles et le réseau du jeu.
+     * Create the game and initialise its internal map. Create the inerface and link to it.
      */
-    public Game()
+    public Game() 
     {
-        this.createRooms();
-        this.aParser = new Parser();
-        this.play();
+        this.aEngine = new GameEngine();
+        this.aGui = new UserInterface( this.aEngine );
+        this.aEngine.setGUI( this.aGui );
     }
-
-    // Methodes
-    /**
-     * Fonction principale du jeu.
-     */
-    private void play()
-    {
-        this.printWelcome();
-
-        boolean vFinished = false;
-        while (!vFinished)
-        {
-            Command vCommand = this.aParser.getCommand();
-            vFinished = this.processCommand(vCommand);
-        }
-        System.out.println("Thank you for playing.  Good bye.");
-    }
-
-    /**
-     * Instantie les salles et le "réseau" du jeu
-     */
-    private void createRooms()
-    {
-        // Déclaration des lieux
-        Room vDesert = new Room("Desert");
-        Room vShipSouth = new Room("Ship - South");
-        Room vShipNorth = new Room("Ship - North");
-        Room vShipEast = new Room("Ship - East");
-        Room vShipWest = new Room("Ship - West");
-        Room vShipInside = new Room("inside the ship.");
-
-        // Positionnement des sorties
-        vDesert.setExit("north",vShipSouth);
-        
-        vShipSouth.setExit("south", vDesert);
-        vShipSouth.setExit("east", vShipEast); 
-        vShipSouth.setExit("west", vShipWest);
-        
-        vShipNorth.setExit("east", vShipEast);
-        vShipNorth.setExit("west", vShipWest);
-        vShipNorth.setExit("up", vShipInside);
-        
-        vShipEast.setExit("north", vShipNorth);
-        vShipEast.setExit("south", vShipSouth);
-        
-        vShipWest.setExit("north", vShipNorth);
-        vShipWest.setExit("south", vShipSouth);
-        
-        vShipInside.setExit("down", vShipNorth);
-
-        // Initialisation du lieu courant
-        this.aCurrentRoom = vDesert;
-    }
-
-    /**
-     * Gère le changement de lieu
-     * 
-     * @params La commande entrée par le joueur
-     */
-    private void goRoom(final Command pCommand)
-    {
-        // Si un seul mot, on retourne "go where ?"
-        if (!pCommand.hasSecondWord()) {System.out.println("Go where ?"); return ;}
-
-        // On cherche la prochaine pièce
-        Room vNextRoom = null;
-        String vDirection = pCommand.getSecondWord();
-
-        vNextRoom = this.aCurrentRoom.getExit(vDirection);
-        /////{System.out.println("Unknown direction !"); return;}
-
-        // On effectue ou pas le changement de lieu
-        if (vNextRoom == null) {
-            System.out.println("There is no door !");
-            return; 
-        }
-
-        this.aCurrentRoom = vNextRoom;
-        printLocationInfo();
-    }//goRoom()
-    
-    /**
-     * Affiche les informations sur les sorties de la Room courante.
-     */
-    private void printLocationInfo()
-    {
-        System.out.println(this.aCurrentRoom.getLongDescription());      
-    }//printLocationInfo()
-    
-    /**
-     * Affiche le message de bienvenue
-     */
-    private void printWelcome()
-    {
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
-        System.out.println("Type 'help' if you need help.");
-
-        System.out.println("\nYou are outside the main entrance of the university.");
-
-        // Affichage des sorties
-        printLocationInfo();
-    }//printWelcome()
-
-    /**
-     * Affiche le message d'aide
-     */
-    private void printHelp()
-    {
-        System.out.println("You are lost. You are alone.");
-        System.out.println("You wander around at the university.\n");
-        System.out.println("Your command words are:");
-        System.out.println(aParser.showCommands());
-    }//printHelp()
-
-    /**
-     * Détecte si le joueur veut quitter le jeu
-     */
-    private boolean quit(final Command pCommand)
-    {
-        if (pCommand.hasSecondWord()) {
-            System.out.println("Quit what ?");
-            return false;
-        }
-        return true;
-    }//quit()
-
-    /**
-     * Appelle la bonne méthode en fonction de la commande passée en paramètre.
-     */
-    private boolean processCommand(final Command pCommand)
-    {
-        if (pCommand.isUnknown()){
-            System.out.println("I don't know what you mean...");
-            return false;
-        }
-        
-        if (pCommand.getCommandWord().equals("quit")) return this.quit(pCommand);
-        else if (pCommand.getCommandWord().equals("go")) this.goRoom(pCommand);
-        else if (pCommand.getCommandWord().equals("help")) this.printHelp();
-        else if (pCommand.getCommandWord().equals("look")) this.look();
-        else if (pCommand.getCommandWord().equals("eat")) this.eat();
-        
-        return false;
-    }//processCommand()
-    
-    private void look()
-    {
-        System.out.println(this.aCurrentRoom.getLongDescription());
-    }//look()
-    
-    private void eat()
-    {
-        System.out.println("You have eaten now, and you are not hungry anymore");
-    }//eat()
-    
-} // Game
+}
