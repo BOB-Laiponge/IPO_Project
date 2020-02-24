@@ -5,6 +5,7 @@ import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
+import javax.swing.JButton;
 
 import java.awt.Dimension;
 import java.awt.BorderLayout;
@@ -23,7 +24,7 @@ import java.net.URL;
  * area, a text output area and an optional image.
  * 
  * @author Michael Kolling
- * @version 1.0 (Jan 2003) DB edited (2019)
+ * @version 1.0 (Jan 2003) DB edited (2019) PITIOT Pierre-Yves edited (2020)
  */
 public class UserInterface implements ActionListener
 {
@@ -32,6 +33,8 @@ public class UserInterface implements ActionListener
     private JTextField aEntryField;
     private JTextArea  aLog;
     private JLabel     aImage;
+    private JButton    aButton1;
+    private JButton    aButton2;
 
     /**
      * Construct a UserInterface. As a parameter, a Game Engine
@@ -96,7 +99,7 @@ public class UserInterface implements ActionListener
      */
     private void createGUI()
     {
-        this.aMyFrame = new JFrame( "Zork" ); // change the title
+        this.aMyFrame = new JFrame( "SpaceGame" ); // change the title
         this.aEntryField = new JTextField( 34 );
 
         this.aLog = new JTextArea();
@@ -107,11 +110,15 @@ public class UserInterface implements ActionListener
 
         JPanel vPanel = new JPanel();
         this.aImage = new JLabel();
+        this.aButton1 = new JButton("clic");
+        this.aButton2 = new JButton("clac");
 
         vPanel.setLayout( new BorderLayout() ); // ==> only five places
         vPanel.add( this.aImage, BorderLayout.NORTH );
         vPanel.add( vListScroller, BorderLayout.CENTER );
         vPanel.add( this.aEntryField, BorderLayout.SOUTH );
+        vPanel.add(this.aButton1, BorderLayout.WEST);
+        vPanel.add(this.aButton2, BorderLayout.EAST);
 
         this.aMyFrame.getContentPane().add( vPanel, BorderLayout.CENTER );
 
