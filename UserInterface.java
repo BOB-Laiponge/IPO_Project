@@ -1,8 +1,22 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+import javax.swing.JTextArea;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JPanel;
+
+import java.awt.Dimension;
+import java.awt.BorderLayout;
+
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.ActionEvent;
+
 import java.net.URL;
-import java.awt.image.*;
+
+//import java.awt.image.*;
 
 /**
  * This class implements a simple graphical user interface with a text entry
