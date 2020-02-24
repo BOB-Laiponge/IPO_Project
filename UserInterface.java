@@ -110,8 +110,8 @@ public class UserInterface implements ActionListener
 
         JPanel vPanel = new JPanel();
         this.aImage = new JLabel();
-        this.aButton1 = new JButton("clic");
-        this.aButton2 = new JButton("clac");
+        this.aButton1 = new JButton("eat");
+        this.aButton2 = new JButton("look");
 
         vPanel.setLayout( new BorderLayout() ); // ==> only five places
         vPanel.add( this.aImage, BorderLayout.NORTH );
@@ -124,7 +124,9 @@ public class UserInterface implements ActionListener
 
         // add some event listeners to some components
         this.aEntryField.addActionListener( this );
-
+        this.aButton1.addActionListener( this );
+        this.aButton2.addActionListener( this );
+        
         // to end program when window is closed
         this.aMyFrame.addWindowListener( new WindowAdapter() {
             public void windowClosing(WindowEvent e) { System.exit(0); }
@@ -140,9 +142,15 @@ public class UserInterface implements ActionListener
      */
     public void actionPerformed( final ActionEvent pE ) 
     {
-        // no need to check the type of action at the moment
-        // because there is only one possible action (text input) :
-        this.processCommand(); // never suppress this line
+        if(pE.getSource().equals(aButton1))
+        {
+            this.aEngine.interpretCommand("eat");
+        }
+        else if (pE.getSource().equals(aButton2))
+        {
+            this.aEngine.interpretCommand("look");
+        }
+        else this.processCommand(); // never suppress this line
     } // actionPerformed(.)
 
     /**
