@@ -75,7 +75,8 @@ public class GameEngine
         
         vShipInside.setExit("down", vShipNorth);
         // Ajout des items dans les pièces
-        vShipSouth.setItem(new Item("pomme",5));
+        
+        vShipSouth.setItem(new Item("une pomme",5));
         
         
         

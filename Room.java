@@ -74,8 +74,14 @@ public class Room
      */
     public String getLongDescription()
     {
-        return "You are in " + this.aDescription + ".\n" + this.getExitString();
+        return "You are in " + this.aDescription + ".\n"+ this.getItemDescription() + "\n" + this.getExitString();
     }// getLongDescription()
+    
+    public String getItemDescription()
+    {
+        if (this.aItem != null) return this.aItem.getLongDescription();
+        else return "No item here.";
+    }
     
     // Setters
     

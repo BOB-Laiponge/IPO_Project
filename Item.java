@@ -36,4 +36,9 @@ public class Item
     {
         return this.aWeight;
     }
+    
+    public String getLongDescription()
+    {
+        return "Il y a " + this.aDescription + " (Poids : " + this.aWeight +") ici.";
+    }
 }
