@@ -14,6 +14,7 @@ public class GameEngine
 {
     // Attributs
     private Room aCurrentRoom;
+    private Room aLastRoom;
     private Parser aParser;
     private UserInterface aGui;
     private HashMap<String, Room> aRooms;
@@ -82,6 +83,7 @@ public class GameEngine
         
         // Initialisation du lieu courant
         this.aCurrentRoom = vDesert;
+        this.aLastRoom = null;
     }
     
     /**
@@ -161,6 +163,9 @@ public class GameEngine
             else
                 this.endGame();
         }
+        else if ( vCommandWord.equals( "back" ) ) {
+            this.back();
+        }
     }
     
     /**
@@ -187,14 +192,21 @@ public class GameEngine
         if ( vNextRoom == null )
             this.aGui.println( "There is no door!" );
         else {
-            this.aCurrentRoom = vNextRoom;
-            this.printLocationInfo();;
-            if ( this.aCurrentRoom.getImageName() != null )
-                this.aGui.showImage( this.aCurrentRoom.getImageName() );
+            this.goTo(vNextRoom);
         }
         
         
     }//goRoom()
+    
+    private void goTo(final Room pRoom)
+    {
+        this.aLastRoom = this.aCurrentRoom;
+        this.aCurrentRoom = pRoom;
+        this.printLocationInfo();
+        
+        if ( this.aCurrentRoom.getImageName() != null )
+            this.aGui.showImage( this.aCurrentRoom.getImageName() );
+    }
     
     private void look()
     {
@@ -205,6 +217,14 @@ public class GameEngine
     {
         this.aGui.println("You have eaten now, and you are not hungry anymore");
     }//eat()
+    
+    private void back()
+    {
+        if ( this.aLastRoom == null )
+                this.aGui.println( "You can't go back now." );
+            else
+                this.goTo(this.aLastRoom);
+    }//back()
     
     private void endGame()
     {
