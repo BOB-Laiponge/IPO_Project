@@ -77,45 +77,12 @@ public class GameEngine
         // Ajout des items dans les pièces
         
         vShipSouth.addItem(new Item("pomme", "une pomme",5));
-        
-        
+        vShipSouth.addItem(new Item("conserves", "une boite de conserve",5));
+        vDesert.addItem(new Item("débrits", "des débrits métalliques",5));
         
         // Initialisation du lieu courant
         this.aCurrentRoom = vDesert;
     }
-
-    /**
-     * Gère le changement de lieu
-     * 
-     * @params La commande entrée par le joueur
-     */
-    private void goRoom(final Command pCommand)
-    {
-        // Si un seul mot, on retourne "go where ?"
-        if ( ! pCommand.hasSecondWord() ) {
-            // if there is no second word, we don't know where to go...
-            this.aGui.println( "Go where?" );
-            return;
-        }
-
-        // On cherche la prochaine pièce
-        String vDirection = pCommand.getSecondWord();
-
-        Room vNextRoom = this.aCurrentRoom.getExit(vDirection);
-        /////{System.out.println("Unknown direction !"); return;}
-
-        // On effectue ou pas le changement de lieu
-        if ( vNextRoom == null )
-            this.aGui.println( "There is no door!" );
-        else {
-            this.aCurrentRoom = vNextRoom;
-            this.printLocationInfo();;
-            if ( this.aCurrentRoom.getImageName() != null )
-                this.aGui.showImage( this.aCurrentRoom.getImageName() );
-        }
-        
-        
-    }//goRoom()
     
     /**
      * Affiche les informations sur les sorties de la Room courante.
@@ -163,25 +130,6 @@ public class GameEngine
         }
         return true;
     }//quit()
-
-    /**
-     * Appelle la bonne méthode en fonction de la commande passée en paramètre.
-     */
-    private boolean processCommand(final Command pCommand)
-    {
-        if (pCommand.isUnknown()){
-            this.aGui.println("I don't know what you mean...");
-            return false;
-        }
-        
-        if (pCommand.getCommandWord().equals("quit")) return this.quit(pCommand);
-        else if (pCommand.getCommandWord().equals("go")) this.goRoom(pCommand);
-        else if (pCommand.getCommandWord().equals("help")) this.printHelp();
-        else if (pCommand.getCommandWord().equals("look")) this.look();
-        else if (pCommand.getCommandWord().equals("eat")) this.eat();
-        
-        return false;
-    }//processCommand()
     
     /**
      * Given a command, process (that is: execute) the command.
@@ -214,6 +162,39 @@ public class GameEngine
                 this.endGame();
         }
     }
+    
+    /**
+     * Gère le changement de lieu
+     * 
+     * @params La commande entrée par le joueur
+     */
+    private void goRoom(final Command pCommand)
+    {
+        // Si un seul mot, on retourne "go where ?"
+        if ( ! pCommand.hasSecondWord() ) {
+            // if there is no second word, we don't know where to go...
+            this.aGui.println( "Go where?" );
+            return;
+        }
+
+        // On cherche la prochaine pièce
+        String vDirection = pCommand.getSecondWord();
+
+        Room vNextRoom = this.aCurrentRoom.getExit(vDirection);
+        /////{System.out.println("Unknown direction !"); return;}
+
+        // On effectue ou pas le changement de lieu
+        if ( vNextRoom == null )
+            this.aGui.println( "There is no door!" );
+        else {
+            this.aCurrentRoom = vNextRoom;
+            this.printLocationInfo();;
+            if ( this.aCurrentRoom.getImageName() != null )
+                this.aGui.showImage( this.aCurrentRoom.getImageName() );
+        }
+        
+        
+    }//goRoom()
     
     private void look()
     {
