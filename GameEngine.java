@@ -164,7 +164,10 @@ public class GameEngine
                 this.endGame();
         }
         else if ( vCommandWord.equals( "back" ) ) {
-            this.back();
+            if ( vCommand.hasSecondWord() )
+                this.aGui.println( "'back' is not supposed to have a second word." );
+            else
+                this.back();
         }
     }
     
@@ -221,9 +224,9 @@ public class GameEngine
     private void back()
     {
         if ( this.aLastRoom == null )
-                this.aGui.println( "You can't go back now." );
-            else
-                this.goTo(this.aLastRoom);
+            this.aGui.println( "You can't go back now." );
+        else
+            this.goTo(this.aLastRoom);
     }//back()
     
     private void endGame()
