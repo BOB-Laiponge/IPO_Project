@@ -1,6 +1,7 @@
 import java.util.HashMap; 
 import java.util.Set;
 import java.util.Iterator;
+import java.util.Collection;
 /**
  * Classe décrivant les pièces du jeu.
  * 
@@ -14,7 +15,7 @@ public class Room
     private String aDescription;
     private HashMap<String, Room> aExits;
     private String aImageName;
-    private Item aItem;
+    private HashMap<String, Item> aItems;
     
     // Constructeurs
     
@@ -24,9 +25,9 @@ public class Room
      */
     public Room(final String pDescription, final String pImage){
         this.aDescription = pDescription;
-        aExits = new HashMap<String,Room>();
+        this.aExits = new HashMap<String,Room>();
         this.aImageName = pImage;
-        this.aItem = null;
+        this.aItems = new HashMap<String, Item>();
     }//Room()
     
     // Getters 
@@ -79,7 +80,15 @@ public class Room
     
     public String getItemDescription()
     {
-        if (this.aItem != null) return this.aItem.getLongDescription();
+        if (!this.aItems.isEmpty()) {
+            StringBuilder vSB = new StringBuilder("Here, there are the following objects : ");
+            Collection<Item> items = aItems.values();
+            for (Item item : items)
+            {
+                vSB.append(" ").append(item);
+            }
+            return vSB.toString();
+        }
         else return "No item here.";
     }
     
@@ -104,8 +113,8 @@ public class Room
     /**
      * Ajoute un Item à la pièce.
      */
-    public void setItem(final Item pItem)
+    public void addItem(final Item pItem)
     {
-        this.aItem = pItem;
+        this.aItems.put(pItem.getNom(),pItem);
     }
 } // Room

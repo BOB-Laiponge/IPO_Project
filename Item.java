@@ -8,16 +8,18 @@
 public class Item
 {
     
+    private String aNom;
     private String aDescription;
     private int aWeight;
 
     /**
      * Constructeur d'objets de classe Items
      */
-    public Item(final String pDescription, final int pWeight)
+    public Item(final String pNom,final String pDescription, final int pWeight)
     {
-        this.aDescription = pDescription;
+        this.aNom = pNom;
         this.aWeight = pWeight;
+        this.aDescription = pDescription;
     }
 
     /**
@@ -28,6 +30,10 @@ public class Item
         return this.aDescription;
     }
     
+    public String getNom()
+    {
+        return this.aNom;
+    }
     
     /**
      * Retourne le poids de l'objet
@@ -37,8 +43,8 @@ public class Item
         return this.aWeight;
     }
     
-    public String getLongDescription()
+    @Override public String toString()
     {
-        return "Il y a " + this.aDescription + " (Poids : " + this.aWeight +") ici.";
+        return this.aNom + " (Poids : " + this.aWeight +")";
     }
 }
