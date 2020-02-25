@@ -43,17 +43,17 @@ public class GameEngine
     private void createRooms()
     {
         // Déclaration des lieux
-        Room vDesert = new Room("Desert","castle.gif");
+        Room vDesert = new Room("Desert","Images/castle.gif");
         aRooms.put("desert_1", vDesert);
-        Room vShipSouth = new Room("Ship - South","castle.gif");
+        Room vShipSouth = new Room("Ship - South","Images/castle.gif");
         aRooms.put("ShipSouth", vShipSouth);
-        Room vShipNorth = new Room("Ship - North","castle.gif");
+        Room vShipNorth = new Room("Ship - North","Images/castle.gif");
         aRooms.put("ShipNorth", vShipNorth);
-        Room vShipEast = new Room("Ship - East","castle.gif");
+        Room vShipEast = new Room("Ship - East","Images/castle.gif");
         aRooms.put("ShipEast", vShipEast);
-        Room vShipWest = new Room("Ship - West","castle.gif");
+        Room vShipWest = new Room("Ship - West","Images/castle.gif");
         aRooms.put("ShipWest", vShipWest);
-        Room vShipInside = new Room("inside the ship.","castle.gif");
+        Room vShipInside = new Room("inside the ship.","Images/castle.gif");
         aRooms.put("ShipInside", vShipInside);
 
         // Positionnement des sorties
@@ -74,7 +74,11 @@ public class GameEngine
         vShipWest.setExit("south", vShipSouth);
         
         vShipInside.setExit("down", vShipNorth);
-
+        // Ajout des items dans les pièces
+        vShipSouth.setItem(new Item("pomme",5));
+        
+        
+        
         // Initialisation du lieu courant
         this.aCurrentRoom = vDesert;
     }

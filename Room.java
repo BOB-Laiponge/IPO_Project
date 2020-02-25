@@ -13,7 +13,8 @@ public class Room
     
     private String aDescription;
     private HashMap<String, Room> aExits;
-    /**/ private String aImageName;
+    private String aImageName;
+    private Item aItem;
     
     // Constructeurs
     
@@ -25,6 +26,7 @@ public class Room
         this.aDescription = pDescription;
         aExits = new HashMap<String,Room>();
         this.aImageName = pImage;
+        this.aItem = null;
     }//Room()
     
     // Getters 
@@ -91,5 +93,13 @@ public class Room
     public String getImageName()
     {
          return this.aImageName;
+    }
+    
+    /**
+     * Ajoute un Item à la pièce.
+     */
+    public void setItem(final Item pItem)
+    {
+        this.aItem = pItem;
     }
 } // Room
