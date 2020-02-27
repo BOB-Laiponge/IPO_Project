@@ -1,5 +1,5 @@
 import java.util.HashMap;
-
+import java.util.Stack;
 
 
 
@@ -14,10 +14,10 @@ public class GameEngine
 {
     // Attributs
     private Room aCurrentRoom;
-    private Room aLastRoom;
     private Parser aParser;
     private UserInterface aGui;
     private HashMap<String, Room> aRooms;
+    private Stack<Room> aPreviousRooms;
     
     // Constructeurs
     /**
@@ -28,7 +28,7 @@ public class GameEngine
         aRooms = new HashMap<String,Room>();
         this.aParser = new Parser();
         this.createRooms();
-        
+        this.aPreviousRooms = new Stack<Room>();
     }
     
     public void setGUI( final UserInterface pUserInterface )
@@ -83,7 +83,7 @@ public class GameEngine
         
         // Initialisation du lieu courant
         this.aCurrentRoom = vDesert;
-        this.aLastRoom = null;
+        
     }
     
     /**
@@ -195,6 +195,7 @@ public class GameEngine
         if ( vNextRoom == null )
             this.aGui.println( "There is no door!" );
         else {
+            this.aPreviousRooms.push(this.aCurrentRoom);
             this.goTo(vNextRoom);
         }
         
@@ -203,7 +204,7 @@ public class GameEngine
     
     private void goTo(final Room pRoom)
     {
-        this.aLastRoom = this.aCurrentRoom;
+        
         this.aCurrentRoom = pRoom;
         this.printLocationInfo();
         
@@ -223,10 +224,10 @@ public class GameEngine
     
     private void back()
     {
-        if ( this.aLastRoom == null )
+        if (this.aPreviousRooms.empty())
             this.aGui.println( "You can't go back now." );
         else
-            this.goTo(this.aLastRoom);
+            this.goTo(aPreviousRooms.pop());
     }//back()
     
     private void endGame()
