@@ -78,6 +78,9 @@ public class Room
         return "You are in " + this.aDescription + ".\n"+ this.getItemDescription() + "\n" + this.getExitString();
     }// getLongDescription()
     
+    /**
+     * Retourne la liste des Items présents dans cette pièce
+     */
     public String getItemDescription()
     {
         if (!this.aItems.isEmpty()) {

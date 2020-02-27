@@ -75,8 +75,8 @@ public class GameEngine
         vShipWest.setExit("south", vShipSouth);
         
         vShipInside.setExit("down", vShipNorth);
-        // Ajout des items dans les pièces
         
+        // Ajout des items dans les pièces
         vShipSouth.addItem(new Item("pomme", "une pomme",5));
         vShipSouth.addItem(new Item("conserves", "une boite de conserve",5));
         vDesert.addItem(new Item("débrits", "des débrits métalliques",5));
@@ -202,9 +202,13 @@ public class GameEngine
         
     }//goRoom()
     
+    /**
+     * Effectue les étapes necessaires pour changer de pièces.
+     * 
+     * @params la nouvelle Room.
+     */
     private void goTo(final Room pRoom)
     {
-        
         this.aCurrentRoom = pRoom;
         this.printLocationInfo();
         
@@ -212,16 +216,25 @@ public class GameEngine
             this.aGui.showImage( this.aCurrentRoom.getImageName() );
     }
     
+    /**
+     * Commande "look" : Affiche la description de la pièce.
+     */
     private void look()
     {
         this.aGui.println(this.aCurrentRoom.getLongDescription());
     }//look()
     
+    /**
+     * Commande "eat" : Permet de manger.
+     */
     private void eat()
     {
         this.aGui.println("You have eaten now, and you are not hungry anymore");
     }//eat()
     
+    /**
+     * Commande "back" : Permet de revenir à la pièce précédente.
+     */
     private void back()
     {
         if (this.aPreviousRooms.empty())
@@ -230,6 +243,9 @@ public class GameEngine
             this.goTo(aPreviousRooms.pop());
     }//back()
     
+    /**
+     * Active la fin de jeu.
+     */
     private void endGame()
     {
         this.aGui.println( "Thank you for playing.  Good bye." );
