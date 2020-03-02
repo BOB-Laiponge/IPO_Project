@@ -1,3 +1,4 @@
+
 import java.util.HashMap;
 import java.util.Stack;
 
@@ -130,6 +131,7 @@ public class GameEngine
             this.aGui.println("Quit what ?");
             return false;
         }
+        this.endGame();
         return true;
     }//quit()
     
@@ -152,23 +154,15 @@ public class GameEngine
         if ( vCommandWord.equals( "help" ) )
             this.printHelp();
         else if ( vCommandWord.equals( "go" ) )
-            this.goRoom( vCommand );
+            this.goRoom(vCommand);
         else if ( vCommandWord.equals( "eat" ) )
             this.eat();
         else if ( vCommandWord.equals( "look" ) )
             this.look();
-        else if ( vCommandWord.equals( "quit" ) ) {
-            if ( vCommand.hasSecondWord() )
-                this.aGui.println( "Quit what?" );
-            else
-                this.endGame();
-        }
-        else if ( vCommandWord.equals( "back" ) ) {
-            if ( vCommand.hasSecondWord() )
-                this.aGui.println( "'back' is not supposed to have a second word." );
-            else
-                this.back();
-        }
+        else if ( vCommandWord.equals( "quit" ) ) 
+            this.quit(vCommand);
+        else if ( vCommandWord.equals( "back" ) ) 
+            this.back(vCommand);
     }
     
     /**
@@ -235,12 +229,17 @@ public class GameEngine
     /**
      * Commande "back" : Permet de revenir à la pièce précédente.
      */
-    private void back()
+    private void back(final Command pCommand)
     {
-        if (this.aPreviousRooms.empty())
-            this.aGui.println( "You can't go back now." );
+        if ( pCommand.hasSecondWord() )
+            this.aGui.println( "'back' is not supposed to have a second word." );
         else
-            this.goTo(aPreviousRooms.pop());
+        { 
+            if (this.aPreviousRooms.empty())
+                this.aGui.println( "You can't go back now." );
+            else
+                this.goTo(aPreviousRooms.pop());
+        }
     }//back()
     
     /**
