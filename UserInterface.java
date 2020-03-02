@@ -1,3 +1,4 @@
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -9,6 +10,8 @@ import javax.swing.JButton;
 
 import java.awt.Dimension;
 import java.awt.BorderLayout;
+import javax.swing.BoxLayout;////
+import java.awt.GridLayout;
 
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -35,6 +38,16 @@ public class UserInterface implements ActionListener
     private JLabel     aImage;
     private JButton    aButton1;
     private JButton    aButton2;
+    private JButton    aButton3;
+    private JButton    aButton4;
+    private JButton    aButton5;
+    private JButton    aButton6;
+    private JButton    aButton7;
+    
+    private JPanel    aButtonPanel;
+    private JPanel    aButtonLine1;
+    private JPanel    aButtonLine2;
+    private JPanel    aButtonLine3;
 
     /**
      * Construct a UserInterface. As a parameter, a Game Engine
@@ -52,10 +65,10 @@ public class UserInterface implements ActionListener
     /**
      * Print out some text into the text area.
      */
-    public void print( final String pText )
+    public void print(final String pText)
     {
-        this.aLog.append( pText );
-        this.aLog.setCaretPosition( this.aLog.getDocument().getLength() );
+        this.aLog.append(pText);
+        this.aLog.setCaretPosition(this.aLog.getDocument().getLength());
     } // print(.)
 
     /**
@@ -96,6 +109,7 @@ public class UserInterface implements ActionListener
 
     /**
      * Set up graphical user interface.
+     * inspiré de https://openclassrooms.com/fr/courses/26832-apprenez-a-programmer-en-java/23366-positionnez-des-boutons
      */
     private void createGUI()
     {
@@ -111,14 +125,31 @@ public class UserInterface implements ActionListener
         JPanel vPanel = new JPanel();
         this.aImage = new JLabel();
         this.aButton1 = new JButton("eat");
-        this.aButton2 = new JButton("look");
-
+        this.aButton2 = new JButton("go north");
+        this.aButton3 = new JButton("quit");
+        this.aButton4 = new JButton("go west");
+        this.aButton5 = new JButton("look");
+        this.aButton6 = new JButton("go east");
+        this.aButton7 = new JButton("go south");
+        
+        this.aButtonPanel = new JPanel();
+        this.aButtonPanel.setLayout(new GridLayout(3, 3));
+        
+        this.aButtonPanel.add(this.aButton1);
+        this.aButtonPanel.add(this.aButton2);
+        this.aButtonPanel.add(this.aButton3);
+        this.aButtonPanel.add(this.aButton4);
+        this.aButtonPanel.add(this.aButton5);
+        this.aButtonPanel.add(this.aButton6);
+        this.aButtonPanel.add(this.aButton7);
+                                              
+        //Palcement sur le borderLayout                                        
         vPanel.setLayout( new BorderLayout() ); // ==> only five places
         vPanel.add( this.aImage, BorderLayout.NORTH );
         vPanel.add( vListScroller, BorderLayout.CENTER );
         vPanel.add( this.aEntryField, BorderLayout.SOUTH );
-        vPanel.add(this.aButton1, BorderLayout.WEST);
-        vPanel.add(this.aButton2, BorderLayout.EAST);
+        vPanel.add(this.aButtonPanel, BorderLayout.WEST);
+        //vPanel.add(this.aButton2, BorderLayout.EAST);
 
         this.aMyFrame.getContentPane().add( vPanel, BorderLayout.CENTER );
 
@@ -126,7 +157,11 @@ public class UserInterface implements ActionListener
         this.aEntryField.addActionListener( this );
         this.aButton1.addActionListener( this );
         this.aButton2.addActionListener( this );
-        
+        this.aButton3.addActionListener( this );
+        this.aButton4.addActionListener( this );
+        this.aButton5.addActionListener( this );
+        this.aButton6.addActionListener( this );
+        this.aButton7.addActionListener( this );
         // to end program when window is closed
         this.aMyFrame.addWindowListener( new WindowAdapter() {
             public void windowClosing(WindowEvent e) { System.exit(0); }
@@ -148,7 +183,27 @@ public class UserInterface implements ActionListener
         }
         else if (pE.getSource().equals(aButton2))
         {
+            this.aEngine.interpretCommand("go north");
+        }
+        else if (pE.getSource().equals(aButton3))
+        {
+            this.aEngine.interpretCommand("quit");
+        }
+        else if (pE.getSource().equals(aButton4))
+        {
+            this.aEngine.interpretCommand("go west");
+        }
+        else if (pE.getSource().equals(aButton5))
+        {
             this.aEngine.interpretCommand("look");
+        }
+        else if (pE.getSource().equals(aButton6))
+        {
+            this.aEngine.interpretCommand("go east");
+        }
+        else if (pE.getSource().equals(aButton7))
+        {
+            this.aEngine.interpretCommand("go south");
         }
         else this.processCommand(); // never suppress this line
     } // actionPerformed(.)
