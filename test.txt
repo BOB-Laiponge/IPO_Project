@@ -1,0 +1,5 @@
+go north
+go east
+go north
+eat
+look

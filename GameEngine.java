@@ -1,7 +1,7 @@
-
+import java.util.Scanner;
 import java.util.HashMap;
 import java.util.Stack;
-
+import java.io.File;
 
 
 
@@ -163,6 +163,8 @@ public class GameEngine
             this.quit(vCommand);
         else if ( vCommandWord.equals( "back" ) ) 
             this.back(vCommand);
+        else if (vCommandWord.equals("test"))
+            this.test(vCommand);
     }
     
     /**
@@ -232,15 +234,38 @@ public class GameEngine
     private void back(final Command pCommand)
     {
         if ( pCommand.hasSecondWord() )
-            this.aGui.println( "'back' is not supposed to have a second word." );
+            this.aGui.println("'back' is not supposed to have a second word.");
         else
         { 
             if (this.aPreviousRooms.empty())
-                this.aGui.println( "You can't go back now." );
+                this.aGui.println("You can't go back now.");
             else
                 this.goTo(aPreviousRooms.pop());
         }
     }//back()
+    
+    /**
+     * Commande "test" : permet de lire un fichier pour executer ses commandes.
+     */
+    private void test(final Command pCommand)
+    {
+        String vFileName;
+        if (pCommand.hasSecondWord()) vFileName = pCommand.getSecondWord();
+        else vFileName = "test";
+        
+        try
+        {
+
+            Scanner vSc = new Scanner(new File(vFileName+".txt"));
+            while (vSc.hasNext()){
+                this.interpretCommand(vSc.nextLine());
+            }
+        }
+        catch(final java.io.FileNotFoundException pE)
+        {
+            this.aGui.println("Le fichier demandé n'a pas été trouvé.");
+        }
+    }
     
     /**
      * Active la fin de jeu.

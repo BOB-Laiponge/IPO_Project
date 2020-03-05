@@ -34,7 +34,7 @@ public class Parser
      * Get a new command from the user. The command is read by
      * parsing the 'inputLine'.
      */
-    public Command getCommand( final String pInputLine ) 
+    public Command getCommand(final String pInputLine) 
     {
         String vWord1;
         String vWord2;
