@@ -29,6 +29,10 @@ public class GameEngine
         this.createRooms();
     }
     
+    
+
+    // CREATION DES OBJETS NECESSAIRES AU FONCTIENNEMENT DU JEU
+    
     /**
      * Initialise le GUI dans GameEngine.
      */
@@ -37,8 +41,7 @@ public class GameEngine
         this.aGui = pUserInterface;
         this.printWelcome();
     }
-
-    // Methodes
+    
     /**
      * Instantie les salles et le "réseau" du jeu
      */
@@ -85,7 +88,9 @@ public class GameEngine
         // Initialisation du lieu courant
         this.aPlayer.setCurrentRoom(vDesert);
     }
-
+    
+    // METHODES D'AFFICHAGE
+    
     /**
      * Affiche les informations sur les sorties de la Room courante.
      */
@@ -120,19 +125,8 @@ public class GameEngine
         this.aGui.println(aParser.getCommandString());
     }//printHelp()
 
-    /**
-     * Détecte si le joueur veut quitter le jeu
-     */
-    private boolean quit(final Command pCommand)
-    {
-        if (pCommand.hasSecondWord()) {
-            this.aGui.println("Quit what ?");
-            return false;
-        }
-        this.endGame();
-        return true;
-    }//quit()
-
+    // COMMANDES
+    
     /**
      * Given a command, process (that is: execute) the command.
      * If this command ends the game, true is returned, otherwise false is
@@ -192,6 +186,7 @@ public class GameEngine
         }
 
     }//goRoom()
+    
     /**
      * Effectue les étapes necessaires pour changer de pièces.
      * 
@@ -262,6 +257,21 @@ public class GameEngine
         }
     }
 
+    /**
+     * Détecte si le joueur veut quitter le jeu
+     */
+    private boolean quit(final Command pCommand)
+    {
+        if (pCommand.hasSecondWord()) {
+            this.aGui.println("Quit what ?");
+            return false;
+        }
+        this.endGame();
+        return true;
+    }//quit()
+
+    // OTHER
+    
     /**
      * Active la fin de jeu.
      */
