@@ -1,8 +1,6 @@
 import java.util.Scanner;
 import java.util.HashMap;
-import java.util.Stack;
 import java.io.File;
-
 
 
 /**
@@ -14,24 +12,26 @@ import java.io.File;
 public class GameEngine
 {
     // Attributs
-    private Room aCurrentRoom;
     private Parser aParser;
+    private Player aPlayer;
     private UserInterface aGui;
     private HashMap<String, Room> aRooms;
-    private Stack<Room> aPreviousRooms;
-    
+
     // Constructeurs
     /**
      * Constructeur pour les objets de classe GameEngine.
      */
     public GameEngine()
     {
-        aRooms = new HashMap<String,Room>();
+        this.aPlayer = new Player("Elsa Edington");
+        this.aRooms = new HashMap<String,Room>();
         this.aParser = new Parser();
         this.createRooms();
-        this.aPreviousRooms = new Stack<Room>();
     }
     
+    /**
+     * Initialise le GUI dans GameEngine.
+     */
     public void setGUI( final UserInterface pUserInterface )
     {
         this.aGui = pUserInterface;
@@ -60,41 +60,42 @@ public class GameEngine
 
         // Positionnement des sorties
         vDesert.setExit("north",vShipSouth);
-        
+
         vShipSouth.setExit("south", vDesert);
         vShipSouth.setExit("east", vShipEast); 
         vShipSouth.setExit("west", vShipWest);
-        
+
         vShipNorth.setExit("east", vShipEast);
         vShipNorth.setExit("west", vShipWest);
         vShipNorth.setExit("up", vShipInside);
-        
+
         vShipEast.setExit("north", vShipNorth);
         vShipEast.setExit("south", vShipSouth);
-        
+
         vShipWest.setExit("north", vShipNorth);
         vShipWest.setExit("south", vShipSouth);
-        
+
         vShipInside.setExit("down", vShipNorth);
-        
+
         // Ajout des items dans les pièces
         vShipSouth.addItem(new Item("pomme", "une pomme",5));
         vShipSouth.addItem(new Item("conserves", "une boite de conserve",5));
         vDesert.addItem(new Item("débrits", "des débrits métalliques",5));
-        
+
         // Initialisation du lieu courant
-        this.aCurrentRoom = vDesert;
-        
+        this.aPlayer.setCurrentRoom(vDesert);
     }
-    
+
     /**
      * Affiche les informations sur les sorties de la Room courante.
      */
     private void printLocationInfo()
     {
-        this.aGui.println(this.aCurrentRoom.getLongDescription());      
+        this.aGui.println(this.aPlayer.look());  
+        if ( this.aPlayer.getCurrentRoom().getImageName() != null )
+            this.aGui.showImage( this.aPlayer.getCurrentRoom().getImageName() );
     }//printLocationInfo()
-    
+
     /**
      * Affiche le message de bienvenue au joueur.
      */
@@ -103,9 +104,6 @@ public class GameEngine
         this.aGui.println("Welcome to the game !");
         this.aGui.println("After a space battle, you crashed on a desertic planet.");
         this.aGui.println("Type 'help' if you need help.");
-
-        if ( this.aCurrentRoom.getImageName() != null )
-            this.aGui.showImage( this.aCurrentRoom.getImageName() );
 
         // Affichage des sorties
         this.printLocationInfo();
@@ -134,7 +132,7 @@ public class GameEngine
         this.endGame();
         return true;
     }//quit()
-    
+
     /**
      * Given a command, process (that is: execute) the command.
      * If this command ends the game, true is returned, otherwise false is
@@ -166,7 +164,7 @@ public class GameEngine
         else if (vCommandWord.equals("test"))
             this.test(vCommand);
     }
-    
+
     /**
      * Gère le changement de lieu
      * 
@@ -184,20 +182,16 @@ public class GameEngine
         // On cherche la prochaine pièce
         String vDirection = pCommand.getSecondWord();
 
-        Room vNextRoom = this.aCurrentRoom.getExit(vDirection);
-        /////{System.out.println("Unknown direction !"); return;}
+        Room vNextRoom = this.aPlayer.getCurrentRoomExit(vDirection);
 
         // On effectue ou pas le changement de lieu
         if ( vNextRoom == null )
             this.aGui.println( "There is no door!" );
         else {
-            this.aPreviousRooms.push(this.aCurrentRoom);
             this.goTo(vNextRoom);
         }
-        
-        
+
     }//goRoom()
-    
     /**
      * Effectue les étapes necessaires pour changer de pièces.
      * 
@@ -205,21 +199,18 @@ public class GameEngine
      */
     private void goTo(final Room pRoom)
     {
-        this.aCurrentRoom = pRoom;
+        this.aPlayer.goTo(pRoom);
         this.printLocationInfo();
-        
-        if ( this.aCurrentRoom.getImageName() != null )
-            this.aGui.showImage( this.aCurrentRoom.getImageName() );
     }
-    
+
     /**
      * Commande "look" : Affiche la description de la pièce.
      */
     private void look()
     {
-        this.aGui.println(this.aCurrentRoom.getLongDescription());
+        this.aGui.println(this.aPlayer.look());
     }//look()
-    
+
     /**
      * Commande "eat" : Permet de manger.
      */
@@ -227,35 +218,39 @@ public class GameEngine
     {
         this.aGui.println("You have eaten now, and you are not hungry anymore");
     }//eat()
-    
+
     /**
      * Commande "back" : Permet de revenir à la pièce précédente.
      */
     private void back(final Command pCommand)
     {
-        if ( pCommand.hasSecondWord() )
+        if (pCommand.hasSecondWord())
             this.aGui.println("'back' is not supposed to have a second word.");
         else
         { 
-            if (this.aPreviousRooms.empty())
+            if (this.aPlayer.previousRoomIsEmpty())
                 this.aGui.println("You can't go back now.");
             else
-                this.goTo(aPreviousRooms.pop());
+            {
+                this.aPlayer.goBack();
+                this.printLocationInfo();
+            }
         }
     }//back()
-    
+
     /**
-     * Commande "test" : permet de lire un fichier pour executer ses commandes.
+     * Commande "test" : permet de lire un fichier pour executer des commandes.
      */
     private void test(final Command pCommand)
     {
         String vFileName;
-        if (pCommand.hasSecondWord()) vFileName = pCommand.getSecondWord();
-        else vFileName = "test";
-        
+        if (pCommand.hasSecondWord()) 
+            vFileName = pCommand.getSecondWord();
+        else 
+            vFileName = "test";
+
         try
         {
-
             Scanner vSc = new Scanner(new File(vFileName+".txt"));
             while (vSc.hasNext()){
                 this.interpretCommand(vSc.nextLine());
@@ -266,7 +261,7 @@ public class GameEngine
             this.aGui.println("Le fichier demandé n'a pas été trouvé.");
         }
     }
-    
+
     /**
      * Active la fin de jeu.
      */
