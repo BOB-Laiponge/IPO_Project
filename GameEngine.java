@@ -50,15 +50,15 @@ public class GameEngine
         // Déclaration des lieux
         Room vDesert = new Room("Desert","Images/castle.gif");
         aRooms.put("desert_1", vDesert);
-        Room vShipSouth = new Room("Ship - South","Images/castle.gif");
+        Room vShipSouth = new Room("Ship - South","Images/crashedship.png");
         aRooms.put("ShipSouth", vShipSouth);
-        Room vShipNorth = new Room("Ship - North","Images/castle.gif");
+        Room vShipNorth = new Room("Ship - North","Images/crashedship.png");
         aRooms.put("ShipNorth", vShipNorth);
-        Room vShipEast = new Room("Ship - East","Images/castle.gif");
+        Room vShipEast = new Room("Ship - East","Images/crashedship.png");
         aRooms.put("ShipEast", vShipEast);
-        Room vShipWest = new Room("Ship - West","Images/castle.gif");
+        Room vShipWest = new Room("Ship - West","Images/crashedship.png");
         aRooms.put("ShipWest", vShipWest);
-        Room vShipInside = new Room("inside the ship.","Images/castle.gif");
+        Room vShipInside = new Room("inside the ship.","Images/shipinside.png");
         aRooms.put("ShipInside", vShipInside);
 
         // Positionnement des sorties
