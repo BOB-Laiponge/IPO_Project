@@ -120,4 +120,26 @@ public class Room
     {
         this.aItems.put(pItem.getNom(),pItem);
     }
+    
+    /**
+     * Ajoute un Item à la pièce.
+     */
+    public Item getItem(final String pItem)
+    {
+        return this.aItems.get(pItem);
+    }
+    
+    /**
+     * Retire un Item à la pièce.
+     */
+    public void removeItem(final String pItem)
+    {
+        this.aItems.remove(pItem);
+    }
+    
+    public boolean hasItem(final String pNom)
+    {
+        return this.aItems.containsKey(pNom);
+    }
+    
 } // Room

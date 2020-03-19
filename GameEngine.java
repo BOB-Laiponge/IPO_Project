@@ -157,8 +157,22 @@ public class GameEngine
             this.back(vCommand);
         else if (vCommandWord.equals("test"))
             this.test(vCommand);
+        else if (vCommandWord.equals("take"))
+            this.take(vCommand);
+        else if (vCommandWord.equals("drop"))
+            this.drop(vCommand);
     }
 
+    private void take(final Command pCommand)
+    {
+        this.aGui.println(this.aPlayer.take(pCommand.getSecondWord()));
+    }
+    
+    private void drop(final Command pCommand)
+    {
+        this.aGui.println(this.aPlayer.drop(pCommand.getSecondWord()));
+    }
+    
     /**
      * Gère le changement de lieu
      * 
