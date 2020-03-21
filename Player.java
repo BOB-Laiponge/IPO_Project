@@ -13,7 +13,7 @@ public class Player
     private String aName;
     //private int aMaxWeight;
     //private int aCurrentWeight;
-    private HashMap<String, Item> aInventory;
+    private ItemList aInventory;
 
     /**
      * Constructeur d'objets de classe Player
@@ -24,7 +24,7 @@ public class Player
         this.aCurrentRoom = null;
         this.aPreviousRooms = new Stack<Room>();
         this.aName = pName;
-        this. aInventory = new HashMap<String, Item>(); 
+        this. aInventory = new ItemList(); 
         //this.aMaxWeight = 1000;
     }
 
@@ -61,7 +61,7 @@ public class Player
     public String take(final String pNom)
     {
         if (this.aCurrentRoom.hasItem(pNom)){
-            this.aInventory.put(pNom, this.aCurrentRoom.getItem(pNom));
+            this.aInventory.addItem(this.aCurrentRoom.getItem(pNom));
             this.aCurrentRoom.removeItem(pNom);
             return pNom + " a été ramassé.";
         }
@@ -73,9 +73,9 @@ public class Player
      */
     public String drop(final String pNom)
     {
-        if (this.aInventory.containsKey(pNom)){
-            this.aCurrentRoom.addItem(this.aInventory.get(pNom));
-            this.aInventory.remove(pNom);
+        if (this.aInventory.hasItem(pNom)){
+            this.aCurrentRoom.addItem(this.aInventory.getItem(pNom));
+            this.aInventory.removeItem(pNom);
             
             return pNom + " a été jeté.";
         }

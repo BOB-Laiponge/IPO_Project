@@ -15,7 +15,7 @@ public class Room
     private String aDescription;
     private HashMap<String, Room> aExits;
     private String aImageName;
-    private HashMap<String, Item> aItems;
+    private ItemList aItems;
     
     // Constructeurs
     
@@ -27,7 +27,7 @@ public class Room
         this.aDescription = pDescription;
         this.aExits = new HashMap<String,Room>();
         this.aImageName = pImage;
-        this.aItems = new HashMap<String, Item>();
+        this.aItems = new ItemList();
     }//Room()
     
     // Getters 
@@ -85,7 +85,7 @@ public class Room
     {
         if (!this.aItems.isEmpty()) {
             StringBuilder vSB = new StringBuilder("Here, there are the following objects : ");
-            Collection<Item> items = aItems.values();
+            Collection<Item> items = this.aItems.values();
             for (Item item : items)
             {
                 vSB.append(" ").append(item);
@@ -113,33 +113,37 @@ public class Room
          return this.aImageName;
     }
     
+    // Other
+    
     /**
-     * Ajoute un Item à la pièce.
+     * Ajoute un item à la pièce.
      */
     public void addItem(final Item pItem)
     {
-        this.aItems.put(pItem.getNom(),pItem);
+        this.aItems.addItem(pItem);
     }
     
     /**
-     * Ajoute un Item à la pièce.
+     * Teste si la pièce contient l'item demandé.
      */
-    public Item getItem(final String pItem)
-    {
-        return this.aItems.get(pItem);
-    }
-    
-    /**
-     * Retire un Item à la pièce.
-     */
-    public void removeItem(final String pItem)
-    {
-        this.aItems.remove(pItem);
-    }
-    
     public boolean hasItem(final String pNom)
     {
-        return this.aItems.containsKey(pNom);
+        return this.aItems.hasItem(pNom);
     }
     
+    /**
+     * Retire un item à la liste.
+     */
+    public void removeItem(final String pNom)
+    {
+        this.aItems.removeItem(pNom);
+    }
+    
+    /**
+     * Renvoie l'Item demandé.
+     */
+    public Item getItem(final String pNom)
+    {
+        return this.aItems.getItem(pNom);
+    }
 } // Room
