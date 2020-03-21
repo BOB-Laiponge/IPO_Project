@@ -48,7 +48,7 @@ public class GameEngine
     private void createRooms()
     {
         // Déclaration des lieux
-        Room vDesert = new Room("Desert","Images/castle.gif");
+        Room vDesert = new Room("Desert","Images/desert1.png");
         aRooms.put("desert_1", vDesert);
         Room vShipSouth = new Room("Ship - South","Images/crashedship.png");
         aRooms.put("ShipSouth", vShipSouth);

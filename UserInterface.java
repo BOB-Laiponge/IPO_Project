@@ -43,6 +43,8 @@ public class UserInterface implements ActionListener
     private JButton    aButton5;
     private JButton    aButton6;
     private JButton    aButton7;
+    private JButton    aButton8;
+    private JButton    aButton9;
     
     private JPanel    aButtonPanel;
     private JPanel    aButtonLine1;
@@ -124,13 +126,15 @@ public class UserInterface implements ActionListener
 
         JPanel vPanel = new JPanel();
         this.aImage = new JLabel();
-        this.aButton1 = new JButton("eat");
+        this.aButton1 = new JButton("go up");
         this.aButton2 = new JButton("go north");
-        this.aButton3 = new JButton("quit");
+        this.aButton3 = new JButton("go down");
         this.aButton4 = new JButton("go west");
         this.aButton5 = new JButton("look");
         this.aButton6 = new JButton("go east");
         this.aButton7 = new JButton("go south");
+        this.aButton8 = new JButton("eat");
+        this.aButton9 = new JButton("quit");
         
         this.aButtonPanel = new JPanel();
         this.aButtonPanel.setLayout(new GridLayout(3, 3));
@@ -142,6 +146,9 @@ public class UserInterface implements ActionListener
         this.aButtonPanel.add(this.aButton5);
         this.aButtonPanel.add(this.aButton6);
         this.aButtonPanel.add(this.aButton7);
+        this.aButtonPanel.add(this.aButton8);
+        this.aButtonPanel.add(this.aButton9);
+        
                                               
         //Palcement sur le borderLayout                                        
         vPanel.setLayout( new BorderLayout() ); // ==> only five places
@@ -162,6 +169,8 @@ public class UserInterface implements ActionListener
         this.aButton5.addActionListener( this );
         this.aButton6.addActionListener( this );
         this.aButton7.addActionListener( this );
+        this.aButton8.addActionListener( this );
+        this.aButton9.addActionListener( this );
         // to end program when window is closed
         this.aMyFrame.addWindowListener( new WindowAdapter() {
             public void windowClosing(WindowEvent e) { System.exit(0); }
@@ -179,7 +188,7 @@ public class UserInterface implements ActionListener
     {
         if(pE.getSource().equals(aButton1))
         {
-            this.aEngine.interpretCommand("eat");
+            this.aEngine.interpretCommand("go up");
         }
         else if (pE.getSource().equals(aButton2))
         {
@@ -187,7 +196,7 @@ public class UserInterface implements ActionListener
         }
         else if (pE.getSource().equals(aButton3))
         {
-            this.aEngine.interpretCommand("quit");
+            this.aEngine.interpretCommand("go down");
         }
         else if (pE.getSource().equals(aButton4))
         {
@@ -204,6 +213,14 @@ public class UserInterface implements ActionListener
         else if (pE.getSource().equals(aButton7))
         {
             this.aEngine.interpretCommand("go south");
+        }
+        else if (pE.getSource().equals(aButton8))
+        {
+            this.aEngine.interpretCommand("eat");
+        }
+        else if (pE.getSource().equals(aButton9))
+        {
+            this.aEngine.interpretCommand("quit");
         }
         else this.processCommand(); // never suppress this line
     } // actionPerformed(.)
