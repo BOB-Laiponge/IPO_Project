@@ -11,8 +11,8 @@ public class Player
     private Room aCurrentRoom;
     private Stack<Room> aPreviousRooms;
     private String aName;
-    //private int aMaxWeight;
-    //private int aCurrentWeight;
+    private int aMaxWeight;
+    private int aCurrentWeight;
     private ItemList aInventory;
 
     /**
@@ -24,8 +24,9 @@ public class Player
         this.aCurrentRoom = null;
         this.aPreviousRooms = new Stack<Room>();
         this.aName = pName;
-        this. aInventory = new ItemList(); 
-        //this.aMaxWeight = 1000;
+        this.aInventory = new ItemList(); 
+        this.aMaxWeight = 10;
+        this.aCurrentWeight = 0;
     }
 
     // COMMANDES
@@ -61,9 +62,16 @@ public class Player
     public String take(final String pNom)
     {
         if (this.aCurrentRoom.hasItem(pNom)){
-            this.aInventory.addItem(this.aCurrentRoom.getItem(pNom));
-            this.aCurrentRoom.removeItem(pNom);
-            return pNom + " a été ramassé.";
+            int vItemWeight = this.aCurrentRoom.getItem(pNom).getWeight();
+            if (this.aCurrentWeight + vItemWeight <= this.aMaxWeight)
+            {
+                this.aInventory.addItem(this.aCurrentRoom.getItem(pNom));
+                this.aCurrentWeight += vItemWeight;
+                this.aCurrentRoom.removeItem(pNom);
+                
+                return pNom + " a été ramassé.";
+            }
+            else return "Votre inventaire est plein";
         }
         else return "Il n'y a pas cet objet à cet endroit.";
     }
@@ -75,6 +83,7 @@ public class Player
     {
         if (this.aInventory.hasItem(pNom)){
             this.aCurrentRoom.addItem(this.aInventory.getItem(pNom));
+            this.aCurrentWeight -= this.aCurrentRoom.getItem(pNom).getWeight();
             this.aInventory.removeItem(pNom);
             
             return pNom + " a été jeté.";
