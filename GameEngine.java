@@ -161,8 +161,16 @@ public class GameEngine
             this.take(vCommand);
         else if (vCommandWord.equals("drop"))
             this.drop(vCommand);
+        else if (vCommandWord.equals("items"))
+            this.items(vCommand);
     }
 
+    private void items(final Command pCommand)
+    {
+        this.aGui.println(this.aPlayer.getInventory().toString());
+        this.aGui.println("Poids total : "+ this.aPlayer.getCurrentWeight() + "/" + this.aPlayer.getMaxWeight());
+    }
+    
     private void take(final Command pCommand)
     {
         this.aGui.println(this.aPlayer.take(pCommand.getSecondWord()));

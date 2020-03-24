@@ -100,6 +100,22 @@ public class Player
     {
         return this.aCurrentRoom;
     }
+    
+    /**
+     * Retourne le poids total de l'inventaire.
+     */
+    public int getCurrentWeight()
+    {
+        return this.aCurrentWeight;
+    }
+    
+    /**
+     * Retourne le poids max de l'inventaire.
+     */
+    public int getMaxWeight()
+    {
+        return this.aMaxWeight;
+    }
 
     /**
      * Retourne la sortie de la CurrentRoom vers la direction donnée.
@@ -108,6 +124,11 @@ public class Player
     public Room getCurrentRoomExit(final String pDirection)
     {
         return this.aCurrentRoom.getExit(pDirection);
+    }
+    
+    public ItemList getInventory()
+    {
+        return this.aInventory;
     }
 
     // SETTERS
@@ -140,5 +161,5 @@ public class Player
         this.aPreviousRooms.push(pRoom);
     }
 
-        
+
 }

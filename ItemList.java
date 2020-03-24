@@ -66,4 +66,14 @@ public class ItemList
     {
         return this.aList.values();
     }
+    
+    @Override public String toString()
+    {
+        String vStr = "";
+        for(Item vItem : this.aList.values()){
+            vStr += vItem.toString() + "\n";
+        }
+        return vStr;
+    
+    }
 }
