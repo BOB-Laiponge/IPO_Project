@@ -32,6 +32,22 @@ public class Player
     // COMMANDES
 
     /**
+     * Permet de déplacer le joueur vers la pièce précédente.
+     */
+    public String eat(final String pName)
+    {
+        if (!this.aInventory.hasItem(pName)){
+            return "Cet objet n'est pas dans votre inventaire.";
+        }
+        if (!(this.aInventory.getItem(pName) instanceof EatableItem)){
+            return "Cet objet n'est pas commestible";
+        }
+        String vStr = ((EatableItem)this.aInventory.getItem(pName)).eat(this);
+        this.removeItem(pName);
+        return vStr;
+    }
+    
+    /**
      * Permet de déplacer le joueur vers une nouvelle Room.
      */
     public void goTo(final Room pRoom)
@@ -83,8 +99,7 @@ public class Player
     {
         if (this.aInventory.hasItem(pNom)){
             this.aCurrentRoom.addItem(this.aInventory.getItem(pNom));
-            this.aCurrentWeight -= this.aCurrentRoom.getItem(pNom).getWeight();
-            this.aInventory.removeItem(pNom);
+            this.removeItem(pNom);
             
             return pNom + " a été jeté.";
         }
@@ -161,5 +176,14 @@ public class Player
         this.aPreviousRooms.push(pRoom);
     }
 
-
+    public void increaseMaxWeight(final int pWeight)
+    {
+        this.aMaxWeight += pWeight;
+    }
+    
+    public void removeItem(final String pName)
+    {
+        this.aCurrentWeight -= this.aCurrentRoom.getItem(pName).getWeight();
+        this.aInventory.removeItem(pName);
+    }
 }

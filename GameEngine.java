@@ -84,6 +84,8 @@ public class GameEngine
         vShipSouth.addItem(new Item("pomme", "une pomme",5));
         vShipSouth.addItem(new Item("conserves", "une boite de conserve",5));
         vDesert.addItem(new Item("débrits", "des débrits métalliques",5));
+        
+        vShipInside.addItem((Item)(new MaxWeightIncreaserItem("cookie", "Un super cookie.",1,5)));
 
         // Initialisation du lieu courant
         this.aPlayer.setCurrentRoom(vDesert);
@@ -148,7 +150,7 @@ public class GameEngine
         else if ( vCommandWord.equals( "go" ) )
             this.goRoom(vCommand);
         else if ( vCommandWord.equals( "eat" ) )
-            this.eat();
+            this.eat(vCommand);
         else if ( vCommandWord.equals( "look" ) )
             this.look();
         else if ( vCommandWord.equals( "quit" ) ) 
@@ -231,8 +233,9 @@ public class GameEngine
     /**
      * Commande "eat" : Permet de manger.
      */
-    private void eat()
+    private void eat(final Command pCommand)
     {
+        this.aGui.println(this.aPlayer.eat(pCommand.getSecondWord()));
         this.aGui.println("You have eaten now, and you are not hungry anymore");
     }//eat()
 
