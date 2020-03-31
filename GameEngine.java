@@ -28,10 +28,10 @@ public class GameEngine
         this.aParser = new Parser();
         this.createRooms();
     }
-    
-    
 
-    // CREATION DES OBJETS NECESSAIRES AU FONCTIENNEMENT DU JEU
+
+    // CREATION DES OBJETS NECESSAIRES AU FONCTIONNEMENT DU JEU
+    
     
     /**
      * Initialise le GUI dans GameEngine.
@@ -81,17 +81,18 @@ public class GameEngine
         vShipInside.setExit("down", vShipNorth);
 
         // Ajout des items dans les pièces
-        vShipSouth.addItem(new Item("pomme", "une pomme",5));
+        //////vShipSouth.addItem(new Item("pomme", "une pomme",5)); à modifier plus tard 
         vShipSouth.addItem(new Item("conserves", "une boite de conserve",5));
         vDesert.addItem(new Item("débrits", "des débrits métalliques",5));
-        
         vShipInside.addItem((Item)(new MaxWeightIncreaserItem("cookie", "Un super cookie.",1,5)));
 
         // Initialisation du lieu courant
         this.aPlayer.setCurrentRoom(vDesert);
     }
     
+    
     // METHODES D'AFFICHAGE
+    
     
     /**
      * Affiche les informations sur les sorties de la Room courante.
@@ -127,7 +128,9 @@ public class GameEngine
         this.aGui.println(aParser.getCommandString());
     }//printHelp()
 
+    
     // COMMANDES
+    
     
     /**
      * Given a command, process (that is: execute) the command.
@@ -167,17 +170,26 @@ public class GameEngine
             this.items(vCommand);
     }
 
+    /**
+     * Commande "items" : Affiche l'inventaire du joueur. 
+     */
     private void items(final Command pCommand)
     {
         this.aGui.println(this.aPlayer.getInventory().toString());
         this.aGui.println("Poids total : "+ this.aPlayer.getCurrentWeight() + "/" + this.aPlayer.getMaxWeight());
     }
     
+    /**
+     * Commande "take" : transfert un Item de la pièce vers l'inventaire du joueur.
+     */
     private void take(final Command pCommand)
     {
         this.aGui.println(this.aPlayer.take(pCommand.getSecondWord()));
     }
     
+    /**
+     * Commande "drop" : transfert un Item de l'inventaire du joueur vers la pièce .
+     */
     private void drop(final Command pCommand)
     {
         this.aGui.println(this.aPlayer.drop(pCommand.getSecondWord()));
@@ -236,7 +248,6 @@ public class GameEngine
     private void eat(final Command pCommand)
     {
         this.aGui.println(this.aPlayer.eat(pCommand.getSecondWord()));
-        this.aGui.println("You have eaten now, and you are not hungry anymore");
     }//eat()
 
     /**

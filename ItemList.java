@@ -67,6 +67,9 @@ public class ItemList
         return this.aList.values();
     }
     
+    /**
+     * Convertit la liste d'items en String
+     */
     @Override public String toString()
     {
         String vStr = "";

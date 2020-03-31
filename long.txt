@@ -1,0 +1,18 @@
+take débrits
+drop débrits
+go north
+take pomme
+eat pomme
+items
+go west
+go north
+go up
+take cookie
+eat cookie
+items
+go down
+go east
+go south
+go south
+look
+quit

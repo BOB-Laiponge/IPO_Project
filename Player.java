@@ -141,6 +141,9 @@ public class Player
         return this.aCurrentRoom.getExit(pDirection);
     }
     
+    /**
+     * Retourne l'inventaire du joueur
+     */
     public ItemList getInventory()
     {
         return this.aInventory;
@@ -176,14 +179,20 @@ public class Player
         this.aPreviousRooms.push(pRoom);
     }
 
+    /**
+     * Augmente le poids max de l'inventaire du joueur
+     */
     public void increaseMaxWeight(final int pWeight)
     {
         this.aMaxWeight += pWeight;
     }
     
+    /**
+     * Retire un item de l'inventaire
+     */
     public void removeItem(final String pName)
     {
-        this.aCurrentWeight -= this.aCurrentRoom.getItem(pName).getWeight();
+        this.aCurrentWeight -= this.aInventory.getItem(pName).getWeight();
         this.aInventory.removeItem(pName);
     }
 }

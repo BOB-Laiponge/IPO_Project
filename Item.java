@@ -52,7 +52,8 @@ public class Item
     
     /**
      * Retourne le String correspondant à l'Item.
-     * @return le String correspondant à l'Item
+     * 
+     * @return le String correspondant à l'Item.
      */
     @Override public String toString()
     {
