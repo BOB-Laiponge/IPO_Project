@@ -110,8 +110,8 @@ public class UserInterface implements ActionListener
     } // enable(.)
 
     /**
-     * Set up graphical user interface.
-     * inspiré de https://openclassrooms.com/fr/courses/26832-apprenez-a-programmer-en-java/23366-positionnez-des-boutons
+     * Arrange le GUI
+     * Inspiré par OpenClassrooms : https://openclassrooms.com/fr/courses/26832-apprenez-a-programmer-en-java/23366-positionnez-des-boutons
      */
     private void createGUI()
     {

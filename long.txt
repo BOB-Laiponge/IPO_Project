@@ -15,4 +15,22 @@ go east
 go south
 go south
 look
+go south
+go south
+go south
+go west
+go north
+go south
+go west
+go east
+go east
+go east
+go west
+go south
+go west
+go east
+go south
+go east
+go west
+go south
 quit

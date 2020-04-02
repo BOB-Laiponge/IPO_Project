@@ -2,12 +2,11 @@ import java.util.Scanner;
 import java.util.HashMap;
 import java.io.File;
 
-
 /**
- * Classe principale du jeu. Game permet de lancer une partie.
+ * Classe principale du jeu. GameEngine permet de gérer le déroulement une partie.
  * 
  * @author PITIOT Pierre-Yves
- * @version 13/02/2020
+ * @version 03/04/2020
  */
 public class GameEngine
 {
@@ -29,10 +28,8 @@ public class GameEngine
         this.createRooms();
     }
 
-
     // CREATION DES OBJETS NECESSAIRES AU FONCTIONNEMENT DU JEU
-    
-    
+                    
     /**
      * Initialise le GUI dans GameEngine.
      */
@@ -41,7 +38,7 @@ public class GameEngine
         this.aGui = pUserInterface;
         this.printWelcome();
     }
-    
+
     /**
      * Instantie les salles et le "réseau" du jeu
      */
@@ -49,7 +46,9 @@ public class GameEngine
     {
         // Déclaration des lieux
         Room vDesert = new Room("Desert","Images/desert1.png");
-        aRooms.put("desert_1", vDesert);
+        aRooms.put("Desert_1", vDesert);
+        Room vDesert2 = new Room("Desert","Images/desert2.png");
+        aRooms.put("Desert_2", vDesert);
         Room vShipSouth = new Room("Ship - South","Images/crashedship.png");
         aRooms.put("ShipSouth", vShipSouth);
         Room vShipNorth = new Room("Ship - North","Images/crashedship.png");
@@ -61,8 +60,34 @@ public class GameEngine
         Room vShipInside = new Room("inside the ship.","Images/shipinside.png");
         aRooms.put("ShipInside", vShipInside);
 
+        Room vGates = new Room("in front of huge gates.","Images/gates.png");
+        aRooms.put("Gates", vGates);
+        Room vMainStreet1 = new Room("in the main street.","Images/main_street_1.png");
+        aRooms.put("MainStreet1", vMainStreet1);
+        Room vMainStreet2 = new Room("in the main street.","Images/main_street_2.png");
+        aRooms.put("MainStreet2", vMainStreet2);
+        Room vMainStreet3 = new Room("in the main street.","Images/main_street_3.png");
+        aRooms.put("MainStreet3", vMainStreet3);
+        Room vGovernorTower = new Room("in the governor's tower.","Images/governor_tower.png");
+        aRooms.put("GovernorTower", vGovernorTower);
+        Room vCybertaverne = new Room("in the cybertaverne.","Images/cybertaverne.png");
+        aRooms.put("Cybertaverne", vCybertaverne);
+        Room vWeaponMarket = new Room("in the weapon market.","Images/weapon_market.png");
+        aRooms.put("WeaponMarket", vWeaponMarket);
+        
+        Room vStreet1 = new Room("in the street.","Images/street_1.png");
+        aRooms.put("Street1", vStreet1);
+        Room vStreet2 = new Room("in the street.","Images/street_2.png");
+        aRooms.put("Street2", vStreet2);
+        Room vSpaceport = new Room("in the spaceport.","Images/spaceport.png");
+        aRooms.put("Street2", vStreet2);
+        
+        Room vMilitaryTower = new Room("in the military tower.","Images/military_tower.png");
+        aRooms.put("MilitaryTower", vMilitaryTower);
+        
         // Positionnement des sorties
         vDesert.setExit("north",vShipSouth);
+        vDesert.setExit("south",vDesert2);
 
         vShipSouth.setExit("south", vDesert);
         vShipSouth.setExit("east", vShipEast); 
@@ -79,7 +104,40 @@ public class GameEngine
         vShipWest.setExit("south", vShipSouth);
 
         vShipInside.setExit("down", vShipNorth);
-
+           
+        vDesert2.setExit("north",vDesert);
+        vDesert2.setExit("south",vGates);
+        
+        vGates.setExit("south", vMainStreet1);
+        vGates.setExit("north", vDesert2);
+        
+        vMainStreet1.setExit("south", vMainStreet2);
+        vMainStreet1.setExit("north", vGates);
+        vMainStreet1.setExit("west", vStreet1);
+        vMainStreet1.setExit("east", vStreet2);
+        
+        vStreet1.setExit("east", vMainStreet1);
+        vStreet1.setExit("west", vMilitaryTower);
+        vStreet1.setExit("north", vSpaceport);
+        
+        vMilitaryTower.setExit("east", vStreet1);
+        
+        vSpaceport.setExit("south", vStreet1);
+        
+        vStreet2.setExit("west", vMainStreet1);
+        
+        vMainStreet2.setExit("south", vMainStreet3);
+        vMainStreet2.setExit("north", vMainStreet1);
+        vMainStreet2.setExit("west", vCybertaverne);
+        vCybertaverne.setExit("east", vMainStreet2);
+        
+        vMainStreet3.setExit("south", vGovernorTower);
+        vMainStreet3.setExit("north", vMainStreet2);
+        vMainStreet3.setExit("east", vWeaponMarket);
+        vWeaponMarket.setExit("west", vMainStreet3);
+        
+        vGovernorTower.setExit("north", vMainStreet3);
+        
         // Ajout des items dans les pièces
         //////vShipSouth.addItem(new Item("pomme", "une pomme",5)); à modifier plus tard 
         vShipSouth.addItem(new Item("conserves", "une boite de conserve",5));
@@ -89,10 +147,8 @@ public class GameEngine
         // Initialisation du lieu courant
         this.aPlayer.setCurrentRoom(vDesert);
     }
-    
-    
+
     // METHODES D'AFFICHAGE
-    
     
     /**
      * Affiche les informations sur les sorties de la Room courante.
@@ -128,9 +184,7 @@ public class GameEngine
         this.aGui.println(aParser.getCommandString());
     }//printHelp()
 
-    
     // COMMANDES
-    
     
     /**
      * Given a command, process (that is: execute) the command.
@@ -178,7 +232,7 @@ public class GameEngine
         this.aGui.println(this.aPlayer.getInventory().toString());
         this.aGui.println("Poids total : "+ this.aPlayer.getCurrentWeight() + "/" + this.aPlayer.getMaxWeight());
     }
-    
+
     /**
      * Commande "take" : transfert un Item de la pièce vers l'inventaire du joueur.
      */
@@ -186,7 +240,7 @@ public class GameEngine
     {
         this.aGui.println(this.aPlayer.take(pCommand.getSecondWord()));
     }
-    
+
     /**
      * Commande "drop" : transfert un Item de l'inventaire du joueur vers la pièce .
      */
@@ -194,7 +248,7 @@ public class GameEngine
     {
         this.aGui.println(this.aPlayer.drop(pCommand.getSecondWord()));
     }
-    
+
     /**
      * Gère le changement de lieu
      * 
@@ -222,7 +276,7 @@ public class GameEngine
         }
 
     }//goRoom()
-    
+
     /**
      * Effectue les étapes necessaires pour changer de pièces.
      * 
@@ -307,7 +361,7 @@ public class GameEngine
     }//quit()
 
     // OTHER
-    
+
     /**
      * Active la fin de jeu.
      */
