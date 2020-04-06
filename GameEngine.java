@@ -15,6 +15,7 @@ public class GameEngine
     private Player aPlayer;
     private UserInterface aGui;
     private HashMap<String, Room> aRooms;
+    private int aTurnsLeft;
 
     // Constructeurs
     /**
@@ -26,6 +27,7 @@ public class GameEngine
         this.aRooms = new HashMap<String,Room>();
         this.aParser = new Parser();
         this.createRooms();
+        this.aTurnsLeft = 100;
     }
 
     // CREATION DES OBJETS NECESSAIRES AU FONCTIONNEMENT DU JEU
@@ -284,6 +286,12 @@ public class GameEngine
      */
     private void goTo(final Room pRoom)
     {
+        this.aTurnsLeft -= 1;
+        if (aTurnsLeft <= 0){
+            this.aGui.println("GAME OVER : La bataille au dessus de Saand s'est achevée par l'annihilation de la planète.\nVous êtes mort !");
+            this.endGame();
+            return;
+        }
         this.aPlayer.goTo(pRoom);
         this.printLocationInfo();
     }
