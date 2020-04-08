@@ -146,4 +146,12 @@ public class Room
     {
         return this.aItems.getItem(pNom);
     }
+    
+    /**
+     * Teste si la Room entrée est une sortie de cette Room
+     */
+    public boolean isExit(final Room pRoom)
+    {
+        return this.aExits.containsValue(pRoom);
+    }
 } // Room

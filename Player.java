@@ -54,6 +54,11 @@ public class Player
     {
         this.aPreviousRooms.push(this.aCurrentRoom);
         this.setCurrentRoom(pRoom);
+        
+        if (!pRoom.isExit(this.aCurrentRoom)) 
+        {
+            this.aPreviousRooms.clear();
+        }
     }
 
     /**

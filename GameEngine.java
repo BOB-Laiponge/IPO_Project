@@ -127,6 +127,7 @@ public class GameEngine
         vSpaceport.setExit("south", vStreet1);
         
         vStreet2.setExit("west", vMainStreet1);
+        vStreet2.setExit("south", vWeaponMarket);
         
         vMainStreet2.setExit("south", vMainStreet3);
         vMainStreet2.setExit("north", vMainStreet1);
@@ -287,11 +288,12 @@ public class GameEngine
     private void goTo(final Room pRoom)
     {
         this.aTurnsLeft -= 1;
-        if (aTurnsLeft <= 0){
+        if (aTurnsLeft <= 0){  // On teste si il reste des tours
             this.aGui.println("GAME OVER : La bataille au dessus de Saand s'est achevée par l'annihilation de la planète.\nVous êtes mort !");
             this.endGame();
             return;
         }
+        
         this.aPlayer.goTo(pRoom);
         this.printLocationInfo();
     }
