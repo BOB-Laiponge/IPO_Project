@@ -158,7 +158,7 @@ public class GameEngine
      */
     private void printLocationInfo()
     {
-        this.aGui.println(this.aPlayer.look());  
+        this.aGui.println(this.aPlayer.lookRoom());  
         if ( this.aPlayer.getCurrentRoom().getImageName() != null )
             this.aGui.showImage( this.aPlayer.getCurrentRoom().getImageName() );
     }//printLocationInfo()
@@ -212,7 +212,7 @@ public class GameEngine
         else if ( vCommandWord.equals( "eat" ) )
             this.eat(vCommand);
         else if ( vCommandWord.equals( "look" ) )
-            this.look();
+            this.look(vCommand);
         else if ( vCommandWord.equals( "quit" ) ) 
             this.quit(vCommand);
         else if ( vCommandWord.equals( "back" ) ) 
@@ -233,12 +233,14 @@ public class GameEngine
 
     private void use(final Command pCommand)
     {
-        this.aGui.println(this.aPlayer.use(pCommand.getSecondWord()));
+        if (pCommand.hasSecondWord()) this.aGui.println(this.aPlayer.use(pCommand.getSecondWord()));
+        else this.aGui.println("Merci d'indiquer le nom de l'objet que vous voulez utiliser.");
     }
     
     private void load(final Command pCommand)
     {
-        this.aGui.println(this.aPlayer.load(pCommand.getSecondWord()));
+        if (pCommand.hasSecondWord()) this.aGui.println(this.aPlayer.load(pCommand.getSecondWord()));
+        else this.aGui.println("Merci d'indiquer le nom de l'objet que vous voulez charger.");
     }
     
     /**
@@ -315,9 +317,10 @@ public class GameEngine
     /**
      * Commande "look" : Affiche la description de la pièce.
      */
-    private void look()
+    private void look(final Command pCommand)
     {
-        this.aGui.println(this.aPlayer.look());
+        if (pCommand.hasSecondWord()) this.aGui.println(this.aPlayer.lookItem(pCommand.getSecondWord()));
+        else this.aGui.println(this.aPlayer.lookRoom());
     }//look()
 
     /**

@@ -43,6 +43,16 @@ public class Room
     }//getDescription()
     
     /**
+     * Retourne les objets présents dans la pièce
+     * @return les objets présents dans la pièce
+     * 
+     */
+    public ItemList getItems()
+    {
+        return this.aItems;
+    }//getDescription()
+    
+    /**
      * Retourne la sortie en fonction de la direction entrée. 
      * @return la pièce se trouvant dans la direction donnée.
      */
@@ -84,7 +94,7 @@ public class Room
     public String getItemDescription()
     {
         if (!this.aItems.isEmpty()) {
-            StringBuilder vSB = new StringBuilder("Here, there are the following objects : ");
+            StringBuilder vSB = new StringBuilder("A cet endroit, il y a les objets suivants : ");
             Collection<Item> items = this.aItems.values();
             for (Item item : items)
             {
@@ -92,7 +102,7 @@ public class Room
             }
             return vSB.toString();
         }
-        else return "No item here.";
+        else return "Il n'y a pas d'item à cet endroit.";
     }
     
     // Setters

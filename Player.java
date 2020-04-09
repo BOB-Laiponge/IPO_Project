@@ -89,9 +89,19 @@ public class Player
     /**
      * Retourne la longDesription de la CurrentRoom
      */
-    public String look()
+    public String lookRoom()
     {
         return this.aCurrentRoom.getLongDescription();
+    }
+    
+    /**
+     * Retourne la description de l'item demandé.
+     */
+    public String lookItem(final String pName)
+    {
+        if (this.aInventory.hasItem(pName)) return this.aInventory.getItem(pName).getDescription();
+        if (this.aCurrentRoom.getItems().hasItem(pName)) return this.aCurrentRoom.getItems().getItem(pName).getDescription();
+        return "Cet objet n'est pas reconnu."; 
     }
     
     /**
