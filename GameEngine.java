@@ -146,7 +146,7 @@ public class GameEngine
         vShipSouth.addItem(new Item("conserves", "une boite de conserve",5));
         vDesert.addItem(new Item("débrits", "des débrits métalliques",5));
         vShipInside.addItem((Item)(new MaxWeightIncreaserItem("cookie", "Un super cookie.",1,5)));
-
+        vWeaponMarket.addItem((Item)(new Beamer("Beamer", "un beamer",2, this)));
         // Initialisation du lieu courant
         this.aPlayer.setCurrentRoom(vDesert);
     }
@@ -225,8 +225,22 @@ public class GameEngine
             this.drop(vCommand);
         else if (vCommandWord.equals("items"))
             this.items(vCommand);
+        else if (vCommandWord.equals("use"))
+            this.use(vCommand);
+        else if (vCommandWord.equals("load"))
+            this.load(vCommand);
     }
 
+    private void use(final Command pCommand)
+    {
+        this.aGui.println(this.aPlayer.use(pCommand.getSecondWord()));
+    }
+    
+    private void load(final Command pCommand)
+    {
+        this.aGui.println(this.aPlayer.load(pCommand.getSecondWord()));
+    }
+    
     /**
      * Commande "items" : Affiche l'inventaire du joueur. 
      */
@@ -285,7 +299,7 @@ public class GameEngine
      * 
      * @params la nouvelle Room.
      */
-    private void goTo(final Room pRoom)
+    public void goTo(final Room pRoom)
     {
         this.aTurnsLeft -= 1;
         if (aTurnsLeft <= 0){  // On teste si il reste des tours

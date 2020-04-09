@@ -30,7 +30,23 @@ public class Player
     }
 
     // COMMANDES
-
+    
+    public String load(final String pItemName)
+    {
+        if (!this.aInventory.hasItem(pItemName)) return "Cet objet n'est pas dans votre inventaire.";
+        Item vItem = this.aInventory.getItem(pItemName);
+        if (!(vItem instanceof Beamer)) return "Cet objet ne peut pas être chargé.";
+        return ((Beamer)vItem).load(this);
+    }
+    
+    public String use(final String pItemName)
+    {
+        if (!this.aInventory.hasItem(pItemName)) return "Cet objet n'est pas dans votre inventaire.";
+        Item vItem = this.aInventory.getItem(pItemName);
+        if (!(vItem instanceof Beamer)) return "Cet objet ne peut pas être utilisé.";
+        return ((Beamer)vItem).use(this);
+    }
+    
     /**
      * Permet de déplacer le joueur vers la pièce précédente.
      */
@@ -56,7 +72,7 @@ public class Player
         
         if (!pRoom.isExit(this.aCurrentRoom)) 
         {
-            this.aPreviousRooms.clear();
+            this.clearPreviousRooms();
         }
         
         this.setCurrentRoom(pRoom);
@@ -175,6 +191,14 @@ public class Player
     public boolean previousRoomIsEmpty()
     {
         return this.aPreviousRooms.empty();
+    }
+    
+    /**
+     * Vide le PreviousRooms
+     */
+    public void clearPreviousRooms()
+    {
+        this.aPreviousRooms.clear();
     }
 
     /**

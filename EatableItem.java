@@ -17,7 +17,7 @@ public abstract class EatableItem extends Item
     }
     
     /**
-     * Applique l'effet décrit dans les classes filles sur le player.
+     * Applique l'effet décrit dans les classes filles sur le joueur.
      */
     public abstract String eat(final Player pPlayer);
 }
