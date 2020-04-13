@@ -66,7 +66,7 @@ public class Player
     /**
      * Permet de déplacer le joueur vers une nouvelle Room.
      */
-    public void goTo(final Room pRoom)
+    public String goTo(final Room pRoom)
     {
         this.aPreviousRooms.push(this.aCurrentRoom);
         
@@ -75,7 +75,20 @@ public class Player
             this.clearPreviousRooms();
         }
         
+        if (pRoom instanceof Door)
+        {
+            if (((Door)pRoom).isOpen() || this.hasKey(pRoom))
+            {
+                this.setCurrentRoom(((Door)pRoom).getNextRoom(this.aCurrentRoom));
+                ((Door)pRoom).setOpen();
+                
+                return "La porte est ouverte. Vous vous êtes déplacé.\n";
+            }
+            
+            return "La porte est fermée. Vous ne pouvez pas passer.\n";
+        }
         this.setCurrentRoom(pRoom);
+        return "Vous vous êtes déplacé.\n";
     }
 
     /**
@@ -234,5 +247,10 @@ public class Player
     {
         this.aCurrentWeight -= this.aInventory.getItem(pName).getWeight();
         this.aInventory.removeItem(pName);
+    }
+    
+    public boolean hasKey(final Room pRoom)
+    {
+        return this.aInventory.hasItem((((Door)pRoom).getKey().getNom()));
     }
 }

@@ -62,8 +62,11 @@ public class GameEngine
         Room vShipInside = new Room("inside the ship.","Images/shipinside.png");
         aRooms.put("ShipInside", vShipInside);
 
-        Room vGates = new Room("in front of huge gates.","Images/gates.png");
-        aRooms.put("Gates", vGates);
+        Item vBadge = new Item("badge", "Mon badge militaire de l'Union.",0);
+        
+        Room vGatesFront = new Room("in front of huge gates.","Images/gates.png");
+        Door vGates = new Door("gates","Images/gates.png", vBadge);
+        aRooms.put("GatesFront", vGatesFront);
         Room vMainStreet1 = new Room("in the main street.","Images/main_street_1.png");
         aRooms.put("MainStreet1", vMainStreet1);
         Room vMainStreet2 = new Room("in the main street.","Images/main_street_2.png");
@@ -82,7 +85,7 @@ public class GameEngine
         Room vStreet2 = new Room("in the street.","Images/street_2.png");
         aRooms.put("Street2", vStreet2);
         Room vSpaceport = new Room("in the spaceport.","Images/spaceport.png");
-        aRooms.put("Street2", vStreet2);
+        aRooms.put("Spaceport", vSpaceport);
         
         Room vMilitaryTower = new Room("in the military tower.","Images/military_tower.png");
         aRooms.put("MilitaryTower", vMilitaryTower);
@@ -108,10 +111,13 @@ public class GameEngine
         vShipInside.setExit("down", vShipNorth);
            
         vDesert2.setExit("north",vDesert);
-        vDesert2.setExit("south",vGates);
+        vDesert2.setExit("south",vGatesFront);
+        
+        vGatesFront.setExit("south", vGates);
+        vGatesFront.setExit("north", vDesert2);
         
         vGates.setExit("south", vMainStreet1);
-        vGates.setExit("north", vDesert2);
+        vGates.setExit("north", vGatesFront);
         
         vMainStreet1.setExit("south", vMainStreet2);
         vMainStreet1.setExit("north", vGates);
@@ -143,6 +149,8 @@ public class GameEngine
         
         // Ajout des items dans les pièces
         //////vShipSouth.addItem(new Item("pomme", "une pomme",5)); à modifier plus tard 
+        
+        vShipInside.addItem(vBadge);
         vShipSouth.addItem(new Item("conserves", "une boite de conserve",5));
         vDesert.addItem(new Item("débrits", "des débrits métalliques",5));
         vShipInside.addItem((Item)(new MaxWeightIncreaserItem("cookie", "Un super cookie.",1,5)));
@@ -310,7 +318,7 @@ public class GameEngine
             return;
         }
         
-        this.aPlayer.goTo(pRoom);
+        this.aGui.print(this.aPlayer.goTo(pRoom));
         this.printLocationInfo();
     }
 
