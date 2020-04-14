@@ -19,15 +19,22 @@ public class Beamer extends Item
         this.aLoadedRoom = null;
         this.aGE = pGE;
     }
-
+    
+    /**
+     * Charge le beamer : enregistre la currentRoom
+     */
     public String load(final Player pPlayer)
     {
         this.aLoadedRoom = pPlayer.getCurrentRoom();
         return "Votre emplacement a bien été enrgistré dans le Beamer.";
     }
     
+    /**
+     * Utilise le Beamer : Le joueur est téléporté à la room enregistrée
+     */
     public String use(final Player pPlayer)
     {
+        if (this.aLoadedRoom == null) return "Téléportation impossible, merci d'enregistrer un emplacement.";
         this.aGE.goTo(this.aLoadedRoom);
         pPlayer.clearPreviousRooms();
         return "Téléportation réussie. Merci d'avoir utilisé le Beamer !";

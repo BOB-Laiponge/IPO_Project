@@ -7,6 +7,7 @@ items
 go west
 go north
 go up
+take badge
 take cookie
 eat cookie
 items
@@ -23,6 +24,7 @@ go north
 go south
 go west
 go east
+help
 go east
 go east
 go west
@@ -31,6 +33,9 @@ go west
 go east
 go south
 go east
+take Beamer
+load Beamer
 go west
 go south
+use Beamer
 quit

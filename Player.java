@@ -249,6 +249,9 @@ public class Player
         this.aInventory.removeItem(pName);
     }
     
+    /**
+     * Teste si le joueur possède la clé de la porte entrée.
+     */
     public boolean hasKey(final Room pRoom)
     {
         return this.aInventory.hasItem((((Door)pRoom).getKey().getNom()));

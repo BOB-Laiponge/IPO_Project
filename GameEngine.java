@@ -31,7 +31,7 @@ public class GameEngine
     }
 
     // CREATION DES OBJETS NECESSAIRES AU FONCTIONNEMENT DU JEU
-                    
+
     /**
      * Initialise le GUI dans GameEngine.
      */
@@ -63,7 +63,7 @@ public class GameEngine
         aRooms.put("ShipInside", vShipInside);
 
         Item vBadge = new Item("badge", "Mon badge militaire de l'Union.",0);
-        
+
         Room vGatesFront = new Room("in front of huge gates.","Images/gates.png");
         Door vGates = new Door("gates","Images/gates.png", vBadge);
         aRooms.put("GatesFront", vGatesFront);
@@ -79,17 +79,17 @@ public class GameEngine
         aRooms.put("Cybertaverne", vCybertaverne);
         Room vWeaponMarket = new Room("in the weapon market.","Images/weapon_market.png");
         aRooms.put("WeaponMarket", vWeaponMarket);
-        
+
         Room vStreet1 = new Room("in the street.","Images/street_1.png");
         aRooms.put("Street1", vStreet1);
         Room vStreet2 = new Room("in the street.","Images/street_2.png");
         aRooms.put("Street2", vStreet2);
         Room vSpaceport = new Room("in the spaceport.","Images/spaceport.png");
         aRooms.put("Spaceport", vSpaceport);
-        
+
         Room vMilitaryTower = new Room("in the military tower.","Images/military_tower.png");
         aRooms.put("MilitaryTower", vMilitaryTower);
-        
+
         // Positionnement des sorties
         vDesert.setExit("north",vShipSouth);
         vDesert.setExit("south",vDesert2);
@@ -109,47 +109,47 @@ public class GameEngine
         vShipWest.setExit("south", vShipSouth);
 
         vShipInside.setExit("down", vShipNorth);
-           
+
         vDesert2.setExit("north",vDesert);
         vDesert2.setExit("south",vGatesFront);
-        
+
         vGatesFront.setExit("south", vGates);
         vGatesFront.setExit("north", vDesert2);
-        
+
         vGates.setExit("south", vMainStreet1);
         vGates.setExit("north", vGatesFront);
-        
+
         vMainStreet1.setExit("south", vMainStreet2);
         vMainStreet1.setExit("north", vGates);
         vMainStreet1.setExit("west", vStreet1);
         vMainStreet1.setExit("east", vStreet2);
-        
+
         vStreet1.setExit("east", vMainStreet1);
         vStreet1.setExit("west", vMilitaryTower);
         vStreet1.setExit("north", vSpaceport);
-        
+
         vMilitaryTower.setExit("east", vStreet1);
-        
+
         vSpaceport.setExit("south", vStreet1);
-        
+
         vStreet2.setExit("west", vMainStreet1);
         vStreet2.setExit("south", vWeaponMarket);
-        
+
         vMainStreet2.setExit("south", vMainStreet3);
         vMainStreet2.setExit("north", vMainStreet1);
         vMainStreet2.setExit("west", vCybertaverne);
         vCybertaverne.setExit("east", vMainStreet2);
-        
+
         vMainStreet3.setExit("south", vGovernorTower);
         vMainStreet3.setExit("north", vMainStreet2);
         vMainStreet3.setExit("east", vWeaponMarket);
         vWeaponMarket.setExit("west", vMainStreet3);
-        
+
         vGovernorTower.setExit("north", vMainStreet3);
-        
+
         // Ajout des items dans les pièces
         //////vShipSouth.addItem(new Item("pomme", "une pomme",5)); à modifier plus tard 
-        
+
         vShipInside.addItem(vBadge);
         vShipSouth.addItem(new Item("conserves", "une boite de conserve",5));
         vDesert.addItem(new Item("débrits", "des débrits métalliques",5));
@@ -160,7 +160,7 @@ public class GameEngine
     }
 
     // METHODES D'AFFICHAGE
-    
+
     /**
      * Affiche les informations sur les sorties de la Room courante.
      */
@@ -196,7 +196,7 @@ public class GameEngine
     }//printHelp()
 
     // COMMANDES
-    
+
     /**
      * Given a command, process (that is: execute) the command.
      * If this command ends the game, true is returned, otherwise false is
@@ -239,18 +239,25 @@ public class GameEngine
             this.load(vCommand);
     }
 
+    
+    /**
+     * Commande "use" : permet d'utiliser un item
+     */
     private void use(final Command pCommand)
     {
         if (pCommand.hasSecondWord()) this.aGui.println(this.aPlayer.use(pCommand.getSecondWord()));
         else this.aGui.println("Merci d'indiquer le nom de l'objet que vous voulez utiliser.");
     }
     
+    /**
+     * Commande "load" : permet de charger un item
+     */
     private void load(final Command pCommand)
     {
         if (pCommand.hasSecondWord()) this.aGui.println(this.aPlayer.load(pCommand.getSecondWord()));
         else this.aGui.println("Merci d'indiquer le nom de l'objet que vous voulez charger.");
     }
-    
+
     /**
      * Commande "items" : Affiche l'inventaire du joueur. 
      */
@@ -317,7 +324,7 @@ public class GameEngine
             this.endGame();
             return;
         }
-        
+
         this.aGui.print(this.aPlayer.goTo(pRoom));
         this.printLocationInfo();
     }
