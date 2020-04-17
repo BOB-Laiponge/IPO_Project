@@ -16,6 +16,7 @@ public class GameEngine
     private UserInterface aGui;
     private HashMap<String, Room> aRooms;
     private int aTurnsLeft;
+    private RoomRandomizer aRoomRandomizer;
 
     // Constructeurs
     /**
@@ -28,6 +29,7 @@ public class GameEngine
         this.aParser = new Parser();
         this.createRooms();
         this.aTurnsLeft = 100;
+        
     }
 
     // CREATION DES OBJETS NECESSAIRES AU FONCTIONNEMENT DU JEU
@@ -86,10 +88,17 @@ public class GameEngine
         aRooms.put("Street2", vStreet2);
         Room vSpaceport = new Room("in the spaceport.","Images/spaceport.png");
         aRooms.put("Spaceport", vSpaceport);
-
         Room vMilitaryTower = new Room("in the military tower.","Images/military_tower.png");
         aRooms.put("MilitaryTower", vMilitaryTower);
-
+        
+        Room vUnionShip = new Room("in the Union Ship.","Images/spaceport.png");
+        aRooms.put("UnionShip", vUnionShip);
+        
+        
+        this.aRoomRandomizer = new RoomRandomizer(this.aRooms);
+        Room vTransporterRoom = new TransporterRoom("Une salle de téléportation. Attention : Cette technologie est instable et peut vous téléporter n'importe où sur la planète","Images/spaceport.png", this.aRoomRandomizer);
+        //aRooms.put("vTransporterRoom", vUnionShip);
+        
         // Positionnement des sorties
         vDesert.setExit("north",vShipSouth);
         vDesert.setExit("south",vDesert2);
@@ -131,7 +140,14 @@ public class GameEngine
         vMilitaryTower.setExit("east", vStreet1);
 
         vSpaceport.setExit("south", vStreet1);
-
+        vSpaceport.setExit("east", vUnionShip);
+        
+        vUnionShip.setExit("west", vSpaceport);
+        vUnionShip.setExit("north", vTransporterRoom);
+        vTransporterRoom.setExit("south", vUnionShip);
+        vTransporterRoom.setExit("beam", null);
+        
+        
         vStreet2.setExit("west", vMainStreet1);
         vStreet2.setExit("south", vWeaponMarket);
 
@@ -299,9 +315,17 @@ public class GameEngine
 
         // On cherche la prochaine pièce
         String vDirection = pCommand.getSecondWord();
-
-        Room vNextRoom = this.aPlayer.getCurrentRoomExit(vDirection);
-
+        
+        Room vNextRoom;
+        if (this.aPlayer.getCurrentRoom().isTransporterRoom()) 
+        {
+            vNextRoom = ((TransporterRoom)(this.aPlayer.getCurrentRoom())).getExit(vDirection);
+        }
+        else 
+        {
+            vNextRoom = this.aPlayer.getCurrentRoomExit(vDirection);
+        }
+        
         // On effectue ou pas le changement de lieu
         if ( vNextRoom == null )
             this.aGui.println( "There is no door!" );

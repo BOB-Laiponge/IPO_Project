@@ -164,4 +164,13 @@ public class Room
     {
         return this.aExits.containsValue(pRoom);
     }
+    
+    /**
+     * Teste si la Current Room entrée est une TransporterRoom
+     */
+    public boolean isTransporterRoom()
+    {
+        return (this instanceof TransporterRoom);
+    }
+    
 } // Room
