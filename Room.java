@@ -6,7 +6,7 @@ import java.util.Collection;
  * Classe décrivant les pièces du jeu.
  * 
  * @author PITIOT Pierre-Yves
- * @version 06/02/2020
+ * @version 21/04/2020
  */
 public class Room
 {

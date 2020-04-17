@@ -1,4 +1,3 @@
-
 /**
  * Classe décrivant les Items du jeu
  *

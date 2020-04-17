@@ -10,7 +10,7 @@ import javax.swing.JButton;
 
 import java.awt.Dimension;
 import java.awt.BorderLayout;
-import javax.swing.BoxLayout;////
+import javax.swing.BoxLayout;
 import java.awt.GridLayout;
 
 import java.awt.event.ActionListener;
@@ -27,7 +27,7 @@ import java.net.URL;
  * area, a text output area and an optional image.
  * 
  * @author Michael Kolling
- * @version 1.0 (Jan 2003) DB edited (2019) PITIOT Pierre-Yves edited (2020)
+ * @version 1.0 (Jan 2003) DB edited (2019) PITIOT Pierre-Yves edited (21.04.2020)
  */
 public class UserInterface implements ActionListener
 {

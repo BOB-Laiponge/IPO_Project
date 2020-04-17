@@ -15,7 +15,7 @@
 <span class="sourceLineNo">006</span><a id="line.6"> * Classe dÃ©crivant les piÃ¨ces du jeu.</a>
 <span class="sourceLineNo">007</span><a id="line.7"> * </a>
 <span class="sourceLineNo">008</span><a id="line.8"> * @author PITIOT Pierre-Yves</a>
-<span class="sourceLineNo">009</span><a id="line.9"> * @version 06/02/2020</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * @version 21/04/2020</a>
 <span class="sourceLineNo">010</span><a id="line.10"> */</a>
 <span class="sourceLineNo">011</span><a id="line.11">public class Room</a>
 <span class="sourceLineNo">012</span><a id="line.12">{</a>
@@ -173,7 +173,16 @@
 <span class="sourceLineNo">164</span><a id="line.164">    {</a>
 <span class="sourceLineNo">165</span><a id="line.165">        return this.aExits.containsValue(pRoom);</a>
 <span class="sourceLineNo">166</span><a id="line.166">    }</a>
-<span class="sourceLineNo">167</span><a id="line.167">} // Room</a>
+<span class="sourceLineNo">167</span><a id="line.167">    </a>
+<span class="sourceLineNo">168</span><a id="line.168">    /**</a>
+<span class="sourceLineNo">169</span><a id="line.169">     * Teste si la Current Room entrÃ©e est une TransporterRoom</a>
+<span class="sourceLineNo">170</span><a id="line.170">     */</a>
+<span class="sourceLineNo">171</span><a id="line.171">    public boolean isTransporterRoom()</a>
+<span class="sourceLineNo">172</span><a id="line.172">    {</a>
+<span class="sourceLineNo">173</span><a id="line.173">        return (this instanceof TransporterRoom);</a>
+<span class="sourceLineNo">174</span><a id="line.174">    }</a>
+<span class="sourceLineNo">175</span><a id="line.175">    </a>
+<span class="sourceLineNo">176</span><a id="line.176">} // Room</a>
 
 
 

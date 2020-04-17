@@ -1,8 +1,8 @@
 /**
- * Décrivez votre classe Beamer ici.
+ * Un beamer permet d'enregistrer une Room, puis de s'y téléporter à volonté.
  *
- * @author (votre nom)
- * @version (un numéro de version ou une date)
+ * @author Pitiot Pierre-Yves
+ * @version 21/04/2020
  */
 public class Beamer extends Item
 {

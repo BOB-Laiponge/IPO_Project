@@ -4,7 +4,7 @@ import java.util.Collection;
  * Cette lasse permet de creer les listes d'item.
  *
  * @author Pierre-Yves PITIOT
- * @version 20/03/20
+ * @version 21/04/20
  */
 public class ItemList
 {

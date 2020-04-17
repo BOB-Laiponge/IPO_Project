@@ -4,7 +4,7 @@ import java.util.Stack;
  * Classe Player : décrit le fonctionnement d'un joueur.
  *
  * @author PITIOT Pierre-Yves
- * @version 05/03/2020
+ * @version 21/04/2020
  */
 public class Player
 {
