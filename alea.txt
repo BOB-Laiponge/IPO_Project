@@ -10,3 +10,10 @@ go south
 go south
 go south
 go south
+go west
+go north
+go east
+go north
+alea ShipInside
+go beam
+alea

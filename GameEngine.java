@@ -17,6 +17,8 @@ public class GameEngine
     private HashMap<String, Room> aRooms;
     private int aTurnsLeft;
     private RoomRandomizer aRoomRandomizer;
+    private boolean aTestMode;
+    private Room aAleaRoom;
 
     // Constructeurs
     /**
@@ -24,6 +26,8 @@ public class GameEngine
      */
     public GameEngine()
     {
+        this.aAleaRoom = null;
+        this.aTestMode = false;
         this.aPlayer = new Player("Elsa Edington");
         this.aRooms = new HashMap<String,Room>();
         this.aParser = new Parser();
@@ -44,7 +48,7 @@ public class GameEngine
     }
 
     /**
-     * Instantie les salles et le "réseau" du jeu
+     * Instantie les salles, le "réseau", et les items du jeu
      */
     private void createRooms()
     {
@@ -253,8 +257,35 @@ public class GameEngine
             this.use(vCommand);
         else if (vCommandWord.equals("load"))
             this.load(vCommand);
+        else if (vCommandWord.equals("alea"))
+            this.alea(vCommand);
     }
 
+    /**
+     * Permet de bloquer l'aléatoire
+     */
+    private void alea(final Command pCommand)
+    {
+        if (!this.aTestMode)
+        {
+            this.aGui.println("Cette commande n'est utilisable qu'en mode test.");
+            return;
+        }
+        if (!pCommand.hasSecondWord())
+        {
+            this.aAleaRoom = null;
+            this.aGui.println("AleaRoom a bien été réinitialisée.");
+            return;
+        }
+        if (!this.aRooms.containsKey(pCommand.getSecondWord()))
+        {
+            this.aGui.println("Cette pièce n'existe pas.");
+            return;
+        }
+        this.aAleaRoom = this.aRooms.get(pCommand.getSecondWord());
+        this.aGui.println("La pièce a bien été enregistrée.");
+    }
+    
     
     /**
      * Commande "use" : permet d'utiliser un item
@@ -317,9 +348,17 @@ public class GameEngine
         String vDirection = pCommand.getSecondWord();
         
         Room vNextRoom;
+        
         if (this.aPlayer.getCurrentRoom().isTransporterRoom()) 
         {
-            vNextRoom = ((TransporterRoom)(this.aPlayer.getCurrentRoom())).getExit(vDirection);
+            if (this.aTestMode && this.aAleaRoom != null)
+            {
+                vNextRoom = this.aAleaRoom;
+            }
+            else
+            {
+                vNextRoom = ((TransporterRoom)(this.aPlayer.getCurrentRoom())).getExit(vDirection);
+            }
         }
         else 
         {
@@ -402,10 +441,12 @@ public class GameEngine
 
         try
         {
+            this.aTestMode = true;
             Scanner vSc = new Scanner(new File(vFileName+".txt"));
             while (vSc.hasNext()){
                 this.interpretCommand(vSc.nextLine());
             }
+            this.aTestMode = false;
         }
         catch(final java.io.FileNotFoundException pE)
         {
