@@ -18,12 +18,7 @@ public class RoomRandomizer
      */
     public RoomRandomizer(final HashMap<String,Room> pRooms)
     {
-        this.aRooms = new ArrayList<Room>();
-        Iterator<Room> vIt = pRooms.values().iterator();
-        while (vIt.hasNext()) 
-        {
-            this.aRooms.add(vIt.next());
-        }
+        this.aRooms = new ArrayList<Room>(pRooms.values());
     }
 
     /**
