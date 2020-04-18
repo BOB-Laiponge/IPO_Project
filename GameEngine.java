@@ -225,39 +225,39 @@ public class GameEngine
     public void interpretCommand( final String pCommandLine ) 
     {
         this.aGui.println( "> " + pCommandLine );
-        Command vCommand = this.aParser.getCommand( pCommandLine );
-
+        Command vCommand = this.aParser.getCommand(pCommandLine);
+        
         if ( vCommand.isUnknown() ) {
             this.aGui.println( "I don't know what you mean..." );
             return;
         }
 
-        String vCommandWord = vCommand.getCommandWord();
-        if ( vCommandWord.equals( "help" ) )
+        CommandWord vCommandWord = vCommand.getCommandWord();
+        if (vCommandWord == CommandWord.HELP)
             this.printHelp();
-        else if ( vCommandWord.equals( "go" ) )
+        else if (vCommandWord == CommandWord.GO)
             this.goRoom(vCommand);
-        else if ( vCommandWord.equals( "eat" ) )
+        else if (vCommandWord == CommandWord.EAT)
             this.eat(vCommand);
-        else if ( vCommandWord.equals( "look" ) )
+        else if (vCommandWord == CommandWord.LOOK)
             this.look(vCommand);
-        else if ( vCommandWord.equals( "quit" ) ) 
+        else if (vCommandWord == CommandWord.QUIT) 
             this.quit(vCommand);
-        else if ( vCommandWord.equals( "back" ) ) 
+        else if (vCommandWord == CommandWord.BACK) 
             this.back(vCommand);
-        else if (vCommandWord.equals("test"))
+        else if (vCommandWord == CommandWord.TEST)
             this.test(vCommand);
-        else if (vCommandWord.equals("take"))
+        else if (vCommandWord == CommandWord.TAKE)
             this.take(vCommand);
-        else if (vCommandWord.equals("drop"))
+        else if (vCommandWord == CommandWord.DROP)
             this.drop(vCommand);
-        else if (vCommandWord.equals("items"))
+        else if (vCommandWord == CommandWord.ITEMS)
             this.items(vCommand);
-        else if (vCommandWord.equals("use"))
+        else if (vCommandWord == CommandWord.USE)
             this.use(vCommand);
-        else if (vCommandWord.equals("load"))
+        else if (vCommandWord == CommandWord.LOAD)
             this.load(vCommand);
-        else if (vCommandWord.equals("alea"))
+        else if (vCommandWord == CommandWord.ALEA)
             this.alea(vCommand);
     }
 

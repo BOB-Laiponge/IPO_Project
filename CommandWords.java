@@ -1,4 +1,4 @@
- 
+import java.util.HashMap; 
 
 /**
  * This class is part of the "World of Zuul" application. 
@@ -13,18 +13,46 @@
 public class CommandWords
 {
     // a constant array that will hold all valid command words
-    private final String[] aValidCommands = 
-    {"go", "help","quit","look","eat","back","test", "take", "drop", "items", "use", "load", "alea"};
+    private HashMap<String,CommandWord> aValidCommands;
 
     /**
      * Constructor - initialise the command words.
      */
     public CommandWords()
     {
-        //rien à faire 
-        
+        this.aValidCommands = new HashMap<String,CommandWord>();
+        this.aValidCommands.put("go", CommandWord.GO);
+        this.aValidCommands.put("help", CommandWord.HELP);
+        this.aValidCommands.put("quit", CommandWord.QUIT);
+        this.aValidCommands.put("look", CommandWord.LOOK);
+        this.aValidCommands.put("eat", CommandWord.EAT);
+        this.aValidCommands.put("back", CommandWord.BACK);
+        this.aValidCommands.put("test", CommandWord.TEST);
+        this.aValidCommands.put("take", CommandWord.TAKE);
+        this.aValidCommands.put("drop", CommandWord.DROP);
+        this.aValidCommands.put("items", CommandWord.ITEMS);
+        this.aValidCommands.put("eat", CommandWord.USE);
+        this.aValidCommands.put("load", CommandWord.LOAD);
+        this.aValidCommands.put("alea", CommandWord.ALEA);
     } // CommandWords()
 
+    /**
+     * Find the CommandWord associated with a command word.
+     * @param commandWord The word to look up.
+     * @return The CommandWord correspondng to commandWord, or UNKNOWN
+     *         if it is not a valid command word.
+     */
+    public CommandWord getCommandWord(String pCommandWord)
+    {
+        CommandWord vCommand = this.aValidCommands.get(pCommandWord);
+        if(vCommand != null) {
+            return vCommand;
+        }
+        else {
+            return CommandWord.UNKNOWN;
+        }
+    }
+    
     /**
      * Check whether a given String is a valid command word. 
      * @return true if a given string is a valid command,
@@ -32,12 +60,7 @@ public class CommandWords
      */
     public boolean isCommand( final String pString )
     {
-        for ( int i=0; i<this.aValidCommands.length; i++ ) {
-            if ( this.aValidCommands[i].equals( pString ) )
-                return true;
-        } // for
-        // if we get here, the string was not found in the commands
-        return false;
+        return this.aValidCommands.containsKey(pString);
     } // isCommand()
     
     /**
@@ -46,8 +69,8 @@ public class CommandWords
     public String getCommandList()
     {
         String vCommandString = "";
-        for(String command : this.aValidCommands) {
-            vCommandString += (command + " ");
+        for(String vCommand : this.aValidCommands.keySet()) {
+            vCommandString += (vCommand + " ");
         }
         return vCommandString;
     }//showAll

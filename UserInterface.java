@@ -31,6 +31,7 @@ import java.net.URL;
  */
 public class UserInterface implements ActionListener
 {
+  
     private GameEngine aEngine;
     private JFrame     aMyFrame;
     private JTextField aEntryField;
