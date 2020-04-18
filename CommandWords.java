@@ -21,19 +21,11 @@ public class CommandWords
     public CommandWords()
     {
         this.aValidCommands = new HashMap<String,CommandWord>();
-        this.aValidCommands.put("go", CommandWord.GO);
-        this.aValidCommands.put("help", CommandWord.HELP);
-        this.aValidCommands.put("quit", CommandWord.QUIT);
-        this.aValidCommands.put("look", CommandWord.LOOK);
-        this.aValidCommands.put("eat", CommandWord.EAT);
-        this.aValidCommands.put("back", CommandWord.BACK);
-        this.aValidCommands.put("test", CommandWord.TEST);
-        this.aValidCommands.put("take", CommandWord.TAKE);
-        this.aValidCommands.put("drop", CommandWord.DROP);
-        this.aValidCommands.put("items", CommandWord.ITEMS);
-        this.aValidCommands.put("eat", CommandWord.USE);
-        this.aValidCommands.put("load", CommandWord.LOAD);
-        this.aValidCommands.put("alea", CommandWord.ALEA);
+        for(CommandWord vCommand : CommandWord.values()) {
+            if(vCommand != CommandWord.UNKNOWN) {
+                this.aValidCommands.put(vCommand.toString(), vCommand);
+            }
+        }
     } // CommandWords()
 
     /**

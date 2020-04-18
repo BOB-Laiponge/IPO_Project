@@ -233,32 +233,22 @@ public class GameEngine
         }
 
         CommandWord vCommandWord = vCommand.getCommandWord();
-        if (vCommandWord == CommandWord.HELP)
-            this.printHelp();
-        else if (vCommandWord == CommandWord.GO)
-            this.goRoom(vCommand);
-        else if (vCommandWord == CommandWord.EAT)
-            this.eat(vCommand);
-        else if (vCommandWord == CommandWord.LOOK)
-            this.look(vCommand);
-        else if (vCommandWord == CommandWord.QUIT) 
-            this.quit(vCommand);
-        else if (vCommandWord == CommandWord.BACK) 
-            this.back(vCommand);
-        else if (vCommandWord == CommandWord.TEST)
-            this.test(vCommand);
-        else if (vCommandWord == CommandWord.TAKE)
-            this.take(vCommand);
-        else if (vCommandWord == CommandWord.DROP)
-            this.drop(vCommand);
-        else if (vCommandWord == CommandWord.ITEMS)
-            this.items(vCommand);
-        else if (vCommandWord == CommandWord.USE)
-            this.use(vCommand);
-        else if (vCommandWord == CommandWord.LOAD)
-            this.load(vCommand);
-        else if (vCommandWord == CommandWord.ALEA)
-            this.alea(vCommand);
+        switch(vCommandWord)
+        {
+            case HELP: this.printHelp(); break;
+            case GO: this.goRoom(vCommand); break;
+            case EAT: this.eat(vCommand); break;
+            case LOOK: this.look(vCommand); break;
+            case QUIT: this.quit(vCommand); break;
+            case BACK: this.back(vCommand); break;
+            case TEST: this.test(vCommand); break;
+            case TAKE: this.take(vCommand); break;
+            case DROP: this.drop(vCommand); break;
+            case ITEMS: this.items(vCommand); break;
+            case USE: this.use(vCommand); break;
+            case LOAD: this.load(vCommand); break;
+            case ALEA: this.alea(vCommand); break;
+        }
     }
 
     /**
