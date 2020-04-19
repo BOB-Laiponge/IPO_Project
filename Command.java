@@ -4,30 +4,19 @@
  * @author PITIOT Pierre-Yves
  * @version 06/02/2020
  */
-public class Command
+public abstract class Command
 {
-    private CommandWord aCommandWord;
     private String aSecondWord;
-    
     
     /**
      * Constructeur naturel
      */
-    public Command(final CommandWord pCommandWord, final String pSecondWord)
+    public Command()
     {
-        this.aCommandWord = pCommandWord;
-        this.aSecondWord = pSecondWord;
+        this.aSecondWord = null;
     }
     
     // Getteurs
-    
-    /**
-     * Accède à CommandWord
-     */
-    public CommandWord getCommandWord()
-    {
-        return this.aCommandWord;
-    } 
     
     /**
      * Accède à SecondWord
@@ -48,10 +37,14 @@ public class Command
     }
     
     /**
-     * Teste si le premier mot est valide
+     * Define the second word of this command (the word
+     * entered after the command word). Null indicates that 
+     * there was no second word.
      */
-    public boolean isUnknown()
+    public void setSecondWord(String pSecondWord)
     {
-        return this.aCommandWord == CommandWord.UNKNOWN;
+        this.aSecondWord = pSecondWord;
     }
+    
+    public abstract void execute(final Player pPlayer, final GameEngine pGE, final UserInterface pGUI);
 } // Command

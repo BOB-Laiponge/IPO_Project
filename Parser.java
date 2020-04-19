@@ -1,5 +1,5 @@
 import java.util.StringTokenizer;
-
+import java.util.HashMap;
 /**
  * This class is part of "World of Zuul". "World of Zuul" is a simple, 
  * text based adventure game.
@@ -14,20 +14,37 @@ import java.util.StringTokenizer;
  * returns a command object that is marked as an unknown command.
  * 
  * @author  Michael Kolling and David J. Barnes
- * @version 2.0 (Jan 2003) DB edited (2019)
+ * @version 2.0 (Jan 2003) DB edited (2019) Edited by Pierre-Yves PITIOT (21/04/2020)
  */
 
 public class Parser 
 {
 
     private CommandWords aCommandWords;  // holds all valid command words
-
+    private HashMap<CommandWord, Command> aCommands;
+    
     /**
      * Create a new Parser.
      */
     public Parser() 
     {
         this.aCommandWords = new CommandWords();
+        this.aCommands = new HashMap<CommandWord, Command>();
+        
+        this.aCommands.put(CommandWord.GO,new GoCommand());
+        this.aCommands.put(CommandWord.UNKNOWN,new UnknownCommand());
+        this.aCommands.put(CommandWord.HELP,new HelpCommand());
+        this.aCommands.put(CommandWord.QUIT,new QuitCommand());
+        this.aCommands.put(CommandWord.LOOK,new LookCommand());
+        this.aCommands.put(CommandWord.EAT,new EatCommand());
+        this.aCommands.put(CommandWord.BACK,new BackCommand());
+        this.aCommands.put(CommandWord.TEST,new TestCommand());
+        this.aCommands.put(CommandWord.TAKE,new TakeCommand());
+        this.aCommands.put(CommandWord.DROP,new DropCommand());
+        this.aCommands.put(CommandWord.ITEMS,new ItemsCommand());
+        this.aCommands.put(CommandWord.USE,new UseCommand());
+        this.aCommands.put(CommandWord.LOAD,new LoadCommand());
+        this.aCommands.put(CommandWord.ALEA,new AleaCommand());
     } // Parser()
 
     /**
@@ -53,10 +70,10 @@ public class Parser
 
         // note: we just ignore the rest of the input line.
 
-        // Now check whether this word is known. If so, create a command
-        // with it. If not, create a "null" command (for unknown command).
-
-        return new Command(aCommandWords.getCommandWord(vWord1), vWord2);
+        
+        Command vCommand = this.aCommands.get(aCommandWords.getCommandWord(vWord1));
+        vCommand.setSecondWord(vWord2);
+        return vCommand;
     } // getCommand(.)
 
     /**

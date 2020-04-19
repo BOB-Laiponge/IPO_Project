@@ -11,6 +11,7 @@ public class Player
     private Room aCurrentRoom;
     private Stack<Room> aPreviousRooms;
     private String aName;
+    private int aTurnsLeft;
     private int aMaxWeight;
     private int aCurrentWeight;
     private ItemList aInventory;
@@ -27,6 +28,7 @@ public class Player
         this.aInventory = new ItemList(); 
         this.aMaxWeight = 10;
         this.aCurrentWeight = 0;
+        this.aTurnsLeft = 100;
     }
 
     // COMMANDES
@@ -239,6 +241,23 @@ public class Player
     {
         this.aMaxWeight += pWeight;
     }
+    
+    /**
+     * Diminue le nombre de tours restants.
+     */
+    public void decreaseTurnsLeft()
+    {
+        this.aTurnsLeft -= 1;
+    }
+    
+    public boolean TestTurnsLeft()
+    {
+        if (aTurnsLeft <= 0){  // On teste si il reste des tours
+            return true;
+        }
+        else return false;
+    }
+    
     
     /**
      * Retire un item de l'inventaire

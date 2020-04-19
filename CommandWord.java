@@ -1,5 +1,6 @@
 /**
  * Enumeration CommandWord décrit les commandes valides
+ * Inspiré du travail de Michael Kolling et David J. Barnes
  *
  * @author PITIOT Pierre-Yves
  * @version 21/04/2020
@@ -12,8 +13,8 @@ public enum CommandWord
     private String aCommandString;
     
     /**
-     * Initialise with the corresponding command word.
-     * @param commandWord The command string.
+     * Constructeur de la classe CommandWord.
+     * @param pCommandString La String de commande
      */
     CommandWord(String pCommandString)
     {
@@ -21,7 +22,7 @@ public enum CommandWord
     }
     
     /**
-     * @return The command word as a string.
+     * @return Le CommandWord en forme de String.
      */
     @Override public String toString()
     {
