@@ -9,7 +9,7 @@ package pkg_commands;
 public enum CommandWord
 {
     GO("go"), HELP("help"), QUIT("quit"), LOOK("look"), EAT("eat"), BACK("back"), TEST("test"), TAKE("take"), DROP("drop"),
-    ITEMS("items"), USE("use"), LOAD("load"), ALEA("alea"), UNKNOWN("?");
+    ITEMS("items"), USE("use"), LOAD("load"), ALEA("alea"), UNKNOWN("?"), TALK("talk");
     
     private String aCommandString;
     

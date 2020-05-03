@@ -1,6 +1,6 @@
 package pkg_items;
 
-import pkg_game.Player;
+import pkg_characters.Player;
 /**
  * EatableItem permet de décrire le fonctionnement des objets mangeables.
  * Elle permet également de détecter si un objet est mangeable ou non.

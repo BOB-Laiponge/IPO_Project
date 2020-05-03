@@ -51,5 +51,5 @@ target5.name=EatableItem
 target5.showInterface=false
 target5.type=AbstractTarget
 target5.width=100
-target5.x=100
-target5.y=130
+target5.x=170
+target5.y=200

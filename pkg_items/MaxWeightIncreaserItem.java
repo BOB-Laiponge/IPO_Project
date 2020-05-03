@@ -1,5 +1,5 @@
 package pkg_items;
-import pkg_game.Player;
+import pkg_characters.Player;
 
 /**
  * MaxWeightIncreaserItem permet de créer des items mangeables qui ont pour effet d'augmenter la capacité d'inventaire maximum du joueur

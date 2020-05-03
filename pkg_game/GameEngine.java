@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.io.File;
 
 import pkg_game.GameEngine;
-import pkg_game.Player;
+import pkg_characters.Player;
+import pkg_characters.Character;
 import pkg_game.UserInterface;
 
 import pkg_commands.Parser;
@@ -47,7 +48,7 @@ public class GameEngine
     {
         this.aAleaRoom = null;
         this.aTestMode = false;
-        this.aPlayer = new Player("Elsa Edington");
+        this.aPlayer = new Player("Player");
         this.aRooms = new HashMap<String,Room>();
         this.aParser = new Parser();
         this.createRooms();
@@ -194,6 +195,8 @@ public class GameEngine
         vDesert.addItem(new Item("débrits", "des débrits métalliques",5));
         vShipInside.addItem((Item)(new MaxWeightIncreaserItem("cookie", "Un super cookie.",1,5)));
         vWeaponMarket.addItem((Item)(new Beamer("Beamer", "un beamer",2, this)));
+        
+        vGatesFront.addPNJ(new Character("Garde","Bonjour, des rebelles sont dans la ville.\nJe ne peux laisser entrer personne sans badge.","Sans badge, vous n'entrez pas."));
         // Initialisation du lieu courant
         this.aPlayer.setCurrentRoom(vDesert);
     }

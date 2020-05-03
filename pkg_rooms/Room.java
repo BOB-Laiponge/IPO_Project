@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import pkg_items.ItemList;
 import pkg_items.Item;
+import pkg_characters.Character;
 /**
  * Classe décrivant les pièces du jeu.
  * 
@@ -21,6 +22,7 @@ public class Room
     private HashMap<String, Room> aExits;
     private String aImageName;
     private ItemList aItems;
+    private HashMap<String, Character> aPNJ;
     
     // Constructeurs
     
@@ -33,6 +35,7 @@ public class Room
         this.aExits = new HashMap<String,Room>();
         this.aImageName = pImage;
         this.aItems = new ItemList();
+        this.aPNJ = new HashMap<String,Character>();
     }//Room()
     
     // Getters 
@@ -90,7 +93,7 @@ public class Room
      */
     public String getLongDescription()
     {
-        return "You are in " + this.aDescription + ".\n"+ this.getItemDescription() + "\n" + this.getExitString();
+        return "You are in " + this.aDescription + ".\n"+ this.getItemDescription() + "\n" +getPNJDescription()+ this.getExitString();
     }// getLongDescription()
     
     /**
@@ -108,6 +111,24 @@ public class Room
             return vSB.toString();
         }
         else return "Il n'y a pas d'item à cet endroit.";
+    }
+    
+    /**
+     * Retourne la liste des Items présents dans cette pièce
+     */
+    public String getPNJDescription()
+    {
+        if (!this.aPNJ.isEmpty()) {
+            StringBuilder vSB = new StringBuilder("A cet endroit, il y a les personnes suivantes : ");
+            Collection<Character> vPNJs = this.aPNJ.values();
+            for (Character vPNJ : vPNJs)
+            {
+                vSB.append(" ").append(vPNJ.getName());
+            }
+            vSB.append("\n");
+            return vSB.toString();
+        }
+        else return "";
     }
     
     // Setters
@@ -128,6 +149,13 @@ public class Room
          return this.aImageName;
     }
     
+    /**
+     * Return a string describing the room's image name
+     */
+    public Character getPNJ(final String pName)
+    {
+         return this.aPNJ.get(pName);
+    }
     // Other
     
     /**
@@ -139,11 +167,28 @@ public class Room
     }
     
     /**
+     * Ajoute un PNJ à la pièce.
+     */
+    public void addPNJ(final Character pPNJ)
+    {
+        this.aPNJ.put(pPNJ.getName(), pPNJ);
+        pPNJ.setCurrentRoom(this);
+    }
+    
+    /**
      * Teste si la pièce contient l'item demandé.
      */
     public boolean hasItem(final String pNom)
     {
         return this.aItems.hasItem(pNom);
+    }
+    
+    /**
+     * Teste si la pièce contient le PNJ demandé.
+     */
+    public boolean hasPNJ(final String pNom)
+    {
+        return this.aPNJ.containsKey(pNom);
     }
     
     /**

@@ -19,7 +19,7 @@ import pkg_commands.TakeCommand;
 import pkg_commands.TestCommand;
 import pkg_commands.UnknownCommand;
 import pkg_commands.UseCommand;
-
+import pkg_commands.TalkCommand;
 //import pkg_commands.CommandWords;
 /**
  * This class is part of "World of Zuul". "World of Zuul" is a simple,
@@ -66,6 +66,7 @@ public class Parser
         this.aCommands.put(CommandWord.USE,new UseCommand());
         this.aCommands.put(CommandWord.LOAD,new LoadCommand());
         this.aCommands.put(CommandWord.ALEA,new AleaCommand());
+        this.aCommands.put(CommandWord.TALK,new TalkCommand());
     } // Parser()
 
     /**

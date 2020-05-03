@@ -1,4 +1,4 @@
-package pkg_game;
+package pkg_characters;
 
 
 import java.util.HashMap;
@@ -39,14 +39,14 @@ public class Player
         this.aCurrentRoom = null;
         this.aPreviousRooms = new Stack<Room>();
         this.aName = pName;
-        this.aInventory = new ItemList(); 
+        this.aInventory = new ItemList();
         this.aMaxWeight = 10;
         this.aCurrentWeight = 0;
         this.aTurnsLeft = 100;
     }
 
     // COMMANDES
-    
+
     public String load(final String pItemName)
     {
         if (!this.aInventory.hasItem(pItemName)) return "Cet objet n'est pas dans votre inventaire.";
@@ -54,7 +54,7 @@ public class Player
         if (!(vItem instanceof Beamer)) return "Cet objet ne peut pas être chargé.";
         return ((Beamer)vItem).load(this);
     }
-    
+
     public String use(final String pItemName)
     {
         if (!this.aInventory.hasItem(pItemName)) return "Cet objet n'est pas dans votre inventaire.";
@@ -62,7 +62,7 @@ public class Player
         if (!(vItem instanceof Beamer)) return "Cet objet ne peut pas être utilisé.";
         return ((Beamer)vItem).use(this);
     }
-    
+
     /**
      * Permet de déplacer le joueur vers la pièce précédente.
      */
@@ -78,29 +78,29 @@ public class Player
         this.removeItem(pName);
         return vStr;
     }
-    
+
     /**
      * Permet de déplacer le joueur vers une nouvelle Room.
      */
     public String goTo(final Room pRoom)
     {
         this.aPreviousRooms.push(this.aCurrentRoom);
-        
-        if (!pRoom.isExit(this.aCurrentRoom)) 
+
+        if (!pRoom.isExit(this.aCurrentRoom))
         {
             this.clearPreviousRooms();
         }
-        
+
         if (pRoom instanceof Door)
         {
             if (((Door)pRoom).isOpen() || this.hasKey(pRoom))
             {
                 this.setCurrentRoom(((Door)pRoom).getNextRoom(this.aCurrentRoom));
                 ((Door)pRoom).setOpen();
-                
+
                 return "La porte est ouverte. Vous vous êtes déplacé.\n";
             }
-            
+
             return "La porte est fermée. Vous ne pouvez pas passer.\n";
         }
         this.setCurrentRoom(pRoom);
@@ -122,7 +122,7 @@ public class Player
     {
         return this.aCurrentRoom.getLongDescription();
     }
-    
+
     /**
      * Retourne la description de l'item demandé.
      */
@@ -130,9 +130,9 @@ public class Player
     {
         if (this.aInventory.hasItem(pName)) return this.aInventory.getItem(pName).getDescription();
         if (this.aCurrentRoom.getItems().hasItem(pName)) return this.aCurrentRoom.getItems().getItem(pName).getDescription();
-        return "Cet objet n'est pas reconnu."; 
+        return "Cet objet n'est pas reconnu.";
     }
-    
+
     /**
      * Ramasse un objet
      */
@@ -145,14 +145,14 @@ public class Player
                 this.aInventory.addItem(this.aCurrentRoom.getItem(pNom));
                 this.aCurrentWeight += vItemWeight;
                 this.aCurrentRoom.removeItem(pNom);
-                
+
                 return pNom + " a été ramassé.";
             }
             else return "Votre inventaire est plein";
         }
         else return "Il n'y a pas cet objet à cet endroit.";
     }
-    
+
     /**
      * Ramasse un objet
      */
@@ -161,12 +161,12 @@ public class Player
         if (this.aInventory.hasItem(pNom)){
             this.aCurrentRoom.addItem(this.aInventory.getItem(pNom));
             this.removeItem(pNom);
-            
+
             return pNom + " a été jeté.";
         }
         else return "Il n'y a pas cet objet dans votre inventaire";
     }
-    
+
     // GETTERS
 
     /**
@@ -176,7 +176,7 @@ public class Player
     {
         return this.aCurrentRoom;
     }
-    
+
     /**
      * Retourne le poids total de l'inventaire.
      */
@@ -184,7 +184,7 @@ public class Player
     {
         return this.aCurrentWeight;
     }
-    
+
     /**
      * Retourne le poids max de l'inventaire.
      */
@@ -201,7 +201,7 @@ public class Player
     {
         return this.aCurrentRoom.getExit(pDirection);
     }
-    
+
     /**
      * Retourne l'inventaire du joueur
      */
@@ -219,10 +219,10 @@ public class Player
      */
     public void setCurrentRoom(final Room pRoom)
     {
-        this.aCurrentRoom = pRoom; 
+        this.aCurrentRoom = pRoom;
     }
 
-    // OTHER   
+    // OTHER
 
     /**
      * Teste si il y a une Room précédente.
@@ -231,7 +231,7 @@ public class Player
     {
         return this.aPreviousRooms.empty();
     }
-    
+
     /**
      * Vide le PreviousRooms
      */
@@ -255,7 +255,7 @@ public class Player
     {
         this.aMaxWeight += pWeight;
     }
-    
+
     /**
      * Diminue le nombre de tours restants.
      */
@@ -263,7 +263,7 @@ public class Player
     {
         this.aTurnsLeft -= 1;
     }
-    
+
     public boolean TestTurnsLeft()
     {
         if (aTurnsLeft <= 0){  // On teste si il reste des tours
@@ -271,8 +271,8 @@ public class Player
         }
         else return false;
     }
-    
-    
+
+
     /**
      * Retire un item de l'inventaire
      */
@@ -281,7 +281,7 @@ public class Player
         this.aCurrentWeight -= this.aInventory.getItem(pName).getWeight();
         this.aInventory.removeItem(pName);
     }
-    
+
     /**
      * Teste si le joueur possède la clé de la porte entrée.
      */

@@ -2,7 +2,7 @@ package pkg_items;
 
 import pkg_game.GameEngine;
 import pkg_rooms.Room;
-import pkg_game.Player;
+import pkg_characters.Player;
 /**
  * Un beamer permet d'enregistrer une Room, puis de s'y téléporter à volonté.
  *

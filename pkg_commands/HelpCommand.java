@@ -1,6 +1,6 @@
 package pkg_commands;
 import pkg_game.GameEngine;
-import pkg_game.Player;
+import pkg_characters.Player;
 import pkg_game.UserInterface;
 
 /**
