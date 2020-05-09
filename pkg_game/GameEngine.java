@@ -5,10 +5,13 @@ package pkg_game;
 import java.util.Scanner;
 import java.util.HashMap;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.ListIterator;
 
 import pkg_game.GameEngine;
 import pkg_characters.Player;
 import pkg_characters.Character;
+import pkg_characters.MovingCharacter;
 import pkg_game.UserInterface;
 
 import pkg_commands.Parser;
@@ -39,6 +42,7 @@ public class GameEngine
     private RoomRandomizer aRoomRandomizer;
     private boolean aTestMode;
     private Room aAleaRoom;
+    private ArrayList<MovingCharacter> aMovingCharacters;
 
     // Constructeurs
     /**
@@ -46,14 +50,14 @@ public class GameEngine
      */
     public GameEngine()
     {
+        this.aMovingCharacters = new ArrayList<MovingCharacter>();
         this.aAleaRoom = null;
         this.aTestMode = false;
         this.aPlayer = new Player("Player");
         this.aRooms = new HashMap<String,Room>();
         this.aParser = new Parser();
         this.createRooms();
-
-
+        
     }
 
     // CREATION DES OBJETS NECESSAIRES AU FONCTIONNEMENT DU JEU
@@ -197,6 +201,10 @@ public class GameEngine
         vWeaponMarket.addItem((Item)(new Beamer("Beamer", "un beamer",2, this)));
         
         vGatesFront.addPNJ(new Character("Garde","Bonjour, des rebelles sont dans la ville.\nJe ne peux laisser entrer personne sans badge.","Sans badge, vous n'entrez pas."));
+        MovingCharacter vMC1 = new MovingCharacter("Citoyen", "Bonjour.", "Il fait beau aujourd'hui.");
+        vMainStreet2.addPNJ(vMC1);
+        this.aMovingCharacters.add(vMC1);
+        
         // Initialisation du lieu courant
         this.aPlayer.setCurrentRoom(vDesert);
     }
@@ -254,7 +262,17 @@ public class GameEngine
     }
 
     // OTHER
-
+    /**
+     * Déplace les MovingCharacters
+     */
+    public void moveCharacters()
+    {
+        ListIterator<MovingCharacter> vIt = this.aMovingCharacters.listIterator();
+            while(vIt.hasNext()){
+                vIt.next().move();
+            }
+    }
+    
     /**
      * Active la fin de jeu.
      */

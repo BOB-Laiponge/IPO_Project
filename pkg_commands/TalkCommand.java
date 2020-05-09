@@ -2,7 +2,7 @@ package pkg_commands;
 import pkg_game.GameEngine;
 import pkg_characters.Player;
 import pkg_game.UserInterface;
-
+import pkg_characters.Character;
 
 /**
  * Implémentation de la commande "talk".
@@ -29,7 +29,9 @@ public class TalkCommand extends Command
         {
             if (pPlayer.getCurrentRoom().hasPNJ(getSecondWord()))
             {
-                pGUI.println(pPlayer.getCurrentRoom().getPNJ(getSecondWord()).talk());
+                Character vPNJ = pPlayer.getCurrentRoom().getPNJ(getSecondWord());
+                pGUI.print(vPNJ.getName() + " : ");
+                pGUI.println(vPNJ.talk());
                 return;
             }
             pGUI.println("Cette personne n'est pas ici.");

@@ -29,5 +29,5 @@ public class RoomRandomizer
     public Room getRoom()
     {
         return this.aRooms.get((new Random()).nextInt(aRooms.size()));
-    }
+    }   
 }

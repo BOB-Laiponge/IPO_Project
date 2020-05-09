@@ -20,11 +20,9 @@ import pkg_items.EatableItem;
  * @author PITIOT Pierre-Yves
  * @version 21/04/2020
  */
-public class Player
+public class Player extends AbstractCharacter
 {
-    private Room aCurrentRoom;
     private Stack<Room> aPreviousRooms;
-    private String aName;
     private int aTurnsLeft;
     private int aMaxWeight;
     private int aCurrentWeight;
@@ -36,9 +34,9 @@ public class Player
     public Player(final String pName)
     {
         // initialisation des variables d'instance
-        this.aCurrentRoom = null;
+        super(pName);
+        
         this.aPreviousRooms = new Stack<Room>();
-        this.aName = pName;
         this.aInventory = new ItemList();
         this.aMaxWeight = 10;
         this.aCurrentWeight = 0;
@@ -120,7 +118,7 @@ public class Player
      */
     public String lookRoom()
     {
-        return this.aCurrentRoom.getLongDescription();
+        return aCurrentRoom.getLongDescription();
     }
 
     /**
@@ -212,15 +210,7 @@ public class Player
 
     // SETTERS
 
-    /**
-     * Change la CurrentRoom.
-     *
-     * @param  pRoom : La nouvelle CurrentRoom.
-     */
-    public void setCurrentRoom(final Room pRoom)
-    {
-        this.aCurrentRoom = pRoom;
-    }
+    
 
     // OTHER
 

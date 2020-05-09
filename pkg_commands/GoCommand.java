@@ -26,6 +26,9 @@ public class GoCommand extends Command
      */
     public void execute(final Player pPlayer, final GameEngine pGE, final UserInterface pGUI)
     {
+        // On déplace les MovingCharacters
+        pGE.moveCharacters();
+        
         // Si un seul mot, on retourne "go where ?"
         if (!hasSecondWord()) {
             // if there is no second word, we don't know where to go...

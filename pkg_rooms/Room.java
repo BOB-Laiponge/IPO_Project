@@ -4,15 +4,18 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.Iterator;
 import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Random;
 
 import pkg_items.ItemList;
 import pkg_items.Item;
 import pkg_characters.Character;
+
 /**
  * Classe décrivant les pièces du jeu.
  * 
  * @author PITIOT Pierre-Yves
- * @version 21/04/2020
+ * @version 09/05/2020
  */
 public class Room
 {
@@ -67,7 +70,17 @@ public class Room
     public Room getExit(String pDir)
     {
         return aExits.get(pDir);
-    }//getExits()
+    }//getExit()
+    
+    /**
+     * Retourne une sortie aleatoire. 
+     * @return Retourne une sortie aleatoire. 
+     */
+    public Room getAleaExit()
+    {
+        ArrayList<Room> vExits = new ArrayList<Room>(this.aExits.values());
+        return vExits.get((new Random()).nextInt(vExits.size()));
+    }//getExit()
     
     /**
      * Retourne les directions où se trouvent une sortie.
@@ -131,16 +144,6 @@ public class Room
         else return "";
     }
     
-    // Setters
-    
-    /**
-     * Modifie les sorties
-     */
-    public void setExit(final String pDirection,final Room pNeighbor)
-    {
-        this.aExits.put(pDirection, pNeighbor);
-    }
-    
     /**
      * Return a string describing the room's image name
      */
@@ -156,6 +159,25 @@ public class Room
     {
          return this.aPNJ.get(pName);
     }
+    
+    /**
+     * Renvoie l'Item demandé.
+     */
+    public Item getItem(final String pNom)
+    {
+        return this.aItems.getItem(pNom);
+    }
+    
+    // Setters
+    
+    /**
+     * Modifie les sorties
+     */
+    public void setExit(final String pDirection,final Room pNeighbor)
+    {
+        this.aExits.put(pDirection, pNeighbor);
+    }
+    
     // Other
     
     /**
@@ -192,19 +214,20 @@ public class Room
     }
     
     /**
+     * Retire un PNJ.
+     * @param Le nom du PNJ.
+     */
+    public void removePNJ(final String pName)
+    {
+        this.aPNJ.remove(pName);
+    }
+    
+    /**
      * Retire un item à la liste.
      */
     public void removeItem(final String pNom)
     {
         this.aItems.removeItem(pNom);
-    }
-    
-    /**
-     * Renvoie l'Item demandé.
-     */
-    public Item getItem(final String pNom)
-    {
-        return this.aItems.getItem(pNom);
     }
     
     /**
