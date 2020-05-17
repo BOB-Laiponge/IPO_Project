@@ -46,7 +46,7 @@ public class Character extends AbstractCharacter
      * Permet de faire parler le PNJ
      */
     public String talk()
-    {
+    {    
         if (this.aIsFirstTalk) {
             this.aIsFirstTalk = false;
             return this.aFirstTalk;

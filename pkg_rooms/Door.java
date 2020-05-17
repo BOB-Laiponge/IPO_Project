@@ -6,7 +6,7 @@ import pkg_items.Item;
 
 /**
  * Door permet de creer des portes fermées et ouvrables avec une clé.
- * Pas plus de deux sorties
+ * Seulement une entrée et une sortie.
  *
  * @author PITIOT Pierre-Yves
  * @version 13/04/2020

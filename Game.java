@@ -26,7 +26,7 @@ public class Game
     public Game() 
     {
         this.aEngine = new GameEngine();
-        this.aGui = new UserInterface( this.aEngine );
-        this.aEngine.setGUI( this.aGui );
+        this.aGui = new UserInterface(this.aEngine);
+        this.aEngine.setGUI(this.aGui);
     }
 }

@@ -9,7 +9,7 @@ import pkg_characters.Player;
  * @author Pitiot Pierre-Yves
  * @version 21/04/2020
  */
-public class Beamer extends Item
+public class Beamer extends UsableItem
 {
     private Room aLoadedRoom;
     private GameEngine aGE;

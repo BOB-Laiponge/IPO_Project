@@ -30,8 +30,16 @@ public class TalkCommand extends Command
             if (pPlayer.getCurrentRoom().hasPNJ(getSecondWord()))
             {
                 Character vPNJ = pPlayer.getCurrentRoom().getPNJ(getSecondWord());
+                
+                if (vPNJ.getName().equals("Ragnar") || vPNJ.getName().equals("Commandant")){
+                    pGE.summonBombInWM();
+                }
+                
                 pGUI.print(vPNJ.getName() + " : ");
                 pGUI.println(vPNJ.talk());
+                if (vPNJ.getName().equals("Conducteur")){
+                    pGE.goTo(pGE.getRoom("UnionShip"));
+                }
                 return;
             }
             pGUI.println("Cette personne n'est pas ici.");

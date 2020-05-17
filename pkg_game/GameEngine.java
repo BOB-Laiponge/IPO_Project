@@ -25,6 +25,7 @@ import pkg_rooms.Door;
 import pkg_items.Item;
 import pkg_items.MaxWeightIncreaserItem;
 import pkg_items.Beamer;
+import pkg_items.Bomb;
 
 /**
  * Classe principale du jeu. GameEngine permet de gérer le déroulement une partie.
@@ -43,7 +44,10 @@ public class GameEngine
     private boolean aTestMode;
     private Room aAleaRoom;
     private ArrayList<MovingCharacter> aMovingCharacters;
-
+    
+    private HashMap<String, Door> aDoors;
+    private boolean aIsBombInGame;
+    
     // Constructeurs
     /**
      * Constructeur pour les objets de classe GameEngine.
@@ -56,7 +60,9 @@ public class GameEngine
         this.aPlayer = new Player("Player");
         this.aRooms = new HashMap<String,Room>();
         this.aParser = new Parser();
+        this.aDoors = new HashMap<String,Door>();
         this.createRooms();
+        this.aIsBombInGame = false;
         
     }
 
@@ -92,10 +98,12 @@ public class GameEngine
         Room vShipInside = new Room("inside the ship.","Images/shipinside.png");
         aRooms.put("ShipInside", vShipInside);
 
-        Item vBadge = new Item("badge", "Mon badge militaire de l'Union.",0);
-
+        Item vBadge = new Item("badge", "Votre badge militaire de l'Union.",0);
+        Item vOldKey = new Item("clé", "Une clé ancienne.",2);
+        
         Room vGatesFront = new Room("in front of huge gates.","Images/gates.png");
         Door vGates = new Door("gates","Images/gates.png", vBadge);
+        aDoors.put("Gate", vGates);
         aRooms.put("GatesFront", vGatesFront);
         Room vMainStreet1 = new Room("in the main street.","Images/main_street_1.png");
         aRooms.put("MainStreet1", vMainStreet1);
@@ -109,27 +117,46 @@ public class GameEngine
         aRooms.put("Cybertaverne", vCybertaverne);
         Room vWeaponMarket = new Room("in the weapon market.","Images/weapon_market.png");
         aRooms.put("WeaponMarket", vWeaponMarket);
-
-        Room vStreet1 = new Room("in the street.","Images/street_1.png");
+        
+        Room vOldTemple = new Room("dans un temple d'une autre époque","Images/old_temple.png");
+        Door vTempleDoor = new Door("TempleDoor", "Images/old_temple.png", vOldKey);
+        aDoors.put("TempleDoor", vTempleDoor);
+        
+        Room vOldFactory = new Room("dans une vielle usine","Images/old_factory.png");
+        aRooms.put("OldFactory", vOldFactory);
+        Room vOldBuilding = new Room("dans un immeuble abandonné","Images/old_building.png");
+        aRooms.put("OldBuilding", vOldBuilding);
+        
+        Room vStreet1 = new Room("dans une rue à l'Ouest de la ville","Images/street_1.png");
         aRooms.put("Street1", vStreet1);
-        Room vStreet2 = new Room("in the street.","Images/street_2.png");
+        Room vStreet2 = new Room("dans une rue à l'Est de la ville.","Images/street_2.png");
         aRooms.put("Street2", vStreet2);
         Room vSpaceport = new Room("in the spaceport.","Images/spaceport.png");
         aRooms.put("Spaceport", vSpaceport);
         Room vMilitaryTower = new Room("in the military tower.","Images/military_tower.png");
         aRooms.put("MilitaryTower", vMilitaryTower);
-
-        Room vUnionShip = new Room("in the Union Ship.","Images/spaceport.png");
+        
+        Door vDock1 = new Door("Quai 1", "Images/spaceport.png", null);
+        aDoors.put("Dock1", vDock1);
+        Door vDock2 = new Door("Quai 2", "Images/spaceport.png", null);
+        aDoors.put("Dock2", vDock2);
+        Room vUnionShip = new Room("dans le vaisseau de l'Union","Images/spaceport.png");
         aRooms.put("UnionShip", vUnionShip);
-
+        Room vRebelShip = new Room("dans le cargo rebelle","Images/spaceport.png");
 
         this.aRoomRandomizer = new RoomRandomizer(this.aRooms);
         Room vTransporterRoom = new TransporterRoom("Une salle de téléportation. Attention : Cette technologie est instable et peut vous téléporter n'importe où sur la planète","Images/spaceport.png", this.aRoomRandomizer);
-        //aRooms.put("vTransporterRoom", vUnionShip);
+        
 
         // Positionnement des sorties
+        
+        
         vDesert.setExit("north",vShipSouth);
         vDesert.setExit("south",vDesert2);
+        vDesert.setExit("east",vTempleDoor);
+        vOldTemple.setExit("west",vTempleDoor);
+        vTempleDoor.setExit("", vDesert);
+        vTempleDoor.setExit("", vOldTemple);
 
         vShipSouth.setExit("south", vDesert);
         vShipSouth.setExit("east", vShipEast);
@@ -168,9 +195,16 @@ public class GameEngine
         vMilitaryTower.setExit("east", vStreet1);
 
         vSpaceport.setExit("south", vStreet1);
-        vSpaceport.setExit("east", vUnionShip);
-
-        vUnionShip.setExit("west", vSpaceport);
+        vSpaceport.setExit("quai1", vDock1);
+        vSpaceport.setExit("quai2", vDock2);
+        
+        vDock1.setExit("", vUnionShip);
+        vDock1.setExit("", vSpaceport);
+        vDock2.setExit("", vRebelShip);
+        vDock2.setExit("", vSpaceport);
+        
+        vRebelShip.setExit("quai2", vDock2);
+        vUnionShip.setExit("quai1", vDock1);
         vUnionShip.setExit("north", vTransporterRoom);
         vTransporterRoom.setExit("south", vUnionShip);
         vTransporterRoom.setExit("beam", null);
@@ -178,7 +212,12 @@ public class GameEngine
 
         vStreet2.setExit("west", vMainStreet1);
         vStreet2.setExit("south", vWeaponMarket);
-
+        vStreet2.setExit("up", vOldBuilding);
+        vStreet2.setExit("east", vOldFactory);
+        
+        vOldBuilding.setExit("down", vStreet2);
+        vOldFactory.setExit("west", vStreet2);
+        
         vMainStreet2.setExit("south", vMainStreet3);
         vMainStreet2.setExit("north", vMainStreet1);
         vMainStreet2.setExit("west", vCybertaverne);
@@ -195,14 +234,32 @@ public class GameEngine
         //////vShipSouth.addItem(new Item("pomme", "une pomme",5)); à modifier plus tard
 
         vShipInside.addItem(vBadge);
-        vShipSouth.addItem(new Item("conserves", "une boite de conserve",5));
+        vUnionShip.addItem(vOldKey);
         vDesert.addItem(new Item("débrits", "des débrits métalliques",5));
         vShipInside.addItem((Item)(new MaxWeightIncreaserItem("cookie", "Un super cookie.",1,5)));
-        vWeaponMarket.addItem((Item)(new Beamer("Beamer", "un beamer",2, this)));
+        vWeaponMarket.addItem((Item)(new Beamer("Beamer", "Un Beamer made-in-Earth.",2, this)));
+        vOldTemple.addItem(new Item("Nanites", "Des nanites qui peuvent prendre n'importe quelle forme sur demande.", 5));
         
         vGatesFront.addPNJ(new Character("Garde","Bonjour, des rebelles sont dans la ville.\nJe ne peux laisser entrer personne sans badge.","Sans badge, vous n'entrez pas."));
-        MovingCharacter vMC1 = new MovingCharacter("Citoyen", "Bonjour.", "Il fait beau aujourd'hui.");
-        vMainStreet2.addPNJ(vMC1);
+        
+        vCybertaverne.addPNJ(new Character(
+        "Tavernier", "Bonjour. Vous cherchez à quittez la planète ? \nMalheureusement, il y a un couvre feu.\nEssayez d'aller au poste de l'Union.\nSinon, essayez d'aller dans les vielles habitation à l'Est."
+        ,"Allez au poste de l'Union ou aux habitations abandonnées."));
+        
+        vOldBuilding.addPNJ(new Character("Ragnar",
+        "Bonjour, je suis le commandant des rebelles sur Saand.\nJ'ai appris que tu cherchais à quitter la planète.\nJe peux te faire monter dans notre cargo pour la Terre.\nMais pour cela, tu devras d'abord faire exploser une bombe dans la tour du gouverneur."
+        , "Tu peux trouver une bombe au Marché d'Armes.\nUne fois la bombe activée, rejoins le cargo sur le Quai 2 du spatioport, à l'Ouest de la ville."));
+        
+        vMilitaryTower.addPNJ(new Character("Commandant",
+        "Bonjour, Je suis le Commandant de l'Union sur Saand.\nVous voulez nous aider à gagner la bataille au dessus de nous ?\nPour cela, il va faloir nous aider à vaincre les rebelles.\nVa chercher une bombe au Marché d'Armes, et fais la exploser dans la vielle usine. \nC'est le repère des rebelles.",
+        "Fais exploser la bombe dans la vielle usine, et rejoins le vaisseau de l'union sur le Quai 1 du Spatioport."
+        ));
+        vRebelShip.addPNJ(new Character("Conducteur",
+        "Bien le bonjour ! Bienvenue sur le cargo des rebelles !\nC’était une très belle explosion tout à l’heure, bravo !\nMaintenant nous allons pouvoir enfin prendre le contrôle de Saand, et de ses usines d’armement.\nPréparez-vous au décollage !!!\n\n*Le vaisseau décolle dans un grand bruit. \nAu loin vous apercevez la bataille qui fait rage entre les rebelles et l’Union.\nSoudain, le cargo est immobilisé, et des troupes de l’Union entrent. \nVous êtes fait prisonnier et vous êtes amené devant le Commandant des forces de l’Union. *\n\n> Commandant : Alors… Voici le pilote de l’Union qui a détruit la tour du Gouverneur.\nIl est clair que vous avez fait ça sous la contrainte. \nJe vous offre donc une chance de vous racheter.\nNous avons entendu des rumeurs quant à l’existence d’une arme très ancienne sur Saand.\nElle serait dans le désert. Ramenez-la au vaisseau de l’Union et tout sera pardonné. \n\n> Prisonnier rebelle : NOON, les rebelles ont besoin de cette arme !!! Ramenez là aux rebelles !!!\n\n> Commandant : Silence ! Dépêchez-vous de nous ramener l’arme.\nPrener cette clé et descendez sur la planète par le Rayon de téléportation, dans la pièce à coté.\n ",""
+        ));
+        
+        MovingCharacter vMC1 = new MovingCharacter("Citoyen", "Bonjour. Vous semblez perdu.", "Allez à la CyberTaverne pour tout renseignement.");
+        vMainStreet1.addPNJ(vMC1);
         this.aMovingCharacters.add(vMC1);
         
         // Initialisation du lieu courant
@@ -327,10 +384,82 @@ public class GameEngine
 
     /**
      * Retourne les pièces du jeu.
-     * @return Les pièces du jeu
+     * @return Les pièces du jeu.
      */
     public HashMap<String,Room> getRooms()
     {
         return this.aRooms;
+    }
+    
+    /**
+     * Retourne une pièce du jeu.
+     * @return Une pièce du jeu.
+     * @param Le nom de la pièce.
+     */
+    public Room getRoom(final String pName)
+    {
+        return this.aRooms.get(pName);
+    }
+    
+    /**
+     * Retourne les Doors du jeu
+     */
+    public HashMap<String, Door> getDoors()
+    {
+        return this.aDoors;
+    }
+    //HISTOIRE
+    
+    /**
+     * Fonction Histoire : Fait apparaitre la bombe au Weapon Market
+     */
+    public void summonBombInWM()
+    {
+        if (this.aIsBombInGame == false)
+        {
+            this.aIsBombInGame = true;
+            this.getRoom("WeaponMarket").addItem((Item)new Bomb("bombe", "Une bombe artisanale.", 5, this));
+        }
+    }
+    
+    /**
+     * Fonction Histoire : Ouvre le vaisseau de l'Union
+     */
+    public void explosionOldFactory()
+    {
+        this.aDoors.get("Dock1").setOpen();
+        this.aRooms.get("OldBuilding").removePNJ("Ragnar");
+        this.aRooms.get("MilitaryTower").removePNJ("Commandant");
+        this.aRooms.get("UnionShip").addPNJ(new Character("Commandant", "Toutes mes félicitations. Vous avez vaincu la plupart des troupes rebelles de Saand. \nJ’ai encore quelque chose à vous demander. \nNous avons entendu parler d’un ancien temple datant d’avant la colonisation de la planète.\nIl abriterait une arme très puissante. \nPrenez cette clé, amenez-nous cette arme afin que nous puissions vaincre les rebelles, et vous pourrez rentrer sur Terre. ",
+        "La clé, le temple, l'arme, le vaisseau, la Terre."));
+    }
+    
+    /**
+     * Fonction Histoire : Ouvre le vaisseau des rebelles
+     */
+    public void explosionGovTower()
+    {
+        this.aDoors.get("Dock2").setOpen();
+        this.aRooms.get("OldBuilding").removePNJ("Ragnar");
+        this.aRooms.get("MilitaryTower").removePNJ("Commandant");
+        
+    }
+    
+    /**
+     * Fonction Histoire : La fin de l'Histoire avec les rebelles.
+     */
+    public void endWithRebels()
+    {
+        this.aGui.println("Vous avez donné des Nanites aux rebelles.\nGrâce à cette nouvelle arme, ils ont facilement pu détruire la Grande Flotte de l'Union,\net prendre le contrôle de la galaxie.\nTous les dirigeants de l'Union ont été jugés et exécutés.\nIls vous ont ramené sur Terre, et vous ont promu Capitaine.");
+        this.endGame();
+    }
+    
+    /**
+     * Fonction Histoire : La fin de l'Histoire avec l'Union.
+     */
+    public void endWithUnion()
+    {
+        this.aGui.println("Vous avez donné des Nanites aux forces de l'Union.\nGrâce à cette nouvelle arme, ils ont facilement pu détruire la flotte rebelle.\nTous les leaders rebelles ont été jugés et exécutés.\nVous avez été ramené sur Terre, et avez été promu Capitaine.");
+        this.endGame();
     }
 } // Game

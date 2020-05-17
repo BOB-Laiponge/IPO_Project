@@ -38,11 +38,25 @@ public class GoCommand extends Command
 
         // On cherche la prochaine pièce
         String vDirection = this.getSecondWord();
-
+        
+        if (vDirection.equals("quai1") && pPlayer.hasItem("Nanites"))
+        {
+            pGE.endWithUnion();
+            return;
+        }
+        if (vDirection.equals("quai2") && pPlayer.hasItem("Nanites"))
+        {
+            pGE.endWithRebels();
+            return;
+        }
+        
         Room vNextRoom;
 
         if (pPlayer.getCurrentRoom().isTransporterRoom())
         {
+            pGE.getDoors().get("Dock2").setOpen();
+            pGE.getDoors().get("Dock1").setOpen();
+            
             if (pGE.getTestMode() && pGE.getAleaRoom() != null)
             {
                 vNextRoom = pGE.getAleaRoom();

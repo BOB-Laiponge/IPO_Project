@@ -10,6 +10,7 @@ import pkg_rooms.Door;
 import pkg_items.ItemList;
 import pkg_items.Item;
 import pkg_items.Beamer;
+import pkg_items.UsableItem;
 import pkg_items.EatableItem;
 
 
@@ -49,16 +50,16 @@ public class Player extends AbstractCharacter
     {
         if (!this.aInventory.hasItem(pItemName)) return "Cet objet n'est pas dans votre inventaire.";
         Item vItem = this.aInventory.getItem(pItemName);
-        if (!(vItem instanceof Beamer)) return "Cet objet ne peut pas être chargé.";
-        return ((Beamer)vItem).load(this);
+        if (!(vItem instanceof UsableItem)) return "Cet objet ne peut pas être chargé.";
+        return ((UsableItem)vItem).load(this);
     }
 
     public String use(final String pItemName)
     {
         if (!this.aInventory.hasItem(pItemName)) return "Cet objet n'est pas dans votre inventaire.";
         Item vItem = this.aInventory.getItem(pItemName);
-        if (!(vItem instanceof Beamer)) return "Cet objet ne peut pas être utilisé.";
-        return ((Beamer)vItem).use(this);
+        if (!(vItem instanceof UsableItem)) return "Cet objet ne peut pas être utilisé.";
+        return ((UsableItem)vItem).use(this);
     }
 
     /**
@@ -207,7 +208,14 @@ public class Player extends AbstractCharacter
     {
         return this.aInventory;
     }
-
+    
+    /**
+     * Retire un objet de l'inventaire du joueur
+     */
+    public void removeItemFromInventory(final String pName)
+    {
+        this.aInventory.removeItem(pName);
+    }
     // SETTERS
 
     
@@ -277,6 +285,15 @@ public class Player extends AbstractCharacter
      */
     public boolean hasKey(final Room pRoom)
     {
-        return this.aInventory.hasItem((((Door)pRoom).getKey().getNom()));
+        if (((Door)pRoom).getKey() == null) return false;
+        return this.hasItem((((Door)pRoom).getKey().getNom()));
+    }
+    
+    /**
+     * Teste si le joueur possède l'item demandé
+     */
+    public boolean hasItem(final String pName)
+    {
+        return this.aInventory.hasItem(pName);
     }
 }
