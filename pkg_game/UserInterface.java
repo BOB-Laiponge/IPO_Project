@@ -107,6 +107,15 @@ public class UserInterface implements ActionListener
         if ( ! pOnOff ) { // disable
             this.aEntryField.getCaret().setBlinkRate( 0 ); // cursor won't blink
             this.aEntryField.removeActionListener( this ); // won't react to entry
+            this.aButton1.removeActionListener( this );
+            this.aButton2.removeActionListener( this );
+            this.aButton3.removeActionListener( this );
+            this.aButton4.removeActionListener( this );
+            this.aButton5.removeActionListener( this );
+            this.aButton6.removeActionListener( this );
+            this.aButton7.removeActionListener( this );
+            this.aButton8.removeActionListener( this );
+            this.aButton9.removeActionListener( this );
         }
     } // enable(.)
 
@@ -131,10 +140,10 @@ public class UserInterface implements ActionListener
         this.aButton2 = new JButton("go north");
         this.aButton3 = new JButton("go down");
         this.aButton4 = new JButton("go west");
-        this.aButton5 = new JButton("look");
+        this.aButton5 = new JButton("go south");
         this.aButton6 = new JButton("go east");
-        this.aButton7 = new JButton("go south");
-        this.aButton8 = new JButton("eat");
+        this.aButton7 = new JButton("items");
+        this.aButton8 = new JButton("look");
         this.aButton9 = new JButton("quit");
         
         this.aButtonPanel = new JPanel();
@@ -205,7 +214,7 @@ public class UserInterface implements ActionListener
         }
         else if (pE.getSource().equals(aButton5))
         {
-            this.aEngine.interpretCommand("look");
+            this.aEngine.interpretCommand("go south");
         }
         else if (pE.getSource().equals(aButton6))
         {
@@ -213,11 +222,11 @@ public class UserInterface implements ActionListener
         }
         else if (pE.getSource().equals(aButton7))
         {
-            this.aEngine.interpretCommand("go south");
+            this.aEngine.interpretCommand("items");
         }
         else if (pE.getSource().equals(aButton8))
         {
-            this.aEngine.interpretCommand("eat");
+            this.aEngine.interpretCommand("look");
         }
         else if (pE.getSource().equals(aButton9))
         {

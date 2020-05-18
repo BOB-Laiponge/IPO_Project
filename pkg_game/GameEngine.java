@@ -83,43 +83,43 @@ public class GameEngine
     private void createRooms()
     {
         // Déclaration des lieux
-        Room vDesert = new Room("Desert","Images/desert1.png");
+        Room vDesert = new Room("dans le désert de Saand","Images/desert1.png");
         aRooms.put("Desert_1", vDesert);
-        Room vDesert2 = new Room("Desert","Images/desert2.png");
+        Room vDesert2 = new Room("dans le désert de Saand","Images/desert2.png");
         aRooms.put("Desert_2", vDesert);
-        Room vShipSouth = new Room("Ship - South","Images/crashedship.png");
+        Room vShipSouth = new Room("au sud du vaisseau écrasé","Images/crashedship.png");
         aRooms.put("ShipSouth", vShipSouth);
-        Room vShipNorth = new Room("Ship - North","Images/crashedship.png");
+        Room vShipNorth = new Room("au nord du vaisseau écrasé","Images/crashedship.png");
         aRooms.put("ShipNorth", vShipNorth);
-        Room vShipEast = new Room("Ship - East","Images/crashedship.png");
+        Room vShipEast = new Room("à l'est du vaisseau écrasé","Images/crashedship.png");
         aRooms.put("ShipEast", vShipEast);
-        Room vShipWest = new Room("Ship - West","Images/crashedship.png");
+        Room vShipWest = new Room("à l'ouest du vaisseau écrasé","Images/crashedship.png");
         aRooms.put("ShipWest", vShipWest);
-        Room vShipInside = new Room("inside the ship.","Images/shipinside.png");
+        Room vShipInside = new Room("à l'intérieur vaisseau écrasé","Images/shipinside.png");
         aRooms.put("ShipInside", vShipInside);
 
         Item vBadge = new Item("badge", "Votre badge militaire de l'Union.",0);
         Item vOldKey = new Item("clé", "Une clé ancienne.",2);
         
-        Room vGatesFront = new Room("in front of huge gates.","Images/gates.png");
-        Door vGates = new Door("gates","Images/gates.png", vBadge);
+        Room vGatesFront = new Room("devant les portes de Saand City","Images/gates.png");
+        Door vGates = new Door("Gates","Images/gates.png", vBadge);
         aDoors.put("Gate", vGates);
         aRooms.put("GatesFront", vGatesFront);
-        Room vMainStreet1 = new Room("in the main street.","Images/main_street_1.png");
+        Room vMainStreet1 = new Room("dans l'avenue principale de Saand City","Images/main_street_1.png");
         aRooms.put("MainStreet1", vMainStreet1);
-        Room vMainStreet2 = new Room("in the main street.","Images/main_street_2.png");
+        Room vMainStreet2 = new Room("dans l'avenue principale de Saand City","Images/main_street_2.png");
         aRooms.put("MainStreet2", vMainStreet2);
-        Room vMainStreet3 = new Room("in the main street.","Images/main_street_3.png");
+        Room vMainStreet3 = new Room("dans l'avenue principale de Saand City","Images/main_street_3.png");
         aRooms.put("MainStreet3", vMainStreet3);
-        Room vGovernorTower = new Room("in the governor's tower.","Images/governor_tower.png");
+        Room vGovernorTower = new Room("dans la tour du gouverneur","Images/governor_tower.png");
         aRooms.put("GovernorTower", vGovernorTower);
-        Room vCybertaverne = new Room("in the cybertaverne.","Images/cybertaverne.png");
+        Room vCybertaverne = new Room("dans la Cybertaverne","Images/cybertaverne.png");
         aRooms.put("Cybertaverne", vCybertaverne);
-        Room vWeaponMarket = new Room("in the weapon market.","Images/weapon_market.png");
+        Room vWeaponMarket = new Room("dans un marché d'arme","Images/weapon_market.png");
         aRooms.put("WeaponMarket", vWeaponMarket);
         
         Room vOldTemple = new Room("dans un temple d'une autre époque","Images/old_temple.png");
-        Door vTempleDoor = new Door("TempleDoor", "Images/old_temple.png", vOldKey);
+        Door vTempleDoor = new Door("OldTemple", "Images/old_temple.png", vOldKey);
         aDoors.put("TempleDoor", vTempleDoor);
         
         Room vOldFactory = new Room("dans une vielle usine","Images/old_factory.png");
@@ -131,18 +131,18 @@ public class GameEngine
         aRooms.put("Street1", vStreet1);
         Room vStreet2 = new Room("dans une rue à l'Est de la ville.","Images/street_2.png");
         aRooms.put("Street2", vStreet2);
-        Room vSpaceport = new Room("in the spaceport.","Images/spaceport.png");
+        Room vSpaceport = new Room("dans le Spaceport","Images/spaceport.png");
         aRooms.put("Spaceport", vSpaceport);
-        Room vMilitaryTower = new Room("in the military tower.","Images/military_tower.png");
+        Room vMilitaryTower = new Room("dans la tour militaire","Images/military_tower.png");
         aRooms.put("MilitaryTower", vMilitaryTower);
         
         Door vDock1 = new Door("Quai 1", "Images/spaceport.png", null);
         aDoors.put("Dock1", vDock1);
         Door vDock2 = new Door("Quai 2", "Images/spaceport.png", null);
         aDoors.put("Dock2", vDock2);
-        Room vUnionShip = new Room("dans le vaisseau de l'Union","Images/spaceport.png");
+        Room vUnionShip = new Room("dans le vaisseau de l'Union","Images/union_ship.png");
         aRooms.put("UnionShip", vUnionShip);
-        Room vRebelShip = new Room("dans le cargo rebelle","Images/spaceport.png");
+        Room vRebelShip = new Room("dans le cargo rebelle","Images/rebel_ship.png");
 
         this.aRoomRandomizer = new RoomRandomizer(this.aRooms);
         Room vTransporterRoom = new TransporterRoom("Une salle de téléportation. Attention : Cette technologie est instable et peut vous téléporter n'importe où sur la planète","Images/spaceport.png", this.aRoomRandomizer);
@@ -235,7 +235,7 @@ public class GameEngine
 
         vShipInside.addItem(vBadge);
         vUnionShip.addItem(vOldKey);
-        vDesert.addItem(new Item("débrits", "des débrits métalliques",5));
+        vDesert.addItem(new Item("débrits", "Des débrits métalliques",5));
         vShipInside.addItem((Item)(new MaxWeightIncreaserItem("cookie", "Un super cookie.",1,5)));
         vWeaponMarket.addItem((Item)(new Beamer("Beamer", "Un Beamer made-in-Earth.",2, this)));
         vOldTemple.addItem(new Item("Nanites", "Des nanites qui peuvent prendre n'importe quelle forme sur demande.", 5));
@@ -258,7 +258,9 @@ public class GameEngine
         "Bien le bonjour ! Bienvenue sur le cargo des rebelles !\nC’était une très belle explosion tout à l’heure, bravo !\nMaintenant nous allons pouvoir enfin prendre le contrôle de Saand, et de ses usines d’armement.\nPréparez-vous au décollage !!!\n\n*Le vaisseau décolle dans un grand bruit. \nAu loin vous apercevez la bataille qui fait rage entre les rebelles et l’Union.\nSoudain, le cargo est immobilisé, et des troupes de l’Union entrent. \nVous êtes fait prisonnier et vous êtes amené devant le Commandant des forces de l’Union. *\n\n> Commandant : Alors… Voici le pilote de l’Union qui a détruit la tour du Gouverneur.\nIl est clair que vous avez fait ça sous la contrainte. \nJe vous offre donc une chance de vous racheter.\nNous avons entendu des rumeurs quant à l’existence d’une arme très ancienne sur Saand.\nElle serait dans le désert. Ramenez-la au vaisseau de l’Union et tout sera pardonné. \n\n> Prisonnier rebelle : NOON, les rebelles ont besoin de cette arme !!! Ramenez là aux rebelles !!!\n\n> Commandant : Silence ! Dépêchez-vous de nous ramener l’arme.\nPrener cette clé et descendez sur la planète par le Rayon de téléportation, dans la pièce à coté.\n ",""
         ));
         
-        MovingCharacter vMC1 = new MovingCharacter("Citoyen", "Bonjour. Vous semblez perdu.", "Allez à la CyberTaverne pour tout renseignement.");
+        vMainStreet1.addPNJ(new Character("Citoyenne", "Bonjour. Vous semblez perdu.\nAllez à la CyberTaverne pour tout renseignement.", "Allez à la CyberTaverne pour tout renseignement."));
+        
+        MovingCharacter vMC1 = new MovingCharacter("Citoyen", "Bonjour. Il fait beau aujourd'hui.", "Allez à la CyberTaverne pour tout renseignement.");
         vMainStreet1.addPNJ(vMC1);
         this.aMovingCharacters.add(vMC1);
         
@@ -274,8 +276,8 @@ public class GameEngine
     public void printLocationInfo()
     {
         this.aGui.println(this.aPlayer.lookRoom());
-        if ( this.aPlayer.getCurrentRoom().getImageName() != null )
-            this.aGui.showImage( this.aPlayer.getCurrentRoom().getImageName() );
+        if (this.aPlayer.getCurrentRoom().getImageName() != null)
+            this.aGui.showImage(this.aPlayer.getCurrentRoom().getImageName());
     }//printLocationInfo()
 
     /**
@@ -283,9 +285,14 @@ public class GameEngine
      */
     private void printWelcome()
     {
-        this.aGui.println("Welcome to the game !");
-        this.aGui.println("After a space battle, you crashed on a desertic planet.");
-        this.aGui.println("Type 'help' if you need help.");
+        this.aGui.println("Bienvenue sur Saand : La planète désertique");
+        this.aGui.println("La guerre fait rage entre l'Union Galactique et les Rebelles.");
+        this.aGui.println("Une bataille a éclaté au dessus de Saand, le dernier point de passage avant la Terre.");
+        this.aGui.println("Vous êtes une jeune pilote de l'Union. Pour votre première mission, vous deviez vous battre dans cette bataille.");
+        this.aGui.println("Mais votre vaisseau a été touché, et s'est écrasé sur Saand."); 
+        this.aGui.println("Vous avez eu le temps de vous éjecter."); 
+        this.aGui.println("Vous devez rapidement trouver un moyen de retourner combattre pour pouvoir rentrer sur Terre."); 
+        this.aGui.println("Appuiyez sur (ou tapez) 'help' pour voir les commandes possibles.\n");
 
         // Affichage des sorties
         this.printLocationInfo();
@@ -295,7 +302,8 @@ public class GameEngine
     // COMMANDES
 
     /**
-     * Interprète la commande entrée
+     * Interprète la commande entrée.
+     * @param La commande à exécuter
      */
     public void interpretCommand( final String pCommandLine )
     {
@@ -310,7 +318,7 @@ public class GameEngine
     /**
      * Effectue les étapes necessaires pour changer de pièces.
      *
-     * @params la nouvelle Room.
+     * @param la nouvelle Room.
      */
     public void goTo(final Room pRoom)
     {
@@ -320,7 +328,7 @@ public class GameEngine
 
     // OTHER
     /**
-     * Déplace les MovingCharacters
+     * Déplace les MovingCharacters.
      */
     public void moveCharacters()
     {
@@ -341,6 +349,7 @@ public class GameEngine
 
     /**
      * Indique si le jeu est en mode "test" ou non.
+     * 
      * @return true si le jeu est en mode test, false sinon
      */
     public boolean getTestMode()
@@ -350,6 +359,8 @@ public class GameEngine
 
     /**
      * Permet d'indiquer si le jeu est en mode test ou non.
+     * 
+     * @param True or False pour activer ou non le TestMode
      */
     public void setTestMode(final boolean pBool)
     {
