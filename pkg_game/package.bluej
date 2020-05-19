@@ -36,5 +36,5 @@ target2.name=UserInterface
 target2.showInterface=false
 target2.type=ClassTarget
 target2.width=110
-target2.x=360
-target2.y=230
+target2.x=350
+target2.y=240

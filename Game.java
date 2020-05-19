@@ -12,13 +12,13 @@ import pkg_game.UserInterface;
  *  This main class creates the necessary implementation objects and starts the game off.
  * 
  * @author  Michael Kolling and David J. Barnes
- * @version 2.0 (Jan 2003) DB edited (2019)
+ * @version 3.0 (Jan 2003) DB edited (2019), PITIOT Pierre-Yves edited 19/05/2020
  */
 
 public class Game
 {
-	private UserInterface aGui;
-	private GameEngine aEngine;
+    private UserInterface aGui;
+    private GameEngine aEngine;
 
     /**
      * Create the game and initialise its internal map. Create the inerface and link to it.
@@ -28,5 +28,13 @@ public class Game
         this.aEngine = new GameEngine();
         this.aGui = new UserInterface(this.aEngine);
         this.aEngine.setGUI(this.aGui);
+    }
+    
+    /**
+     * Permet de démarrer le jeu sans BlueJ
+     */
+    public static void main(String[] pStrings)
+    {
+        Game vGame = new Game();
     }
 }

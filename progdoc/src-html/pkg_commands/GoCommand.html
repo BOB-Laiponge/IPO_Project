@@ -9,7 +9,7 @@
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span><a id="line.1">package pkg_commands;</a>
 <span class="sourceLineNo">002</span><a id="line.2">import pkg_game.GameEngine;</a>
-<span class="sourceLineNo">003</span><a id="line.3">import pkg_game.Player;</a>
+<span class="sourceLineNo">003</span><a id="line.3">import pkg_characters.Player;</a>
 <span class="sourceLineNo">004</span><a id="line.4">import pkg_game.UserInterface;</a>
 <span class="sourceLineNo">005</span><a id="line.5"></a>
 <span class="sourceLineNo">006</span><a id="line.6">import pkg_rooms.Room;</a>
@@ -35,54 +35,74 @@
 <span class="sourceLineNo">026</span><a id="line.26">     */</a>
 <span class="sourceLineNo">027</span><a id="line.27">    public void execute(final Player pPlayer, final GameEngine pGE, final UserInterface pGUI)</a>
 <span class="sourceLineNo">028</span><a id="line.28">    {</a>
-<span class="sourceLineNo">029</span><a id="line.29">        // Si un seul mot, on retourne "go where ?"</a>
-<span class="sourceLineNo">030</span><a id="line.30">        if (!hasSecondWord()) {</a>
-<span class="sourceLineNo">031</span><a id="line.31">            // if there is no second word, we don't know where to go...</a>
-<span class="sourceLineNo">032</span><a id="line.32">            pGUI.println( "Go where?" );</a>
-<span class="sourceLineNo">033</span><a id="line.33">            return;</a>
-<span class="sourceLineNo">034</span><a id="line.34">        }</a>
-<span class="sourceLineNo">035</span><a id="line.35"></a>
-<span class="sourceLineNo">036</span><a id="line.36">        // On cherche la prochaine piÃ¨ce</a>
-<span class="sourceLineNo">037</span><a id="line.37">        String vDirection = this.getSecondWord();</a>
+<span class="sourceLineNo">029</span><a id="line.29">        // On dÃ©place les MovingCharacters</a>
+<span class="sourceLineNo">030</span><a id="line.30">        pGE.moveCharacters();</a>
+<span class="sourceLineNo">031</span><a id="line.31">        </a>
+<span class="sourceLineNo">032</span><a id="line.32">        // Si un seul mot, on retourne "go where ?"</a>
+<span class="sourceLineNo">033</span><a id="line.33">        if (!hasSecondWord()) {</a>
+<span class="sourceLineNo">034</span><a id="line.34">            // if there is no second word, we don't know where to go...</a>
+<span class="sourceLineNo">035</span><a id="line.35">            pGUI.println( "Aller oÃ¹ ?" );</a>
+<span class="sourceLineNo">036</span><a id="line.36">            return;</a>
+<span class="sourceLineNo">037</span><a id="line.37">        }</a>
 <span class="sourceLineNo">038</span><a id="line.38"></a>
-<span class="sourceLineNo">039</span><a id="line.39">        Room vNextRoom;</a>
-<span class="sourceLineNo">040</span><a id="line.40"></a>
-<span class="sourceLineNo">041</span><a id="line.41">        if (pPlayer.getCurrentRoom().isTransporterRoom())</a>
-<span class="sourceLineNo">042</span><a id="line.42">        {</a>
-<span class="sourceLineNo">043</span><a id="line.43">            if (pGE.getTestMode() &amp;&amp; pGE.getAleaRoom() != null)</a>
-<span class="sourceLineNo">044</span><a id="line.44">            {</a>
-<span class="sourceLineNo">045</span><a id="line.45">                vNextRoom = pGE.getAleaRoom();</a>
-<span class="sourceLineNo">046</span><a id="line.46">            }</a>
-<span class="sourceLineNo">047</span><a id="line.47">            else</a>
-<span class="sourceLineNo">048</span><a id="line.48">            {</a>
-<span class="sourceLineNo">049</span><a id="line.49">                vNextRoom = ((TransporterRoom)(pPlayer.getCurrentRoom())).getExit(vDirection);</a>
-<span class="sourceLineNo">050</span><a id="line.50">            }</a>
-<span class="sourceLineNo">051</span><a id="line.51">        }</a>
-<span class="sourceLineNo">052</span><a id="line.52">        else</a>
-<span class="sourceLineNo">053</span><a id="line.53">        {</a>
-<span class="sourceLineNo">054</span><a id="line.54">            vNextRoom = pPlayer.getCurrentRoomExit(vDirection);</a>
-<span class="sourceLineNo">055</span><a id="line.55">        }</a>
-<span class="sourceLineNo">056</span><a id="line.56"></a>
-<span class="sourceLineNo">057</span><a id="line.57">        // On effectue ou pas le changement de lieu</a>
-<span class="sourceLineNo">058</span><a id="line.58">        if ( vNextRoom == null )</a>
-<span class="sourceLineNo">059</span><a id="line.59">            pGUI.println( "There is no door!" );</a>
-<span class="sourceLineNo">060</span><a id="line.60">        else {</a>
-<span class="sourceLineNo">061</span><a id="line.61"></a>
-<span class="sourceLineNo">062</span><a id="line.62"></a>
-<span class="sourceLineNo">063</span><a id="line.63">            pPlayer.decreaseTurnsLeft();</a>
-<span class="sourceLineNo">064</span><a id="line.64"></a>
-<span class="sourceLineNo">065</span><a id="line.65">            if (pPlayer.TestTurnsLeft())</a>
-<span class="sourceLineNo">066</span><a id="line.66">            {</a>
-<span class="sourceLineNo">067</span><a id="line.67">                pGUI.println("GAME OVER : La bataille au dessus de Saand s'est achevÃ©e par l'annihilation de la planÃ¨te.\nVous Ãªtes mort !");</a>
-<span class="sourceLineNo">068</span><a id="line.68">                pGE.endGame();</a>
-<span class="sourceLineNo">069</span><a id="line.69">                return;</a>
+<span class="sourceLineNo">039</span><a id="line.39">        // On cherche la prochaine piÃ¨ce</a>
+<span class="sourceLineNo">040</span><a id="line.40">        String vDirection = this.getSecondWord();</a>
+<span class="sourceLineNo">041</span><a id="line.41">        </a>
+<span class="sourceLineNo">042</span><a id="line.42">        </a>
+<span class="sourceLineNo">043</span><a id="line.43">        // Si les piÃ¨ces sont quai1 ou 2 et si le joueur possÃ¨de les nanites, active la fin du jeu </a>
+<span class="sourceLineNo">044</span><a id="line.44">        if (vDirection.equals("quai1") &amp;&amp; pPlayer.hasItem("Nanites"))</a>
+<span class="sourceLineNo">045</span><a id="line.45">        {</a>
+<span class="sourceLineNo">046</span><a id="line.46">            pGE.endWithUnion();</a>
+<span class="sourceLineNo">047</span><a id="line.47">            return;</a>
+<span class="sourceLineNo">048</span><a id="line.48">        }</a>
+<span class="sourceLineNo">049</span><a id="line.49">        if (vDirection.equals("quai2") &amp;&amp; pPlayer.hasItem("Nanites"))</a>
+<span class="sourceLineNo">050</span><a id="line.50">        {</a>
+<span class="sourceLineNo">051</span><a id="line.51">            pGE.endWithRebels();</a>
+<span class="sourceLineNo">052</span><a id="line.52">            return;</a>
+<span class="sourceLineNo">053</span><a id="line.53">        }</a>
+<span class="sourceLineNo">054</span><a id="line.54">        </a>
+<span class="sourceLineNo">055</span><a id="line.55">                </a>
+<span class="sourceLineNo">056</span><a id="line.56">        Room vNextRoom;</a>
+<span class="sourceLineNo">057</span><a id="line.57"></a>
+<span class="sourceLineNo">058</span><a id="line.58">        if (pPlayer.getCurrentRoom().isTransporterRoom())</a>
+<span class="sourceLineNo">059</span><a id="line.59">        {</a>
+<span class="sourceLineNo">060</span><a id="line.60">            pGE.getDoors().get("Dock2").setOpen();  //Pour le scÃ©nario : ouvre les portes des vaisseaux.</a>
+<span class="sourceLineNo">061</span><a id="line.61">            pGE.getDoors().get("Dock1").setOpen();</a>
+<span class="sourceLineNo">062</span><a id="line.62">            </a>
+<span class="sourceLineNo">063</span><a id="line.63">            if (pGE.getTestMode() &amp;&amp; pGE.getAleaRoom() != null)</a>
+<span class="sourceLineNo">064</span><a id="line.64">            {</a>
+<span class="sourceLineNo">065</span><a id="line.65">                vNextRoom = pGE.getAleaRoom();</a>
+<span class="sourceLineNo">066</span><a id="line.66">            }</a>
+<span class="sourceLineNo">067</span><a id="line.67">            else</a>
+<span class="sourceLineNo">068</span><a id="line.68">            {</a>
+<span class="sourceLineNo">069</span><a id="line.69">                vNextRoom = ((TransporterRoom)(pPlayer.getCurrentRoom())).getExit(vDirection);</a>
 <span class="sourceLineNo">070</span><a id="line.70">            }</a>
-<span class="sourceLineNo">071</span><a id="line.71"></a>
-<span class="sourceLineNo">072</span><a id="line.72">            pGE.goTo(vNextRoom);</a>
-<span class="sourceLineNo">073</span><a id="line.73"></a>
-<span class="sourceLineNo">074</span><a id="line.74">        }</a>
-<span class="sourceLineNo">075</span><a id="line.75">    }</a>
-<span class="sourceLineNo">076</span><a id="line.76">}</a>
+<span class="sourceLineNo">071</span><a id="line.71">        }</a>
+<span class="sourceLineNo">072</span><a id="line.72">        else</a>
+<span class="sourceLineNo">073</span><a id="line.73">        {</a>
+<span class="sourceLineNo">074</span><a id="line.74">            vNextRoom = pPlayer.getCurrentRoomExit(vDirection);</a>
+<span class="sourceLineNo">075</span><a id="line.75">        }</a>
+<span class="sourceLineNo">076</span><a id="line.76"></a>
+<span class="sourceLineNo">077</span><a id="line.77">        // On effectue ou pas le changement de lieu</a>
+<span class="sourceLineNo">078</span><a id="line.78">        if ( vNextRoom == null )</a>
+<span class="sourceLineNo">079</span><a id="line.79">            pGUI.println( "Il n'y a rien Ã  cet endroit !" );</a>
+<span class="sourceLineNo">080</span><a id="line.80">        else {</a>
+<span class="sourceLineNo">081</span><a id="line.81"></a>
+<span class="sourceLineNo">082</span><a id="line.82"></a>
+<span class="sourceLineNo">083</span><a id="line.83">            pPlayer.decreaseTurnsLeft();</a>
+<span class="sourceLineNo">084</span><a id="line.84"></a>
+<span class="sourceLineNo">085</span><a id="line.85">            if (pPlayer.TestTurnsLeft())</a>
+<span class="sourceLineNo">086</span><a id="line.86">            {</a>
+<span class="sourceLineNo">087</span><a id="line.87">                pGUI.println("GAME OVER : La bataille au dessus de Saand s'est achevÃ©e par l'annihilation de la planÃ¨te.\nVous Ãªtes mort !");</a>
+<span class="sourceLineNo">088</span><a id="line.88">                pGE.endGame();</a>
+<span class="sourceLineNo">089</span><a id="line.89">                return;</a>
+<span class="sourceLineNo">090</span><a id="line.90">            }</a>
+<span class="sourceLineNo">091</span><a id="line.91"></a>
+<span class="sourceLineNo">092</span><a id="line.92">            pGE.goTo(vNextRoom);</a>
+<span class="sourceLineNo">093</span><a id="line.93"></a>
+<span class="sourceLineNo">094</span><a id="line.94">        }</a>
+<span class="sourceLineNo">095</span><a id="line.95">    }</a>
+<span class="sourceLineNo">096</span><a id="line.96">}</a>
 
 
 

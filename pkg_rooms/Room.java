@@ -88,7 +88,7 @@ public class Room
      */
     public String getExitString()
     {
-        StringBuilder vSB = new StringBuilder("Exits :");
+        StringBuilder vSB = new StringBuilder("Sorties :");
         Set<String> keys = aExits.keySet();
         for (String exit : keys)
         {
@@ -106,7 +106,7 @@ public class Room
      */
     public String getLongDescription()
     {
-        return "You are in " + this.aDescription + ".\n"+ this.getItemDescription() + "\n" +getPNJDescription()+ this.getExitString();
+        return "Vous êtes " + this.aDescription + ".\n"+ this.getItemDescription() + "\n" +getPNJDescription()+ this.getExitString();
     }// getLongDescription()
     
     /**

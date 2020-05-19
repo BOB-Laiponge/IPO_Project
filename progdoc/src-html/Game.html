@@ -21,13 +21,13 @@
 <span class="sourceLineNo">012</span><a id="line.12"> *  This main class creates the necessary implementation objects and starts the game off.</a>
 <span class="sourceLineNo">013</span><a id="line.13"> * </a>
 <span class="sourceLineNo">014</span><a id="line.14"> * @author  Michael Kolling and David J. Barnes</a>
-<span class="sourceLineNo">015</span><a id="line.15"> * @version 2.0 (Jan 2003) DB edited (2019)</a>
+<span class="sourceLineNo">015</span><a id="line.15"> * @version 3.0 (Jan 2003) DB edited (2019), PITIOT Pierre-Yves edited 19/05/2020</a>
 <span class="sourceLineNo">016</span><a id="line.16"> */</a>
 <span class="sourceLineNo">017</span><a id="line.17"></a>
 <span class="sourceLineNo">018</span><a id="line.18">public class Game</a>
 <span class="sourceLineNo">019</span><a id="line.19">{</a>
-<span class="sourceLineNo">020</span><a id="line.20">        private UserInterface aGui;</a>
-<span class="sourceLineNo">021</span><a id="line.21">        private GameEngine aEngine;</a>
+<span class="sourceLineNo">020</span><a id="line.20">    private UserInterface aGui;</a>
+<span class="sourceLineNo">021</span><a id="line.21">    private GameEngine aEngine;</a>
 <span class="sourceLineNo">022</span><a id="line.22"></a>
 <span class="sourceLineNo">023</span><a id="line.23">    /**</a>
 <span class="sourceLineNo">024</span><a id="line.24">     * Create the game and initialise its internal map. Create the inerface and link to it.</a>
@@ -35,10 +35,18 @@
 <span class="sourceLineNo">026</span><a id="line.26">    public Game() </a>
 <span class="sourceLineNo">027</span><a id="line.27">    {</a>
 <span class="sourceLineNo">028</span><a id="line.28">        this.aEngine = new GameEngine();</a>
-<span class="sourceLineNo">029</span><a id="line.29">        this.aGui = new UserInterface( this.aEngine );</a>
-<span class="sourceLineNo">030</span><a id="line.30">        this.aEngine.setGUI( this.aGui );</a>
+<span class="sourceLineNo">029</span><a id="line.29">        this.aGui = new UserInterface(this.aEngine);</a>
+<span class="sourceLineNo">030</span><a id="line.30">        this.aEngine.setGUI(this.aGui);</a>
 <span class="sourceLineNo">031</span><a id="line.31">    }</a>
-<span class="sourceLineNo">032</span><a id="line.32">}</a>
+<span class="sourceLineNo">032</span><a id="line.32">    </a>
+<span class="sourceLineNo">033</span><a id="line.33">    /**</a>
+<span class="sourceLineNo">034</span><a id="line.34">     * Permet de dÃ©marrer le jeu sans BlueJ</a>
+<span class="sourceLineNo">035</span><a id="line.35">     */</a>
+<span class="sourceLineNo">036</span><a id="line.36">    public static void main(String[] pStrings)</a>
+<span class="sourceLineNo">037</span><a id="line.37">    {</a>
+<span class="sourceLineNo">038</span><a id="line.38">        Game vGame = new Game();</a>
+<span class="sourceLineNo">039</span><a id="line.39">    }</a>
+<span class="sourceLineNo">040</span><a id="line.40">}</a>
 
 
 

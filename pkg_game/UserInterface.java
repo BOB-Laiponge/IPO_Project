@@ -125,7 +125,7 @@ public class UserInterface implements ActionListener
      */
     private void createGUI()
     {
-        this.aMyFrame = new JFrame( "SpaceGame" ); // change the title
+        this.aMyFrame = new JFrame( "Saand : La planète désertique" );
         this.aEntryField = new JTextField( 34 );
 
         this.aLog = new JTextArea();
@@ -144,7 +144,7 @@ public class UserInterface implements ActionListener
         this.aButton6 = new JButton("go east");
         this.aButton7 = new JButton("items");
         this.aButton8 = new JButton("look");
-        this.aButton9 = new JButton("quit");
+        this.aButton9 = new JButton("help");
         
         this.aButtonPanel = new JPanel();
         this.aButtonPanel.setLayout(new GridLayout(3, 3));
@@ -230,7 +230,7 @@ public class UserInterface implements ActionListener
         }
         else if (pE.getSource().equals(aButton9))
         {
-            this.aEngine.interpretCommand("quit");
+            this.aEngine.interpretCommand("help");
         }
         else this.processCommand(); // never suppress this line
     } // actionPerformed(.)

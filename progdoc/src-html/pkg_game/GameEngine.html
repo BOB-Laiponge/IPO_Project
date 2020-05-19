@@ -14,314 +14,478 @@
 <span class="sourceLineNo">005</span><a id="line.5">import java.util.Scanner;</a>
 <span class="sourceLineNo">006</span><a id="line.6">import java.util.HashMap;</a>
 <span class="sourceLineNo">007</span><a id="line.7">import java.io.File;</a>
-<span class="sourceLineNo">008</span><a id="line.8"></a>
-<span class="sourceLineNo">009</span><a id="line.9">import pkg_game.GameEngine;</a>
-<span class="sourceLineNo">010</span><a id="line.10">import pkg_game.Player;</a>
-<span class="sourceLineNo">011</span><a id="line.11">import pkg_game.UserInterface;</a>
-<span class="sourceLineNo">012</span><a id="line.12"></a>
-<span class="sourceLineNo">013</span><a id="line.13">import pkg_commands.Parser;</a>
-<span class="sourceLineNo">014</span><a id="line.14">import pkg_commands.Command;</a>
-<span class="sourceLineNo">015</span><a id="line.15"></a>
-<span class="sourceLineNo">016</span><a id="line.16">import pkg_rooms.Room;</a>
-<span class="sourceLineNo">017</span><a id="line.17">import pkg_rooms.TransporterRoom;</a>
-<span class="sourceLineNo">018</span><a id="line.18">import pkg_rooms.RoomRandomizer;</a>
-<span class="sourceLineNo">019</span><a id="line.19">import pkg_rooms.Door;</a>
-<span class="sourceLineNo">020</span><a id="line.20"></a>
-<span class="sourceLineNo">021</span><a id="line.21">import pkg_items.Item;</a>
-<span class="sourceLineNo">022</span><a id="line.22">import pkg_items.MaxWeightIncreaserItem;</a>
-<span class="sourceLineNo">023</span><a id="line.23">import pkg_items.Beamer;</a>
+<span class="sourceLineNo">008</span><a id="line.8">import java.util.ArrayList;</a>
+<span class="sourceLineNo">009</span><a id="line.9">import java.util.ListIterator;</a>
+<span class="sourceLineNo">010</span><a id="line.10"></a>
+<span class="sourceLineNo">011</span><a id="line.11">import pkg_game.GameEngine;</a>
+<span class="sourceLineNo">012</span><a id="line.12">import pkg_characters.Player;</a>
+<span class="sourceLineNo">013</span><a id="line.13">import pkg_characters.Character;</a>
+<span class="sourceLineNo">014</span><a id="line.14">import pkg_characters.MovingCharacter;</a>
+<span class="sourceLineNo">015</span><a id="line.15">import pkg_game.UserInterface;</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">import pkg_commands.Parser;</a>
+<span class="sourceLineNo">018</span><a id="line.18">import pkg_commands.Command;</a>
+<span class="sourceLineNo">019</span><a id="line.19"></a>
+<span class="sourceLineNo">020</span><a id="line.20">import pkg_rooms.Room;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import pkg_rooms.TransporterRoom;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import pkg_rooms.RoomRandomizer;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import pkg_rooms.Door;</a>
 <span class="sourceLineNo">024</span><a id="line.24"></a>
-<span class="sourceLineNo">025</span><a id="line.25">/**</a>
-<span class="sourceLineNo">026</span><a id="line.26"> * Classe principale du jeu. GameEngine permet de gÃ©rer le dÃ©roulement une partie.</a>
-<span class="sourceLineNo">027</span><a id="line.27"> *</a>
-<span class="sourceLineNo">028</span><a id="line.28"> * @author PITIOT Pierre-Yves</a>
-<span class="sourceLineNo">029</span><a id="line.29"> * @version 21/04/2020</a>
-<span class="sourceLineNo">030</span><a id="line.30"> */</a>
-<span class="sourceLineNo">031</span><a id="line.31">public class GameEngine</a>
-<span class="sourceLineNo">032</span><a id="line.32">{</a>
-<span class="sourceLineNo">033</span><a id="line.33">    // Attributs</a>
-<span class="sourceLineNo">034</span><a id="line.34">    private Parser aParser;</a>
-<span class="sourceLineNo">035</span><a id="line.35">    private Player aPlayer;</a>
-<span class="sourceLineNo">036</span><a id="line.36">    private UserInterface aGui;</a>
-<span class="sourceLineNo">037</span><a id="line.37">    private HashMap&lt;String, Room&gt; aRooms;</a>
-<span class="sourceLineNo">038</span><a id="line.38">    private RoomRandomizer aRoomRandomizer;</a>
-<span class="sourceLineNo">039</span><a id="line.39">    private boolean aTestMode;</a>
-<span class="sourceLineNo">040</span><a id="line.40">    private Room aAleaRoom;</a>
-<span class="sourceLineNo">041</span><a id="line.41"></a>
-<span class="sourceLineNo">042</span><a id="line.42">    // Constructeurs</a>
-<span class="sourceLineNo">043</span><a id="line.43">    /**</a>
-<span class="sourceLineNo">044</span><a id="line.44">     * Constructeur pour les objets de classe GameEngine.</a>
-<span class="sourceLineNo">045</span><a id="line.45">     */</a>
-<span class="sourceLineNo">046</span><a id="line.46">    public GameEngine()</a>
-<span class="sourceLineNo">047</span><a id="line.47">    {</a>
-<span class="sourceLineNo">048</span><a id="line.48">        this.aAleaRoom = null;</a>
-<span class="sourceLineNo">049</span><a id="line.49">        this.aTestMode = false;</a>
-<span class="sourceLineNo">050</span><a id="line.50">        this.aPlayer = new Player("Elsa Edington");</a>
-<span class="sourceLineNo">051</span><a id="line.51">        this.aRooms = new HashMap&lt;String,Room&gt;();</a>
-<span class="sourceLineNo">052</span><a id="line.52">        this.aParser = new Parser();</a>
-<span class="sourceLineNo">053</span><a id="line.53">        this.createRooms();</a>
-<span class="sourceLineNo">054</span><a id="line.54"></a>
-<span class="sourceLineNo">055</span><a id="line.55"></a>
-<span class="sourceLineNo">056</span><a id="line.56">    }</a>
-<span class="sourceLineNo">057</span><a id="line.57"></a>
-<span class="sourceLineNo">058</span><a id="line.58">    // CREATION DES OBJETS NECESSAIRES AU FONCTIONNEMENT DU JEU</a>
-<span class="sourceLineNo">059</span><a id="line.59"></a>
-<span class="sourceLineNo">060</span><a id="line.60">    /**</a>
-<span class="sourceLineNo">061</span><a id="line.61">     * Initialise le GUI dans GameEngine.</a>
-<span class="sourceLineNo">062</span><a id="line.62">     */</a>
-<span class="sourceLineNo">063</span><a id="line.63">    public void setGUI( final UserInterface pUserInterface )</a>
-<span class="sourceLineNo">064</span><a id="line.64">    {</a>
-<span class="sourceLineNo">065</span><a id="line.65">        this.aGui = pUserInterface;</a>
-<span class="sourceLineNo">066</span><a id="line.66">        this.printWelcome();</a>
+<span class="sourceLineNo">025</span><a id="line.25">import pkg_items.Item;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import pkg_items.MaxWeightIncreaserItem;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import pkg_items.Beamer;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import pkg_items.Bomb;</a>
+<span class="sourceLineNo">029</span><a id="line.29"></a>
+<span class="sourceLineNo">030</span><a id="line.30">/**</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * Classe principale du jeu. GameEngine permet de gÃ©rer le dÃ©roulement une partie.</a>
+<span class="sourceLineNo">032</span><a id="line.32"> *</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * @author PITIOT Pierre-Yves</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * @version 18/05/2020</a>
+<span class="sourceLineNo">035</span><a id="line.35"> */</a>
+<span class="sourceLineNo">036</span><a id="line.36">public class GameEngine</a>
+<span class="sourceLineNo">037</span><a id="line.37">{</a>
+<span class="sourceLineNo">038</span><a id="line.38">    // Attributs</a>
+<span class="sourceLineNo">039</span><a id="line.39">    private Parser aParser;</a>
+<span class="sourceLineNo">040</span><a id="line.40">    private Player aPlayer;</a>
+<span class="sourceLineNo">041</span><a id="line.41">    private UserInterface aGui;</a>
+<span class="sourceLineNo">042</span><a id="line.42">    private HashMap&lt;String, Room&gt; aRooms;</a>
+<span class="sourceLineNo">043</span><a id="line.43">    private RoomRandomizer aRoomRandomizer;</a>
+<span class="sourceLineNo">044</span><a id="line.44">    private boolean aTestMode;</a>
+<span class="sourceLineNo">045</span><a id="line.45">    private Room aAleaRoom;</a>
+<span class="sourceLineNo">046</span><a id="line.46">    private ArrayList&lt;MovingCharacter&gt; aMovingCharacters;</a>
+<span class="sourceLineNo">047</span><a id="line.47">    </a>
+<span class="sourceLineNo">048</span><a id="line.48">    private HashMap&lt;String, Door&gt; aDoors;</a>
+<span class="sourceLineNo">049</span><a id="line.49">    private boolean aIsBombInGame;</a>
+<span class="sourceLineNo">050</span><a id="line.50">    </a>
+<span class="sourceLineNo">051</span><a id="line.51">    // Constructeurs</a>
+<span class="sourceLineNo">052</span><a id="line.52">    /**</a>
+<span class="sourceLineNo">053</span><a id="line.53">     * Constructeur pour les objets de classe GameEngine.</a>
+<span class="sourceLineNo">054</span><a id="line.54">     */</a>
+<span class="sourceLineNo">055</span><a id="line.55">    public GameEngine()</a>
+<span class="sourceLineNo">056</span><a id="line.56">    {</a>
+<span class="sourceLineNo">057</span><a id="line.57">        this.aMovingCharacters = new ArrayList&lt;MovingCharacter&gt;();</a>
+<span class="sourceLineNo">058</span><a id="line.58">        this.aAleaRoom = null;</a>
+<span class="sourceLineNo">059</span><a id="line.59">        this.aTestMode = false;</a>
+<span class="sourceLineNo">060</span><a id="line.60">        this.aPlayer = new Player("Player");</a>
+<span class="sourceLineNo">061</span><a id="line.61">        this.aRooms = new HashMap&lt;String,Room&gt;();</a>
+<span class="sourceLineNo">062</span><a id="line.62">        this.aParser = new Parser();</a>
+<span class="sourceLineNo">063</span><a id="line.63">        this.aDoors = new HashMap&lt;String,Door&gt;();</a>
+<span class="sourceLineNo">064</span><a id="line.64">        this.createRooms();</a>
+<span class="sourceLineNo">065</span><a id="line.65">        this.aIsBombInGame = false;</a>
+<span class="sourceLineNo">066</span><a id="line.66">        </a>
 <span class="sourceLineNo">067</span><a id="line.67">    }</a>
 <span class="sourceLineNo">068</span><a id="line.68"></a>
-<span class="sourceLineNo">069</span><a id="line.69">    /**</a>
-<span class="sourceLineNo">070</span><a id="line.70">     * Instantie les salles, le "rÃ©seau", et les items du jeu</a>
-<span class="sourceLineNo">071</span><a id="line.71">     */</a>
-<span class="sourceLineNo">072</span><a id="line.72">    private void createRooms()</a>
-<span class="sourceLineNo">073</span><a id="line.73">    {</a>
-<span class="sourceLineNo">074</span><a id="line.74">        // DÃ©claration des lieux</a>
-<span class="sourceLineNo">075</span><a id="line.75">        Room vDesert = new Room("Desert","Images/desert1.png");</a>
-<span class="sourceLineNo">076</span><a id="line.76">        aRooms.put("Desert_1", vDesert);</a>
-<span class="sourceLineNo">077</span><a id="line.77">        Room vDesert2 = new Room("Desert","Images/desert2.png");</a>
-<span class="sourceLineNo">078</span><a id="line.78">        aRooms.put("Desert_2", vDesert);</a>
-<span class="sourceLineNo">079</span><a id="line.79">        Room vShipSouth = new Room("Ship - South","Images/crashedship.png");</a>
-<span class="sourceLineNo">080</span><a id="line.80">        aRooms.put("ShipSouth", vShipSouth);</a>
-<span class="sourceLineNo">081</span><a id="line.81">        Room vShipNorth = new Room("Ship - North","Images/crashedship.png");</a>
-<span class="sourceLineNo">082</span><a id="line.82">        aRooms.put("ShipNorth", vShipNorth);</a>
-<span class="sourceLineNo">083</span><a id="line.83">        Room vShipEast = new Room("Ship - East","Images/crashedship.png");</a>
-<span class="sourceLineNo">084</span><a id="line.84">        aRooms.put("ShipEast", vShipEast);</a>
-<span class="sourceLineNo">085</span><a id="line.85">        Room vShipWest = new Room("Ship - West","Images/crashedship.png");</a>
-<span class="sourceLineNo">086</span><a id="line.86">        aRooms.put("ShipWest", vShipWest);</a>
-<span class="sourceLineNo">087</span><a id="line.87">        Room vShipInside = new Room("inside the ship.","Images/shipinside.png");</a>
-<span class="sourceLineNo">088</span><a id="line.88">        aRooms.put("ShipInside", vShipInside);</a>
-<span class="sourceLineNo">089</span><a id="line.89"></a>
-<span class="sourceLineNo">090</span><a id="line.90">        Item vBadge = new Item("badge", "Mon badge militaire de l'Union.",0);</a>
-<span class="sourceLineNo">091</span><a id="line.91"></a>
-<span class="sourceLineNo">092</span><a id="line.92">        Room vGatesFront = new Room("in front of huge gates.","Images/gates.png");</a>
-<span class="sourceLineNo">093</span><a id="line.93">        Door vGates = new Door("gates","Images/gates.png", vBadge);</a>
-<span class="sourceLineNo">094</span><a id="line.94">        aRooms.put("GatesFront", vGatesFront);</a>
-<span class="sourceLineNo">095</span><a id="line.95">        Room vMainStreet1 = new Room("in the main street.","Images/main_street_1.png");</a>
-<span class="sourceLineNo">096</span><a id="line.96">        aRooms.put("MainStreet1", vMainStreet1);</a>
-<span class="sourceLineNo">097</span><a id="line.97">        Room vMainStreet2 = new Room("in the main street.","Images/main_street_2.png");</a>
-<span class="sourceLineNo">098</span><a id="line.98">        aRooms.put("MainStreet2", vMainStreet2);</a>
-<span class="sourceLineNo">099</span><a id="line.99">        Room vMainStreet3 = new Room("in the main street.","Images/main_street_3.png");</a>
-<span class="sourceLineNo">100</span><a id="line.100">        aRooms.put("MainStreet3", vMainStreet3);</a>
-<span class="sourceLineNo">101</span><a id="line.101">        Room vGovernorTower = new Room("in the governor's tower.","Images/governor_tower.png");</a>
-<span class="sourceLineNo">102</span><a id="line.102">        aRooms.put("GovernorTower", vGovernorTower);</a>
-<span class="sourceLineNo">103</span><a id="line.103">        Room vCybertaverne = new Room("in the cybertaverne.","Images/cybertaverne.png");</a>
-<span class="sourceLineNo">104</span><a id="line.104">        aRooms.put("Cybertaverne", vCybertaverne);</a>
-<span class="sourceLineNo">105</span><a id="line.105">        Room vWeaponMarket = new Room("in the weapon market.","Images/weapon_market.png");</a>
-<span class="sourceLineNo">106</span><a id="line.106">        aRooms.put("WeaponMarket", vWeaponMarket);</a>
-<span class="sourceLineNo">107</span><a id="line.107"></a>
-<span class="sourceLineNo">108</span><a id="line.108">        Room vStreet1 = new Room("in the street.","Images/street_1.png");</a>
-<span class="sourceLineNo">109</span><a id="line.109">        aRooms.put("Street1", vStreet1);</a>
-<span class="sourceLineNo">110</span><a id="line.110">        Room vStreet2 = new Room("in the street.","Images/street_2.png");</a>
-<span class="sourceLineNo">111</span><a id="line.111">        aRooms.put("Street2", vStreet2);</a>
-<span class="sourceLineNo">112</span><a id="line.112">        Room vSpaceport = new Room("in the spaceport.","Images/spaceport.png");</a>
-<span class="sourceLineNo">113</span><a id="line.113">        aRooms.put("Spaceport", vSpaceport);</a>
-<span class="sourceLineNo">114</span><a id="line.114">        Room vMilitaryTower = new Room("in the military tower.","Images/military_tower.png");</a>
-<span class="sourceLineNo">115</span><a id="line.115">        aRooms.put("MilitaryTower", vMilitaryTower);</a>
-<span class="sourceLineNo">116</span><a id="line.116"></a>
-<span class="sourceLineNo">117</span><a id="line.117">        Room vUnionShip = new Room("in the Union Ship.","Images/spaceport.png");</a>
-<span class="sourceLineNo">118</span><a id="line.118">        aRooms.put("UnionShip", vUnionShip);</a>
-<span class="sourceLineNo">119</span><a id="line.119"></a>
-<span class="sourceLineNo">120</span><a id="line.120"></a>
-<span class="sourceLineNo">121</span><a id="line.121">        this.aRoomRandomizer = new RoomRandomizer(this.aRooms);</a>
-<span class="sourceLineNo">122</span><a id="line.122">        Room vTransporterRoom = new TransporterRoom("Une salle de tÃ©lÃ©portation. Attention : Cette technologie est instable et peut vous tÃ©lÃ©porter n'importe oÃ¹ sur la planÃ¨te","Images/spaceport.png", this.aRoomRandomizer);</a>
-<span class="sourceLineNo">123</span><a id="line.123">        //aRooms.put("vTransporterRoom", vUnionShip);</a>
-<span class="sourceLineNo">124</span><a id="line.124"></a>
-<span class="sourceLineNo">125</span><a id="line.125">        // Positionnement des sorties</a>
-<span class="sourceLineNo">126</span><a id="line.126">        vDesert.setExit("north",vShipSouth);</a>
-<span class="sourceLineNo">127</span><a id="line.127">        vDesert.setExit("south",vDesert2);</a>
-<span class="sourceLineNo">128</span><a id="line.128"></a>
-<span class="sourceLineNo">129</span><a id="line.129">        vShipSouth.setExit("south", vDesert);</a>
-<span class="sourceLineNo">130</span><a id="line.130">        vShipSouth.setExit("east", vShipEast);</a>
-<span class="sourceLineNo">131</span><a id="line.131">        vShipSouth.setExit("west", vShipWest);</a>
-<span class="sourceLineNo">132</span><a id="line.132"></a>
-<span class="sourceLineNo">133</span><a id="line.133">        vShipNorth.setExit("east", vShipEast);</a>
-<span class="sourceLineNo">134</span><a id="line.134">        vShipNorth.setExit("west", vShipWest);</a>
-<span class="sourceLineNo">135</span><a id="line.135">        vShipNorth.setExit("up", vShipInside);</a>
-<span class="sourceLineNo">136</span><a id="line.136"></a>
-<span class="sourceLineNo">137</span><a id="line.137">        vShipEast.setExit("north", vShipNorth);</a>
-<span class="sourceLineNo">138</span><a id="line.138">        vShipEast.setExit("south", vShipSouth);</a>
-<span class="sourceLineNo">139</span><a id="line.139"></a>
-<span class="sourceLineNo">140</span><a id="line.140">        vShipWest.setExit("north", vShipNorth);</a>
-<span class="sourceLineNo">141</span><a id="line.141">        vShipWest.setExit("south", vShipSouth);</a>
-<span class="sourceLineNo">142</span><a id="line.142"></a>
-<span class="sourceLineNo">143</span><a id="line.143">        vShipInside.setExit("down", vShipNorth);</a>
-<span class="sourceLineNo">144</span><a id="line.144"></a>
-<span class="sourceLineNo">145</span><a id="line.145">        vDesert2.setExit("north",vDesert);</a>
-<span class="sourceLineNo">146</span><a id="line.146">        vDesert2.setExit("south",vGatesFront);</a>
-<span class="sourceLineNo">147</span><a id="line.147"></a>
-<span class="sourceLineNo">148</span><a id="line.148">        vGatesFront.setExit("south", vGates);</a>
-<span class="sourceLineNo">149</span><a id="line.149">        vGatesFront.setExit("north", vDesert2);</a>
+<span class="sourceLineNo">069</span><a id="line.69">    // CREATION DES OBJETS NECESSAIRES AU FONCTIONNEMENT DU JEU</a>
+<span class="sourceLineNo">070</span><a id="line.70"></a>
+<span class="sourceLineNo">071</span><a id="line.71">    /**</a>
+<span class="sourceLineNo">072</span><a id="line.72">     * Initialise le GUI dans GameEngine.</a>
+<span class="sourceLineNo">073</span><a id="line.73">     */</a>
+<span class="sourceLineNo">074</span><a id="line.74">    public void setGUI( final UserInterface pUserInterface )</a>
+<span class="sourceLineNo">075</span><a id="line.75">    {</a>
+<span class="sourceLineNo">076</span><a id="line.76">        this.aGui = pUserInterface;</a>
+<span class="sourceLineNo">077</span><a id="line.77">        this.printWelcome();</a>
+<span class="sourceLineNo">078</span><a id="line.78">    }</a>
+<span class="sourceLineNo">079</span><a id="line.79"></a>
+<span class="sourceLineNo">080</span><a id="line.80">    /**</a>
+<span class="sourceLineNo">081</span><a id="line.81">     * Instantie les salles, le "rÃ©seau", et les items du jeu</a>
+<span class="sourceLineNo">082</span><a id="line.82">     */</a>
+<span class="sourceLineNo">083</span><a id="line.83">    private void createRooms()</a>
+<span class="sourceLineNo">084</span><a id="line.84">    {</a>
+<span class="sourceLineNo">085</span><a id="line.85">        // DÃ©claration des lieux</a>
+<span class="sourceLineNo">086</span><a id="line.86">        Room vDesert = new Room("dans le dÃ©sert de Saand. Il y a de la fumÃ©e au Nord","Images/desert1.png");</a>
+<span class="sourceLineNo">087</span><a id="line.87">        aRooms.put("Desert_1", vDesert);</a>
+<span class="sourceLineNo">088</span><a id="line.88">        Room vDesert2 = new Room("dans le dÃ©sert de Saand","Images/desert2.png");</a>
+<span class="sourceLineNo">089</span><a id="line.89">        aRooms.put("Desert_2", vDesert);</a>
+<span class="sourceLineNo">090</span><a id="line.90">        Room vShipSouth = new Room("au sud du vaisseau Ã©crasÃ©","Images/crashedship.png");</a>
+<span class="sourceLineNo">091</span><a id="line.91">        aRooms.put("ShipSouth", vShipSouth);</a>
+<span class="sourceLineNo">092</span><a id="line.92">        Room vShipNorth = new Room("au nord du vaisseau Ã©crasÃ©","Images/crashedship.png");</a>
+<span class="sourceLineNo">093</span><a id="line.93">        aRooms.put("ShipNorth", vShipNorth);</a>
+<span class="sourceLineNo">094</span><a id="line.94">        Room vShipEast = new Room("Ã  l'est du vaisseau Ã©crasÃ©","Images/crashedship.png");</a>
+<span class="sourceLineNo">095</span><a id="line.95">        aRooms.put("ShipEast", vShipEast);</a>
+<span class="sourceLineNo">096</span><a id="line.96">        Room vShipWest = new Room("Ã  l'ouest du vaisseau Ã©crasÃ©","Images/crashedship.png");</a>
+<span class="sourceLineNo">097</span><a id="line.97">        aRooms.put("ShipWest", vShipWest);</a>
+<span class="sourceLineNo">098</span><a id="line.98">        Room vShipInside = new Room("Ã  l'intÃ©rieur vaisseau Ã©crasÃ©","Images/shipinside.png");</a>
+<span class="sourceLineNo">099</span><a id="line.99">        aRooms.put("ShipInside", vShipInside);</a>
+<span class="sourceLineNo">100</span><a id="line.100"></a>
+<span class="sourceLineNo">101</span><a id="line.101">        Item vBadge = new Item("badge", "Votre badge militaire de l'Union.",0);</a>
+<span class="sourceLineNo">102</span><a id="line.102">        Item vOldKey = new Item("cle", "Une clÃ© ancienne.",2);</a>
+<span class="sourceLineNo">103</span><a id="line.103">        </a>
+<span class="sourceLineNo">104</span><a id="line.104">        Room vGatesFront = new Room("devant les portes de Saand City","Images/gates.png");</a>
+<span class="sourceLineNo">105</span><a id="line.105">        Door vGates = new Door("Gates","Images/gates.png", vBadge);</a>
+<span class="sourceLineNo">106</span><a id="line.106">        aDoors.put("Gate", vGates);</a>
+<span class="sourceLineNo">107</span><a id="line.107">        aRooms.put("GatesFront", vGatesFront);</a>
+<span class="sourceLineNo">108</span><a id="line.108">        Room vMainStreet1 = new Room("dans l'avenue principale de Saand City","Images/main_street_1.png");</a>
+<span class="sourceLineNo">109</span><a id="line.109">        aRooms.put("MainStreet1", vMainStreet1);</a>
+<span class="sourceLineNo">110</span><a id="line.110">        Room vMainStreet2 = new Room("dans l'avenue principale de Saand City","Images/main_street_2.png");</a>
+<span class="sourceLineNo">111</span><a id="line.111">        aRooms.put("MainStreet2", vMainStreet2);</a>
+<span class="sourceLineNo">112</span><a id="line.112">        Room vMainStreet3 = new Room("dans l'avenue principale de Saand City","Images/main_street_3.png");</a>
+<span class="sourceLineNo">113</span><a id="line.113">        aRooms.put("MainStreet3", vMainStreet3);</a>
+<span class="sourceLineNo">114</span><a id="line.114">        Room vGovernorTower = new Room("dans la tour du gouverneur","Images/governor_tower.png");</a>
+<span class="sourceLineNo">115</span><a id="line.115">        aRooms.put("GovernorTower", vGovernorTower);</a>
+<span class="sourceLineNo">116</span><a id="line.116">        Room vCybertaverne = new Room("dans la Cybertaverne","Images/cybertaverne.png");</a>
+<span class="sourceLineNo">117</span><a id="line.117">        aRooms.put("Cybertaverne", vCybertaverne);</a>
+<span class="sourceLineNo">118</span><a id="line.118">        Room vWeaponMarket = new Room("dans un marchÃ© d'armes","Images/weapon_market.png");</a>
+<span class="sourceLineNo">119</span><a id="line.119">        aRooms.put("WeaponMarket", vWeaponMarket);</a>
+<span class="sourceLineNo">120</span><a id="line.120">        </a>
+<span class="sourceLineNo">121</span><a id="line.121">        Room vOldTemple = new Room("dans un temple d'une autre Ã©poque","Images/old_temple.png");</a>
+<span class="sourceLineNo">122</span><a id="line.122">        Door vTempleDoor = new Door("OldTemple", "Images/old_temple.png", vOldKey);</a>
+<span class="sourceLineNo">123</span><a id="line.123">        aDoors.put("TempleDoor", vTempleDoor);</a>
+<span class="sourceLineNo">124</span><a id="line.124">        </a>
+<span class="sourceLineNo">125</span><a id="line.125">        Room vOldFactory = new Room("dans une vielle usine","Images/old_factory.png");</a>
+<span class="sourceLineNo">126</span><a id="line.126">        aRooms.put("OldFactory", vOldFactory);</a>
+<span class="sourceLineNo">127</span><a id="line.127">        Room vOldBuilding = new Room("dans un immeuble abandonnÃ©","Images/old_building.png");</a>
+<span class="sourceLineNo">128</span><a id="line.128">        aRooms.put("OldBuilding", vOldBuilding);</a>
+<span class="sourceLineNo">129</span><a id="line.129">        </a>
+<span class="sourceLineNo">130</span><a id="line.130">        Room vStreet1 = new Room("dans une rue Ã  l'Ouest de la ville","Images/street_1.png");</a>
+<span class="sourceLineNo">131</span><a id="line.131">        aRooms.put("Street1", vStreet1);</a>
+<span class="sourceLineNo">132</span><a id="line.132">        Room vStreet2 = new Room("dans une rue Ã  l'Est de la ville.","Images/street_2.png");</a>
+<span class="sourceLineNo">133</span><a id="line.133">        aRooms.put("Street2", vStreet2);</a>
+<span class="sourceLineNo">134</span><a id="line.134">        Room vSpaceport = new Room("dans le Spaceport","Images/spaceport.png");</a>
+<span class="sourceLineNo">135</span><a id="line.135">        aRooms.put("Spaceport", vSpaceport);</a>
+<span class="sourceLineNo">136</span><a id="line.136">        Room vMilitaryTower = new Room("dans la tour militaire","Images/military_tower.png");</a>
+<span class="sourceLineNo">137</span><a id="line.137">        aRooms.put("MilitaryTower", vMilitaryTower);</a>
+<span class="sourceLineNo">138</span><a id="line.138">        </a>
+<span class="sourceLineNo">139</span><a id="line.139">        Door vDock1 = new Door("Quai 1", "Images/spaceport.png", null);</a>
+<span class="sourceLineNo">140</span><a id="line.140">        aDoors.put("Dock1", vDock1);</a>
+<span class="sourceLineNo">141</span><a id="line.141">        Door vDock2 = new Door("Quai 2", "Images/spaceport.png", null);</a>
+<span class="sourceLineNo">142</span><a id="line.142">        aDoors.put("Dock2", vDock2);</a>
+<span class="sourceLineNo">143</span><a id="line.143">        Room vUnionShip = new Room("dans le vaisseau de l'Union","Images/union_ship.png");</a>
+<span class="sourceLineNo">144</span><a id="line.144">        aRooms.put("UnionShip", vUnionShip);</a>
+<span class="sourceLineNo">145</span><a id="line.145">        Room vRebelShip = new Room("dans le cargo rebelle","Images/rebel_ship.png");</a>
+<span class="sourceLineNo">146</span><a id="line.146"></a>
+<span class="sourceLineNo">147</span><a id="line.147">        this.aRoomRandomizer = new RoomRandomizer(this.aRooms);</a>
+<span class="sourceLineNo">148</span><a id="line.148">        Room vTransporterRoom = new TransporterRoom("Une salle de tÃ©lÃ©portation. Attention : Cette technologie est instable et peut vous tÃ©lÃ©porter n'importe oÃ¹ sur la planÃ¨te","Images/beam.png", this.aRoomRandomizer);</a>
+<span class="sourceLineNo">149</span><a id="line.149">        </a>
 <span class="sourceLineNo">150</span><a id="line.150"></a>
-<span class="sourceLineNo">151</span><a id="line.151">        vGates.setExit("south", vMainStreet1);</a>
-<span class="sourceLineNo">152</span><a id="line.152">        vGates.setExit("north", vGatesFront);</a>
-<span class="sourceLineNo">153</span><a id="line.153"></a>
-<span class="sourceLineNo">154</span><a id="line.154">        vMainStreet1.setExit("south", vMainStreet2);</a>
-<span class="sourceLineNo">155</span><a id="line.155">        vMainStreet1.setExit("north", vGates);</a>
-<span class="sourceLineNo">156</span><a id="line.156">        vMainStreet1.setExit("west", vStreet1);</a>
-<span class="sourceLineNo">157</span><a id="line.157">        vMainStreet1.setExit("east", vStreet2);</a>
-<span class="sourceLineNo">158</span><a id="line.158"></a>
-<span class="sourceLineNo">159</span><a id="line.159">        vStreet1.setExit("east", vMainStreet1);</a>
-<span class="sourceLineNo">160</span><a id="line.160">        vStreet1.setExit("west", vMilitaryTower);</a>
-<span class="sourceLineNo">161</span><a id="line.161">        vStreet1.setExit("north", vSpaceport);</a>
-<span class="sourceLineNo">162</span><a id="line.162"></a>
-<span class="sourceLineNo">163</span><a id="line.163">        vMilitaryTower.setExit("east", vStreet1);</a>
+<span class="sourceLineNo">151</span><a id="line.151">        // Positionnement des sorties</a>
+<span class="sourceLineNo">152</span><a id="line.152">        </a>
+<span class="sourceLineNo">153</span><a id="line.153">        </a>
+<span class="sourceLineNo">154</span><a id="line.154">        vDesert.setExit("north",vShipSouth);</a>
+<span class="sourceLineNo">155</span><a id="line.155">        vDesert.setExit("south",vDesert2);</a>
+<span class="sourceLineNo">156</span><a id="line.156">        vDesert.setExit("east",vTempleDoor);</a>
+<span class="sourceLineNo">157</span><a id="line.157">        vOldTemple.setExit("west",vTempleDoor);</a>
+<span class="sourceLineNo">158</span><a id="line.158">        vTempleDoor.setExit("", vDesert);</a>
+<span class="sourceLineNo">159</span><a id="line.159">        vTempleDoor.setExit("", vOldTemple);</a>
+<span class="sourceLineNo">160</span><a id="line.160"></a>
+<span class="sourceLineNo">161</span><a id="line.161">        vShipSouth.setExit("south", vDesert);</a>
+<span class="sourceLineNo">162</span><a id="line.162">        vShipSouth.setExit("east", vShipEast);</a>
+<span class="sourceLineNo">163</span><a id="line.163">        vShipSouth.setExit("west", vShipWest);</a>
 <span class="sourceLineNo">164</span><a id="line.164"></a>
-<span class="sourceLineNo">165</span><a id="line.165">        vSpaceport.setExit("south", vStreet1);</a>
-<span class="sourceLineNo">166</span><a id="line.166">        vSpaceport.setExit("east", vUnionShip);</a>
-<span class="sourceLineNo">167</span><a id="line.167"></a>
-<span class="sourceLineNo">168</span><a id="line.168">        vUnionShip.setExit("west", vSpaceport);</a>
-<span class="sourceLineNo">169</span><a id="line.169">        vUnionShip.setExit("north", vTransporterRoom);</a>
-<span class="sourceLineNo">170</span><a id="line.170">        vTransporterRoom.setExit("south", vUnionShip);</a>
-<span class="sourceLineNo">171</span><a id="line.171">        vTransporterRoom.setExit("beam", null);</a>
-<span class="sourceLineNo">172</span><a id="line.172"></a>
-<span class="sourceLineNo">173</span><a id="line.173"></a>
-<span class="sourceLineNo">174</span><a id="line.174">        vStreet2.setExit("west", vMainStreet1);</a>
-<span class="sourceLineNo">175</span><a id="line.175">        vStreet2.setExit("south", vWeaponMarket);</a>
+<span class="sourceLineNo">165</span><a id="line.165">        vShipNorth.setExit("east", vShipEast);</a>
+<span class="sourceLineNo">166</span><a id="line.166">        vShipNorth.setExit("west", vShipWest);</a>
+<span class="sourceLineNo">167</span><a id="line.167">        vShipNorth.setExit("up", vShipInside);</a>
+<span class="sourceLineNo">168</span><a id="line.168"></a>
+<span class="sourceLineNo">169</span><a id="line.169">        vShipEast.setExit("north", vShipNorth);</a>
+<span class="sourceLineNo">170</span><a id="line.170">        vShipEast.setExit("south", vShipSouth);</a>
+<span class="sourceLineNo">171</span><a id="line.171"></a>
+<span class="sourceLineNo">172</span><a id="line.172">        vShipWest.setExit("north", vShipNorth);</a>
+<span class="sourceLineNo">173</span><a id="line.173">        vShipWest.setExit("south", vShipSouth);</a>
+<span class="sourceLineNo">174</span><a id="line.174"></a>
+<span class="sourceLineNo">175</span><a id="line.175">        vShipInside.setExit("down", vShipNorth);</a>
 <span class="sourceLineNo">176</span><a id="line.176"></a>
-<span class="sourceLineNo">177</span><a id="line.177">        vMainStreet2.setExit("south", vMainStreet3);</a>
-<span class="sourceLineNo">178</span><a id="line.178">        vMainStreet2.setExit("north", vMainStreet1);</a>
-<span class="sourceLineNo">179</span><a id="line.179">        vMainStreet2.setExit("west", vCybertaverne);</a>
-<span class="sourceLineNo">180</span><a id="line.180">        vCybertaverne.setExit("east", vMainStreet2);</a>
-<span class="sourceLineNo">181</span><a id="line.181"></a>
-<span class="sourceLineNo">182</span><a id="line.182">        vMainStreet3.setExit("south", vGovernorTower);</a>
-<span class="sourceLineNo">183</span><a id="line.183">        vMainStreet3.setExit("north", vMainStreet2);</a>
-<span class="sourceLineNo">184</span><a id="line.184">        vMainStreet3.setExit("east", vWeaponMarket);</a>
-<span class="sourceLineNo">185</span><a id="line.185">        vWeaponMarket.setExit("west", vMainStreet3);</a>
-<span class="sourceLineNo">186</span><a id="line.186"></a>
-<span class="sourceLineNo">187</span><a id="line.187">        vGovernorTower.setExit("north", vMainStreet3);</a>
-<span class="sourceLineNo">188</span><a id="line.188"></a>
-<span class="sourceLineNo">189</span><a id="line.189">        // Ajout des items dans les piÃ¨ces</a>
-<span class="sourceLineNo">190</span><a id="line.190">        //////vShipSouth.addItem(new Item("pomme", "une pomme",5)); Ã  modifier plus tard</a>
-<span class="sourceLineNo">191</span><a id="line.191"></a>
-<span class="sourceLineNo">192</span><a id="line.192">        vShipInside.addItem(vBadge);</a>
-<span class="sourceLineNo">193</span><a id="line.193">        vShipSouth.addItem(new Item("conserves", "une boite de conserve",5));</a>
-<span class="sourceLineNo">194</span><a id="line.194">        vDesert.addItem(new Item("dÃ©brits", "des dÃ©brits mÃ©talliques",5));</a>
-<span class="sourceLineNo">195</span><a id="line.195">        vShipInside.addItem((Item)(new MaxWeightIncreaserItem("cookie", "Un super cookie.",1,5)));</a>
-<span class="sourceLineNo">196</span><a id="line.196">        vWeaponMarket.addItem((Item)(new Beamer("Beamer", "un beamer",2, this)));</a>
-<span class="sourceLineNo">197</span><a id="line.197">        // Initialisation du lieu courant</a>
-<span class="sourceLineNo">198</span><a id="line.198">        this.aPlayer.setCurrentRoom(vDesert);</a>
-<span class="sourceLineNo">199</span><a id="line.199">    }</a>
-<span class="sourceLineNo">200</span><a id="line.200"></a>
-<span class="sourceLineNo">201</span><a id="line.201">    // METHODES D'AFFICHAGE</a>
-<span class="sourceLineNo">202</span><a id="line.202"></a>
-<span class="sourceLineNo">203</span><a id="line.203">    /**</a>
-<span class="sourceLineNo">204</span><a id="line.204">     * Affiche les informations sur les sorties de la Room courante.</a>
-<span class="sourceLineNo">205</span><a id="line.205">     */</a>
-<span class="sourceLineNo">206</span><a id="line.206">    public void printLocationInfo()</a>
-<span class="sourceLineNo">207</span><a id="line.207">    {</a>
-<span class="sourceLineNo">208</span><a id="line.208">        this.aGui.println(this.aPlayer.lookRoom());</a>
-<span class="sourceLineNo">209</span><a id="line.209">        if ( this.aPlayer.getCurrentRoom().getImageName() != null )</a>
-<span class="sourceLineNo">210</span><a id="line.210">            this.aGui.showImage( this.aPlayer.getCurrentRoom().getImageName() );</a>
-<span class="sourceLineNo">211</span><a id="line.211">    }//printLocationInfo()</a>
+<span class="sourceLineNo">177</span><a id="line.177">        vDesert2.setExit("north",vDesert);</a>
+<span class="sourceLineNo">178</span><a id="line.178">        vDesert2.setExit("south",vGatesFront);</a>
+<span class="sourceLineNo">179</span><a id="line.179"></a>
+<span class="sourceLineNo">180</span><a id="line.180">        vGatesFront.setExit("south", vGates);</a>
+<span class="sourceLineNo">181</span><a id="line.181">        vGatesFront.setExit("north", vDesert2);</a>
+<span class="sourceLineNo">182</span><a id="line.182"></a>
+<span class="sourceLineNo">183</span><a id="line.183">        vGates.setExit("south", vMainStreet1);</a>
+<span class="sourceLineNo">184</span><a id="line.184">        vGates.setExit("north", vGatesFront);</a>
+<span class="sourceLineNo">185</span><a id="line.185"></a>
+<span class="sourceLineNo">186</span><a id="line.186">        vMainStreet1.setExit("south", vMainStreet2);</a>
+<span class="sourceLineNo">187</span><a id="line.187">        vMainStreet1.setExit("north", vGates);</a>
+<span class="sourceLineNo">188</span><a id="line.188">        vMainStreet1.setExit("west", vStreet1);</a>
+<span class="sourceLineNo">189</span><a id="line.189">        vMainStreet1.setExit("east", vStreet2);</a>
+<span class="sourceLineNo">190</span><a id="line.190"></a>
+<span class="sourceLineNo">191</span><a id="line.191">        vStreet1.setExit("east", vMainStreet1);</a>
+<span class="sourceLineNo">192</span><a id="line.192">        vStreet1.setExit("west", vMilitaryTower);</a>
+<span class="sourceLineNo">193</span><a id="line.193">        vStreet1.setExit("north", vSpaceport);</a>
+<span class="sourceLineNo">194</span><a id="line.194"></a>
+<span class="sourceLineNo">195</span><a id="line.195">        vMilitaryTower.setExit("east", vStreet1);</a>
+<span class="sourceLineNo">196</span><a id="line.196"></a>
+<span class="sourceLineNo">197</span><a id="line.197">        vSpaceport.setExit("south", vStreet1);</a>
+<span class="sourceLineNo">198</span><a id="line.198">        vSpaceport.setExit("quai1", vDock1);</a>
+<span class="sourceLineNo">199</span><a id="line.199">        vSpaceport.setExit("quai2", vDock2);</a>
+<span class="sourceLineNo">200</span><a id="line.200">        </a>
+<span class="sourceLineNo">201</span><a id="line.201">        vDock1.setExit("", vUnionShip);</a>
+<span class="sourceLineNo">202</span><a id="line.202">        vDock1.setExit("", vSpaceport);</a>
+<span class="sourceLineNo">203</span><a id="line.203">        vDock2.setExit("", vRebelShip);</a>
+<span class="sourceLineNo">204</span><a id="line.204">        vDock2.setExit("", vSpaceport);</a>
+<span class="sourceLineNo">205</span><a id="line.205">        </a>
+<span class="sourceLineNo">206</span><a id="line.206">        vRebelShip.setExit("quai2", vDock2);</a>
+<span class="sourceLineNo">207</span><a id="line.207">        vUnionShip.setExit("quai1", vDock1);</a>
+<span class="sourceLineNo">208</span><a id="line.208">        vUnionShip.setExit("north", vTransporterRoom);</a>
+<span class="sourceLineNo">209</span><a id="line.209">        vTransporterRoom.setExit("south", vUnionShip);</a>
+<span class="sourceLineNo">210</span><a id="line.210">        vTransporterRoom.setExit("beam", null);</a>
+<span class="sourceLineNo">211</span><a id="line.211"></a>
 <span class="sourceLineNo">212</span><a id="line.212"></a>
-<span class="sourceLineNo">213</span><a id="line.213">    /**</a>
-<span class="sourceLineNo">214</span><a id="line.214">     * Affiche le message de bienvenue au joueur.</a>
-<span class="sourceLineNo">215</span><a id="line.215">     */</a>
-<span class="sourceLineNo">216</span><a id="line.216">    private void printWelcome()</a>
-<span class="sourceLineNo">217</span><a id="line.217">    {</a>
-<span class="sourceLineNo">218</span><a id="line.218">        this.aGui.println("Welcome to the game !");</a>
-<span class="sourceLineNo">219</span><a id="line.219">        this.aGui.println("After a space battle, you crashed on a desertic planet.");</a>
-<span class="sourceLineNo">220</span><a id="line.220">        this.aGui.println("Type 'help' if you need help.");</a>
-<span class="sourceLineNo">221</span><a id="line.221"></a>
-<span class="sourceLineNo">222</span><a id="line.222">        // Affichage des sorties</a>
-<span class="sourceLineNo">223</span><a id="line.223">        this.printLocationInfo();</a>
-<span class="sourceLineNo">224</span><a id="line.224">    }//printWelcome()</a>
+<span class="sourceLineNo">213</span><a id="line.213">        vStreet2.setExit("west", vMainStreet1);</a>
+<span class="sourceLineNo">214</span><a id="line.214">        vStreet2.setExit("south", vWeaponMarket);</a>
+<span class="sourceLineNo">215</span><a id="line.215">        vStreet2.setExit("up", vOldBuilding);</a>
+<span class="sourceLineNo">216</span><a id="line.216">        vStreet2.setExit("east", vOldFactory);</a>
+<span class="sourceLineNo">217</span><a id="line.217">        </a>
+<span class="sourceLineNo">218</span><a id="line.218">        vOldBuilding.setExit("down", vStreet2);</a>
+<span class="sourceLineNo">219</span><a id="line.219">        vOldFactory.setExit("west", vStreet2);</a>
+<span class="sourceLineNo">220</span><a id="line.220">        </a>
+<span class="sourceLineNo">221</span><a id="line.221">        vMainStreet2.setExit("south", vMainStreet3);</a>
+<span class="sourceLineNo">222</span><a id="line.222">        vMainStreet2.setExit("north", vMainStreet1);</a>
+<span class="sourceLineNo">223</span><a id="line.223">        vMainStreet2.setExit("west", vCybertaverne);</a>
+<span class="sourceLineNo">224</span><a id="line.224">        vCybertaverne.setExit("east", vMainStreet2);</a>
 <span class="sourceLineNo">225</span><a id="line.225"></a>
-<span class="sourceLineNo">226</span><a id="line.226"></a>
-<span class="sourceLineNo">227</span><a id="line.227">    // COMMANDES</a>
-<span class="sourceLineNo">228</span><a id="line.228"></a>
-<span class="sourceLineNo">229</span><a id="line.229">    /**</a>
-<span class="sourceLineNo">230</span><a id="line.230">     * InterprÃ¨te la commande entrÃ©e</a>
-<span class="sourceLineNo">231</span><a id="line.231">     */</a>
-<span class="sourceLineNo">232</span><a id="line.232">    public void interpretCommand( final String pCommandLine )</a>
-<span class="sourceLineNo">233</span><a id="line.233">    {</a>
-<span class="sourceLineNo">234</span><a id="line.234">        this.aGui.println( "&gt; " + pCommandLine );</a>
-<span class="sourceLineNo">235</span><a id="line.235">        Command vCommand = this.aParser.getCommand(pCommandLine);</a>
-<span class="sourceLineNo">236</span><a id="line.236"></a>
-<span class="sourceLineNo">237</span><a id="line.237">        vCommand.execute(this.aPlayer, this, this.aGui);</a>
-<span class="sourceLineNo">238</span><a id="line.238">        this.aGui.println("");</a>
-<span class="sourceLineNo">239</span><a id="line.239">    }</a>
-<span class="sourceLineNo">240</span><a id="line.240"></a>
-<span class="sourceLineNo">241</span><a id="line.241"></a>
-<span class="sourceLineNo">242</span><a id="line.242">    /**</a>
-<span class="sourceLineNo">243</span><a id="line.243">     * Effectue les Ã©tapes necessaires pour changer de piÃ¨ces.</a>
-<span class="sourceLineNo">244</span><a id="line.244">     *</a>
-<span class="sourceLineNo">245</span><a id="line.245">     * @params la nouvelle Room.</a>
-<span class="sourceLineNo">246</span><a id="line.246">     */</a>
-<span class="sourceLineNo">247</span><a id="line.247">    public void goTo(final Room pRoom)</a>
-<span class="sourceLineNo">248</span><a id="line.248">    {</a>
-<span class="sourceLineNo">249</span><a id="line.249">        this.aGui.print(this.aPlayer.goTo(pRoom));</a>
-<span class="sourceLineNo">250</span><a id="line.250">        this.printLocationInfo();</a>
-<span class="sourceLineNo">251</span><a id="line.251">    }</a>
-<span class="sourceLineNo">252</span><a id="line.252"></a>
-<span class="sourceLineNo">253</span><a id="line.253">    // OTHER</a>
-<span class="sourceLineNo">254</span><a id="line.254"></a>
-<span class="sourceLineNo">255</span><a id="line.255">    /**</a>
-<span class="sourceLineNo">256</span><a id="line.256">     * Active la fin de jeu.</a>
-<span class="sourceLineNo">257</span><a id="line.257">     */</a>
-<span class="sourceLineNo">258</span><a id="line.258">    public void endGame()</a>
-<span class="sourceLineNo">259</span><a id="line.259">    {</a>
-<span class="sourceLineNo">260</span><a id="line.260">        this.aGui.println( "Merci d'avoir jouÃ© Ã  Saand : La planÃ¨te dÃ©sertique.\nA bientÃ´t." );</a>
-<span class="sourceLineNo">261</span><a id="line.261">        this.aGui.enable( false );</a>
-<span class="sourceLineNo">262</span><a id="line.262">    }</a>
-<span class="sourceLineNo">263</span><a id="line.263"></a>
-<span class="sourceLineNo">264</span><a id="line.264">    /**</a>
-<span class="sourceLineNo">265</span><a id="line.265">     * Indique si le jeu est en mode "test" ou non.</a>
-<span class="sourceLineNo">266</span><a id="line.266">     * @return true si le jeu est en mode test, false sinon</a>
-<span class="sourceLineNo">267</span><a id="line.267">     */</a>
-<span class="sourceLineNo">268</span><a id="line.268">    public boolean getTestMode()</a>
-<span class="sourceLineNo">269</span><a id="line.269">    {</a>
-<span class="sourceLineNo">270</span><a id="line.270">        return this.aTestMode;</a>
-<span class="sourceLineNo">271</span><a id="line.271">    }</a>
+<span class="sourceLineNo">226</span><a id="line.226">        vMainStreet3.setExit("south", vGovernorTower);</a>
+<span class="sourceLineNo">227</span><a id="line.227">        vMainStreet3.setExit("north", vMainStreet2);</a>
+<span class="sourceLineNo">228</span><a id="line.228">        vMainStreet3.setExit("east", vWeaponMarket);</a>
+<span class="sourceLineNo">229</span><a id="line.229">        vWeaponMarket.setExit("west", vMainStreet3);</a>
+<span class="sourceLineNo">230</span><a id="line.230"></a>
+<span class="sourceLineNo">231</span><a id="line.231">        vGovernorTower.setExit("north", vMainStreet3);</a>
+<span class="sourceLineNo">232</span><a id="line.232"></a>
+<span class="sourceLineNo">233</span><a id="line.233">        // Ajout des items dans les piÃ¨ces</a>
+<span class="sourceLineNo">234</span><a id="line.234">        //////vShipSouth.addItem(new Item("pomme", "une pomme",5)); Ã  modifier plus tard</a>
+<span class="sourceLineNo">235</span><a id="line.235"></a>
+<span class="sourceLineNo">236</span><a id="line.236">        vShipInside.addItem(vBadge);</a>
+<span class="sourceLineNo">237</span><a id="line.237">        vUnionShip.addItem(vOldKey);</a>
+<span class="sourceLineNo">238</span><a id="line.238">        vDesert.addItem(new Item("dÃ©brits", "Des dÃ©brits mÃ©talliques",5));</a>
+<span class="sourceLineNo">239</span><a id="line.239">        vShipInside.addItem((Item)(new MaxWeightIncreaserItem("cookie", "Un super cookie.",1,5)));</a>
+<span class="sourceLineNo">240</span><a id="line.240">        vWeaponMarket.addItem((Item)(new Beamer("Beamer", "Un Beamer made-in-Earth.",2, this)));</a>
+<span class="sourceLineNo">241</span><a id="line.241">        vOldTemple.addItem(new Item("Nanites", "Des nanites qui peuvent prendre n'importe quelle forme sur demande.", 5));</a>
+<span class="sourceLineNo">242</span><a id="line.242">        </a>
+<span class="sourceLineNo">243</span><a id="line.243">        vGatesFront.addPNJ(new Character("Garde","Bonjour, des rebelles sont dans la ville.\nJe ne peux laisser entrer personne sans badge.","Sans badge, vous n'entrez pas."));</a>
+<span class="sourceLineNo">244</span><a id="line.244">        </a>
+<span class="sourceLineNo">245</span><a id="line.245">        vCybertaverne.addPNJ(new Character(</a>
+<span class="sourceLineNo">246</span><a id="line.246">        "Tavernier", "Bonjour. Vous cherchez Ã  quittez la planÃ¨te ? \nMalheureusement, il y a un couvre feu.\nEssayez d'aller au poste de l'Union.\nSinon, essayez d'aller dans les vielles habitation Ã  l'Est."</a>
+<span class="sourceLineNo">247</span><a id="line.247">        ,"Allez au poste de l'Union ou aux habitations abandonnÃ©es."));</a>
+<span class="sourceLineNo">248</span><a id="line.248">        </a>
+<span class="sourceLineNo">249</span><a id="line.249">        vOldBuilding.addPNJ(new Character("Ragnar",</a>
+<span class="sourceLineNo">250</span><a id="line.250">        "Bonjour, je suis le commandant des rebelles sur Saand.\nJ'ai appris que tu cherchais Ã  quitter la planÃ¨te.\nJe peux te faire monter dans notre cargo pour la Terre.\nMais pour cela, tu devras d'abord faire exploser une bombe dans la tour du gouverneur."</a>
+<span class="sourceLineNo">251</span><a id="line.251">        , "Tu peux trouver une bombe au MarchÃ© d'Armes.\nUne fois la bombe activÃ©e, rejoins le cargo sur le Quai 2 du spatioport, Ã  l'Ouest de la ville."));</a>
+<span class="sourceLineNo">252</span><a id="line.252">        </a>
+<span class="sourceLineNo">253</span><a id="line.253">        vMilitaryTower.addPNJ(new Character("Commandant",</a>
+<span class="sourceLineNo">254</span><a id="line.254">        "Bonjour, Je suis le Commandant de l'Union sur Saand.\nEt vous vous Ãªtes une pilote de notre armÃ©e. \nVous voulez nous aider Ã  gagner la bataille au dessus de nous ?\nPour cela, il va faloir nous aider Ã  vaincre les rebelles sur Saand.\nAllez chercher une bombe au MarchÃ© d'Armes, et faites la exploser dans la vielle usine Ã  l'est. \nC'est le repÃ¨re des rebelles.\nEnsuite rendez-vous au vaisseau de l'union sur le Quai 1 du Spatioport.",</a>
+<span class="sourceLineNo">255</span><a id="line.255">        "Faites exploser la bombe dans la vielle usine, et rendez-vous le vaisseau de l'union sur le Quai 1 du Spatioport."</a>
+<span class="sourceLineNo">256</span><a id="line.256">        ));</a>
+<span class="sourceLineNo">257</span><a id="line.257">        vRebelShip.addPNJ(new Character("Conducteur",</a>
+<span class="sourceLineNo">258</span><a id="line.258">        "Bien le bonjour ! Bienvenue sur le cargo des rebelles !\nCâ€™Ã©tait une trÃ¨s belle explosion tout Ã  lâ€™heure, bravo !\nMaintenant nous allons pouvoir enfin prendre le contrÃ´le de Saand, et de ses usines dâ€™armement.\nPrÃ©parez-vous au dÃ©collage !!!\n\n*Le vaisseau dÃ©colle dans un grand bruit. \nAu loin vous apercevez la bataille qui fait rage entre les rebelles et lâ€™Union.\nSoudain, le cargo est immobilisÃ©, et des troupes de lâ€™Union entrent. \nVous Ãªtes fait prisonnier et vous Ãªtes amenÃ© devant le Commandant des forces de lâ€™Union. *\n\n&gt; Commandant : Alorsâ€¦ Voici le pilote de lâ€™Union qui a dÃ©truit la tour du Gouverneur.\nIl est clair que vous avez fait Ã§a sous la contrainte. \nJe vous offre donc une chance de vous racheter.\nNous avons entendu des rumeurs quant Ã  lâ€™existence dâ€™une arme trÃ¨s ancienne sur Saand.\nElle serait dans le dÃ©sert. Ramenez-la au vaisseau de lâ€™Union et tout sera pardonnÃ©. \n\n&gt; Prisonnier rebelle : NOON, les rebelles ont besoin de cette arme !!! Ramenez lÃ  aux rebelles !!!\n\n&gt; Commandant : Silence ! DÃ©pÃªchez-vous de nous ramener lâ€™arme.\nPrener cette clÃ© et descendez sur la planÃ¨te par le Rayon de tÃ©lÃ©portation, dans la piÃ¨ce Ã  cotÃ©.\n ",""</a>
+<span class="sourceLineNo">259</span><a id="line.259">        ));</a>
+<span class="sourceLineNo">260</span><a id="line.260">        </a>
+<span class="sourceLineNo">261</span><a id="line.261">        vMainStreet1.addPNJ(new Character("Citoyenne", "Bonjour. Vous semblez perdu.\nAllez Ã  la CyberTaverne pour tout renseignement.", "Allez Ã  la CyberTaverne pour tout renseignement."));</a>
+<span class="sourceLineNo">262</span><a id="line.262">        </a>
+<span class="sourceLineNo">263</span><a id="line.263">        MovingCharacter vMC1 = new MovingCharacter("Citoyen", "Bonjour. Il fait beau aujourd'hui.", "Allez Ã  la CyberTaverne pour tout renseignement.");</a>
+<span class="sourceLineNo">264</span><a id="line.264">        vMainStreet1.addPNJ(vMC1);</a>
+<span class="sourceLineNo">265</span><a id="line.265">        this.aMovingCharacters.add(vMC1);</a>
+<span class="sourceLineNo">266</span><a id="line.266">        </a>
+<span class="sourceLineNo">267</span><a id="line.267">        // Initialisation du lieu courant</a>
+<span class="sourceLineNo">268</span><a id="line.268">        this.aPlayer.setCurrentRoom(vDesert);</a>
+<span class="sourceLineNo">269</span><a id="line.269">    }</a>
+<span class="sourceLineNo">270</span><a id="line.270"></a>
+<span class="sourceLineNo">271</span><a id="line.271">    // METHODES D'AFFICHAGE</a>
 <span class="sourceLineNo">272</span><a id="line.272"></a>
 <span class="sourceLineNo">273</span><a id="line.273">    /**</a>
-<span class="sourceLineNo">274</span><a id="line.274">     * Permet d'indiquer si le jeu est en mode test ou non.</a>
+<span class="sourceLineNo">274</span><a id="line.274">     * Affiche les informations sur les sorties de la Room courante.</a>
 <span class="sourceLineNo">275</span><a id="line.275">     */</a>
-<span class="sourceLineNo">276</span><a id="line.276">    public void setTestMode(final boolean pBool)</a>
+<span class="sourceLineNo">276</span><a id="line.276">    public void printLocationInfo()</a>
 <span class="sourceLineNo">277</span><a id="line.277">    {</a>
-<span class="sourceLineNo">278</span><a id="line.278">        this.aTestMode = pBool;</a>
-<span class="sourceLineNo">279</span><a id="line.279">    }</a>
-<span class="sourceLineNo">280</span><a id="line.280"></a>
-<span class="sourceLineNo">281</span><a id="line.281">    /**</a>
-<span class="sourceLineNo">282</span><a id="line.282">     * Retourne l'AleaRoom</a>
-<span class="sourceLineNo">283</span><a id="line.283">     * @return L'AleaRoom</a>
-<span class="sourceLineNo">284</span><a id="line.284">     */</a>
-<span class="sourceLineNo">285</span><a id="line.285">    public Room getAleaRoom()</a>
-<span class="sourceLineNo">286</span><a id="line.286">    {</a>
-<span class="sourceLineNo">287</span><a id="line.287">        return this.aAleaRoom;</a>
-<span class="sourceLineNo">288</span><a id="line.288">    }</a>
-<span class="sourceLineNo">289</span><a id="line.289"></a>
-<span class="sourceLineNo">290</span><a id="line.290">    /**</a>
-<span class="sourceLineNo">291</span><a id="line.291">     * Permet de modifier l'AleaRoom</a>
-<span class="sourceLineNo">292</span><a id="line.292">     */</a>
-<span class="sourceLineNo">293</span><a id="line.293">    public void setAleaRoom(final Room pRoom)</a>
-<span class="sourceLineNo">294</span><a id="line.294">    {</a>
-<span class="sourceLineNo">295</span><a id="line.295">        this.aAleaRoom = pRoom;</a>
-<span class="sourceLineNo">296</span><a id="line.296">    }</a>
-<span class="sourceLineNo">297</span><a id="line.297"></a>
-<span class="sourceLineNo">298</span><a id="line.298">    /**</a>
-<span class="sourceLineNo">299</span><a id="line.299">     * Retourne le Parser.</a>
-<span class="sourceLineNo">300</span><a id="line.300">     * @return Le Parser</a>
-<span class="sourceLineNo">301</span><a id="line.301">     */</a>
-<span class="sourceLineNo">302</span><a id="line.302">    public Parser getParser()</a>
-<span class="sourceLineNo">303</span><a id="line.303">    {</a>
-<span class="sourceLineNo">304</span><a id="line.304">        return this.aParser;</a>
-<span class="sourceLineNo">305</span><a id="line.305">    }</a>
-<span class="sourceLineNo">306</span><a id="line.306"></a>
-<span class="sourceLineNo">307</span><a id="line.307">    /**</a>
-<span class="sourceLineNo">308</span><a id="line.308">     * Retourne les piÃ¨ces du jeu.</a>
-<span class="sourceLineNo">309</span><a id="line.309">     * @return Les piÃ¨ces du jeu</a>
-<span class="sourceLineNo">310</span><a id="line.310">     */</a>
-<span class="sourceLineNo">311</span><a id="line.311">    public HashMap&lt;String,Room&gt; getRooms()</a>
-<span class="sourceLineNo">312</span><a id="line.312">    {</a>
-<span class="sourceLineNo">313</span><a id="line.313">        return this.aRooms;</a>
-<span class="sourceLineNo">314</span><a id="line.314">    }</a>
-<span class="sourceLineNo">315</span><a id="line.315">} // Game</a>
+<span class="sourceLineNo">278</span><a id="line.278">        this.aGui.println(this.aPlayer.lookRoom());</a>
+<span class="sourceLineNo">279</span><a id="line.279">        if (this.aPlayer.getCurrentRoom().getImageName() != null)</a>
+<span class="sourceLineNo">280</span><a id="line.280">            this.aGui.showImage(this.aPlayer.getCurrentRoom().getImageName());</a>
+<span class="sourceLineNo">281</span><a id="line.281">    }//printLocationInfo()</a>
+<span class="sourceLineNo">282</span><a id="line.282"></a>
+<span class="sourceLineNo">283</span><a id="line.283">    /**</a>
+<span class="sourceLineNo">284</span><a id="line.284">     * Affiche le message de bienvenue au joueur.</a>
+<span class="sourceLineNo">285</span><a id="line.285">     */</a>
+<span class="sourceLineNo">286</span><a id="line.286">    private void printWelcome()</a>
+<span class="sourceLineNo">287</span><a id="line.287">    {</a>
+<span class="sourceLineNo">288</span><a id="line.288">        this.aGui.println("Bienvenue sur Saand : La planÃ¨te dÃ©sertique");</a>
+<span class="sourceLineNo">289</span><a id="line.289">        this.aGui.println("La guerre fait rage entre l'Union Galactique et les Rebelles.");</a>
+<span class="sourceLineNo">290</span><a id="line.290">        this.aGui.println("Une bataille a Ã©clatÃ© au dessus de Saand, le dernier point de passage avant la Terre.");</a>
+<span class="sourceLineNo">291</span><a id="line.291">        this.aGui.println("Vous Ãªtes une jeune pilote de l'Union. Pour votre premiÃ¨re mission, vous deviez vous battre dans cette bataille.");</a>
+<span class="sourceLineNo">292</span><a id="line.292">        this.aGui.println("Mais votre vaisseau a Ã©tÃ© touchÃ©, et s'est Ã©crasÃ© sur Saand."); </a>
+<span class="sourceLineNo">293</span><a id="line.293">        this.aGui.println("Vous avez eu le temps de vous Ã©jecter."); </a>
+<span class="sourceLineNo">294</span><a id="line.294">        this.aGui.println("Vous devez rapidement trouver un moyen de retourner combattre pour pouvoir rentrer sur Terre."); </a>
+<span class="sourceLineNo">295</span><a id="line.295">        this.aGui.println("Appuiyez sur (ou tapez) 'help' pour voir les commandes possibles.\n");</a>
+<span class="sourceLineNo">296</span><a id="line.296"></a>
+<span class="sourceLineNo">297</span><a id="line.297">        // Affichage des sorties</a>
+<span class="sourceLineNo">298</span><a id="line.298">        this.printLocationInfo();</a>
+<span class="sourceLineNo">299</span><a id="line.299">        this.aGui.println(""); // Laisse un espace entre le message de bienvenue et la prochaine commande entrÃ©e.</a>
+<span class="sourceLineNo">300</span><a id="line.300">    }//printWelcome()</a>
+<span class="sourceLineNo">301</span><a id="line.301"></a>
+<span class="sourceLineNo">302</span><a id="line.302"></a>
+<span class="sourceLineNo">303</span><a id="line.303">    // COMMANDES</a>
+<span class="sourceLineNo">304</span><a id="line.304"></a>
+<span class="sourceLineNo">305</span><a id="line.305">    /**</a>
+<span class="sourceLineNo">306</span><a id="line.306">     * InterprÃ¨te la commande entrÃ©e.</a>
+<span class="sourceLineNo">307</span><a id="line.307">     * @param La commande Ã  exÃ©cuter</a>
+<span class="sourceLineNo">308</span><a id="line.308">     */</a>
+<span class="sourceLineNo">309</span><a id="line.309">    public void interpretCommand( final String pCommandLine )</a>
+<span class="sourceLineNo">310</span><a id="line.310">    {</a>
+<span class="sourceLineNo">311</span><a id="line.311">        this.aGui.println( "&gt; " + pCommandLine );</a>
+<span class="sourceLineNo">312</span><a id="line.312">        Command vCommand = this.aParser.getCommand(pCommandLine);</a>
+<span class="sourceLineNo">313</span><a id="line.313"></a>
+<span class="sourceLineNo">314</span><a id="line.314">        vCommand.execute(this.aPlayer, this, this.aGui);</a>
+<span class="sourceLineNo">315</span><a id="line.315">        this.aGui.println(""); // Laisse un espace entre deux commandes entrÃ©es.</a>
+<span class="sourceLineNo">316</span><a id="line.316">    }</a>
+<span class="sourceLineNo">317</span><a id="line.317"></a>
+<span class="sourceLineNo">318</span><a id="line.318"></a>
+<span class="sourceLineNo">319</span><a id="line.319">    /**</a>
+<span class="sourceLineNo">320</span><a id="line.320">     * Effectue les Ã©tapes necessaires pour changer de piÃ¨ces.</a>
+<span class="sourceLineNo">321</span><a id="line.321">     *</a>
+<span class="sourceLineNo">322</span><a id="line.322">     * @param la nouvelle Room.</a>
+<span class="sourceLineNo">323</span><a id="line.323">     */</a>
+<span class="sourceLineNo">324</span><a id="line.324">    public void goTo(final Room pRoom)</a>
+<span class="sourceLineNo">325</span><a id="line.325">    {</a>
+<span class="sourceLineNo">326</span><a id="line.326">        this.aGui.print(this.aPlayer.goTo(pRoom));</a>
+<span class="sourceLineNo">327</span><a id="line.327">        this.printLocationInfo();</a>
+<span class="sourceLineNo">328</span><a id="line.328">    }</a>
+<span class="sourceLineNo">329</span><a id="line.329"></a>
+<span class="sourceLineNo">330</span><a id="line.330">    // OTHER</a>
+<span class="sourceLineNo">331</span><a id="line.331">    /**</a>
+<span class="sourceLineNo">332</span><a id="line.332">     * DÃ©place les MovingCharacters.</a>
+<span class="sourceLineNo">333</span><a id="line.333">     */</a>
+<span class="sourceLineNo">334</span><a id="line.334">    public void moveCharacters()</a>
+<span class="sourceLineNo">335</span><a id="line.335">    {</a>
+<span class="sourceLineNo">336</span><a id="line.336">        ListIterator&lt;MovingCharacter&gt; vIt = this.aMovingCharacters.listIterator();</a>
+<span class="sourceLineNo">337</span><a id="line.337">        while(vIt.hasNext()){</a>
+<span class="sourceLineNo">338</span><a id="line.338">            vIt.next().move();</a>
+<span class="sourceLineNo">339</span><a id="line.339">        }</a>
+<span class="sourceLineNo">340</span><a id="line.340">    }</a>
+<span class="sourceLineNo">341</span><a id="line.341">    </a>
+<span class="sourceLineNo">342</span><a id="line.342">    /**</a>
+<span class="sourceLineNo">343</span><a id="line.343">     * Active la fin de jeu.</a>
+<span class="sourceLineNo">344</span><a id="line.344">     */</a>
+<span class="sourceLineNo">345</span><a id="line.345">    public void endGame()</a>
+<span class="sourceLineNo">346</span><a id="line.346">    {</a>
+<span class="sourceLineNo">347</span><a id="line.347">        this.aGui.println( "Merci d'avoir jouÃ© Ã  Saand : La planÃ¨te dÃ©sertique.\nA bientÃ´t." );</a>
+<span class="sourceLineNo">348</span><a id="line.348">        this.aGui.enable( false );</a>
+<span class="sourceLineNo">349</span><a id="line.349">    }</a>
+<span class="sourceLineNo">350</span><a id="line.350"></a>
+<span class="sourceLineNo">351</span><a id="line.351">    /**</a>
+<span class="sourceLineNo">352</span><a id="line.352">     * Indique si le jeu est en mode "test" ou non.</a>
+<span class="sourceLineNo">353</span><a id="line.353">     * </a>
+<span class="sourceLineNo">354</span><a id="line.354">     * @return true si le jeu est en mode test, false sinon</a>
+<span class="sourceLineNo">355</span><a id="line.355">     */</a>
+<span class="sourceLineNo">356</span><a id="line.356">    public boolean getTestMode()</a>
+<span class="sourceLineNo">357</span><a id="line.357">    {</a>
+<span class="sourceLineNo">358</span><a id="line.358">        return this.aTestMode;</a>
+<span class="sourceLineNo">359</span><a id="line.359">    }</a>
+<span class="sourceLineNo">360</span><a id="line.360"></a>
+<span class="sourceLineNo">361</span><a id="line.361">    /**</a>
+<span class="sourceLineNo">362</span><a id="line.362">     * Permet d'indiquer si le jeu est en mode test ou non.</a>
+<span class="sourceLineNo">363</span><a id="line.363">     * </a>
+<span class="sourceLineNo">364</span><a id="line.364">     * @param True or False pour activer ou non le TestMode</a>
+<span class="sourceLineNo">365</span><a id="line.365">     */</a>
+<span class="sourceLineNo">366</span><a id="line.366">    public void setTestMode(final boolean pBool)</a>
+<span class="sourceLineNo">367</span><a id="line.367">    {</a>
+<span class="sourceLineNo">368</span><a id="line.368">        this.aTestMode = pBool;</a>
+<span class="sourceLineNo">369</span><a id="line.369">    }</a>
+<span class="sourceLineNo">370</span><a id="line.370"></a>
+<span class="sourceLineNo">371</span><a id="line.371">    /**</a>
+<span class="sourceLineNo">372</span><a id="line.372">     * Retourne l'AleaRoom</a>
+<span class="sourceLineNo">373</span><a id="line.373">     * @return L'AleaRoom</a>
+<span class="sourceLineNo">374</span><a id="line.374">     */</a>
+<span class="sourceLineNo">375</span><a id="line.375">    public Room getAleaRoom()</a>
+<span class="sourceLineNo">376</span><a id="line.376">    {</a>
+<span class="sourceLineNo">377</span><a id="line.377">        return this.aAleaRoom;</a>
+<span class="sourceLineNo">378</span><a id="line.378">    }</a>
+<span class="sourceLineNo">379</span><a id="line.379"></a>
+<span class="sourceLineNo">380</span><a id="line.380">    /**</a>
+<span class="sourceLineNo">381</span><a id="line.381">     * Permet de modifier l'AleaRoom</a>
+<span class="sourceLineNo">382</span><a id="line.382">     * @param La nouvelle AleaRoom</a>
+<span class="sourceLineNo">383</span><a id="line.383">     */</a>
+<span class="sourceLineNo">384</span><a id="line.384">    public void setAleaRoom(final Room pRoom)</a>
+<span class="sourceLineNo">385</span><a id="line.385">    {</a>
+<span class="sourceLineNo">386</span><a id="line.386">        this.aAleaRoom = pRoom;</a>
+<span class="sourceLineNo">387</span><a id="line.387">    }</a>
+<span class="sourceLineNo">388</span><a id="line.388"></a>
+<span class="sourceLineNo">389</span><a id="line.389">    /**</a>
+<span class="sourceLineNo">390</span><a id="line.390">     * Retourne le Parser.</a>
+<span class="sourceLineNo">391</span><a id="line.391">     * @return Le Parser</a>
+<span class="sourceLineNo">392</span><a id="line.392">     */</a>
+<span class="sourceLineNo">393</span><a id="line.393">    public Parser getParser()</a>
+<span class="sourceLineNo">394</span><a id="line.394">    {</a>
+<span class="sourceLineNo">395</span><a id="line.395">        return this.aParser;</a>
+<span class="sourceLineNo">396</span><a id="line.396">    }</a>
+<span class="sourceLineNo">397</span><a id="line.397"></a>
+<span class="sourceLineNo">398</span><a id="line.398">    /**</a>
+<span class="sourceLineNo">399</span><a id="line.399">     * Retourne les piÃ¨ces du jeu.</a>
+<span class="sourceLineNo">400</span><a id="line.400">     * @return Les piÃ¨ces du jeu.</a>
+<span class="sourceLineNo">401</span><a id="line.401">     */</a>
+<span class="sourceLineNo">402</span><a id="line.402">    public HashMap&lt;String,Room&gt; getRooms()</a>
+<span class="sourceLineNo">403</span><a id="line.403">    {</a>
+<span class="sourceLineNo">404</span><a id="line.404">        return this.aRooms;</a>
+<span class="sourceLineNo">405</span><a id="line.405">    }</a>
+<span class="sourceLineNo">406</span><a id="line.406">    </a>
+<span class="sourceLineNo">407</span><a id="line.407">    /**</a>
+<span class="sourceLineNo">408</span><a id="line.408">     * Retourne une piÃ¨ce du jeu.</a>
+<span class="sourceLineNo">409</span><a id="line.409">     * @return Une piÃ¨ce du jeu.</a>
+<span class="sourceLineNo">410</span><a id="line.410">     * @param Le nom de la piÃ¨ce.</a>
+<span class="sourceLineNo">411</span><a id="line.411">     */</a>
+<span class="sourceLineNo">412</span><a id="line.412">    public Room getRoom(final String pName)</a>
+<span class="sourceLineNo">413</span><a id="line.413">    {</a>
+<span class="sourceLineNo">414</span><a id="line.414">        return this.aRooms.get(pName);</a>
+<span class="sourceLineNo">415</span><a id="line.415">    }</a>
+<span class="sourceLineNo">416</span><a id="line.416">    </a>
+<span class="sourceLineNo">417</span><a id="line.417">    /**</a>
+<span class="sourceLineNo">418</span><a id="line.418">     * Retourne les Doors du jeu</a>
+<span class="sourceLineNo">419</span><a id="line.419">     * @return Les Doors</a>
+<span class="sourceLineNo">420</span><a id="line.420">     */</a>
+<span class="sourceLineNo">421</span><a id="line.421">    public HashMap&lt;String, Door&gt; getDoors()</a>
+<span class="sourceLineNo">422</span><a id="line.422">    {</a>
+<span class="sourceLineNo">423</span><a id="line.423">        return this.aDoors;</a>
+<span class="sourceLineNo">424</span><a id="line.424">    }</a>
+<span class="sourceLineNo">425</span><a id="line.425">    //HISTOIRE</a>
+<span class="sourceLineNo">426</span><a id="line.426">    </a>
+<span class="sourceLineNo">427</span><a id="line.427">    /**</a>
+<span class="sourceLineNo">428</span><a id="line.428">     * Fonction Histoire : Fait apparaitre la bombe au Weapon Market</a>
+<span class="sourceLineNo">429</span><a id="line.429">     */</a>
+<span class="sourceLineNo">430</span><a id="line.430">    public void summonBombInWM()</a>
+<span class="sourceLineNo">431</span><a id="line.431">    {</a>
+<span class="sourceLineNo">432</span><a id="line.432">        if (this.aIsBombInGame == false)</a>
+<span class="sourceLineNo">433</span><a id="line.433">        {</a>
+<span class="sourceLineNo">434</span><a id="line.434">            this.aIsBombInGame = true;</a>
+<span class="sourceLineNo">435</span><a id="line.435">            this.getRoom("WeaponMarket").addItem((Item)new Bomb("bombe", "Une bombe artisanale.", 5, this));</a>
+<span class="sourceLineNo">436</span><a id="line.436">        }</a>
+<span class="sourceLineNo">437</span><a id="line.437">    }</a>
+<span class="sourceLineNo">438</span><a id="line.438">    </a>
+<span class="sourceLineNo">439</span><a id="line.439">    /**</a>
+<span class="sourceLineNo">440</span><a id="line.440">     * Fonction Histoire : Ouvre le vaisseau de l'Union</a>
+<span class="sourceLineNo">441</span><a id="line.441">     */</a>
+<span class="sourceLineNo">442</span><a id="line.442">    public void explosionOldFactory()</a>
+<span class="sourceLineNo">443</span><a id="line.443">    {</a>
+<span class="sourceLineNo">444</span><a id="line.444">        this.aDoors.get("Dock1").setOpen();</a>
+<span class="sourceLineNo">445</span><a id="line.445">        this.aRooms.get("OldBuilding").removePNJ("Ragnar");</a>
+<span class="sourceLineNo">446</span><a id="line.446">        this.aRooms.get("MilitaryTower").removePNJ("Commandant");</a>
+<span class="sourceLineNo">447</span><a id="line.447">        this.aRooms.get("UnionShip").addPNJ(new Character("Commandant", "Toutes mes fÃ©licitations. Vous avez vaincu la plupart des troupes rebelles de Saand. \nJâ€™ai encore quelque chose Ã  vous demander. \nNous avons entendu parler dâ€™un ancien temple datant dâ€™avant la colonisation de la planÃ¨te.\nIl abriterait une arme trÃ¨s puissante. \nPrenez cette clÃ©, amenez-nous cette arme afin que nous puissions vaincre les rebelles, et vous pourrez rentrer sur Terre.\nPour revenir sur Saand, passez par la salle de tÃ©lÃ©portation. ",</a>
+<span class="sourceLineNo">448</span><a id="line.448">        "La clÃ©, le temple, l'arme, le vaisseau, la Terre."));</a>
+<span class="sourceLineNo">449</span><a id="line.449">    }</a>
+<span class="sourceLineNo">450</span><a id="line.450">    </a>
+<span class="sourceLineNo">451</span><a id="line.451">    /**</a>
+<span class="sourceLineNo">452</span><a id="line.452">     * Fonction Histoire : Ouvre le vaisseau des rebelles</a>
+<span class="sourceLineNo">453</span><a id="line.453">     */</a>
+<span class="sourceLineNo">454</span><a id="line.454">    public void explosionGovTower()</a>
+<span class="sourceLineNo">455</span><a id="line.455">    {</a>
+<span class="sourceLineNo">456</span><a id="line.456">        this.aDoors.get("Dock2").setOpen();</a>
+<span class="sourceLineNo">457</span><a id="line.457">        this.aRooms.get("OldBuilding").removePNJ("Ragnar");</a>
+<span class="sourceLineNo">458</span><a id="line.458">        this.aRooms.get("MilitaryTower").removePNJ("Commandant");</a>
+<span class="sourceLineNo">459</span><a id="line.459">        </a>
+<span class="sourceLineNo">460</span><a id="line.460">    }</a>
+<span class="sourceLineNo">461</span><a id="line.461">    </a>
+<span class="sourceLineNo">462</span><a id="line.462">    /**</a>
+<span class="sourceLineNo">463</span><a id="line.463">     * Fonction Histoire : La fin de l'Histoire avec les rebelles.</a>
+<span class="sourceLineNo">464</span><a id="line.464">     */</a>
+<span class="sourceLineNo">465</span><a id="line.465">    public void endWithRebels()</a>
+<span class="sourceLineNo">466</span><a id="line.466">    {</a>
+<span class="sourceLineNo">467</span><a id="line.467">        this.aGui.println("Vous avez donnÃ© les Nanites aux rebelles.\nGrÃ¢ce Ã  cette nouvelle arme, ils ont facilement pu dÃ©truire la Grande Flotte de l'Union,\net prendre le contrÃ´le de la galaxie.\nTous les dirigeants de l'Union ont Ã©tÃ© jugÃ©s et exÃ©cutÃ©s.\nIls vous ont ramenÃ© sur Terre, et vous ont promu Capitaine.");</a>
+<span class="sourceLineNo">468</span><a id="line.468">        this.endGame();</a>
+<span class="sourceLineNo">469</span><a id="line.469">    }</a>
+<span class="sourceLineNo">470</span><a id="line.470">    </a>
+<span class="sourceLineNo">471</span><a id="line.471">    /**</a>
+<span class="sourceLineNo">472</span><a id="line.472">     * Fonction Histoire : La fin de l'Histoire avec l'Union.</a>
+<span class="sourceLineNo">473</span><a id="line.473">     */</a>
+<span class="sourceLineNo">474</span><a id="line.474">    public void endWithUnion()</a>
+<span class="sourceLineNo">475</span><a id="line.475">    {</a>
+<span class="sourceLineNo">476</span><a id="line.476">        this.aGui.println("Vous avez donnÃ© les Nanites aux forces de l'Union.\nGrÃ¢ce Ã  cette nouvelle arme, ils ont facilement pu dÃ©truire la flotte rebelle.\nTous les leaders rebelles ont Ã©tÃ© jugÃ©s et exÃ©cutÃ©s.\nVous avez Ã©tÃ© ramenÃ© sur Terre, et avez Ã©tÃ© promu Capitaine.");</a>
+<span class="sourceLineNo">477</span><a id="line.477">        this.endGame();</a>
+<span class="sourceLineNo">478</span><a id="line.478">    }</a>
+<span class="sourceLineNo">479</span><a id="line.479">} // Game</a>
 
 
 

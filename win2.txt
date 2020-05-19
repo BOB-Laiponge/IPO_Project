@@ -26,7 +26,7 @@ go west
 go north
 go quai2
 talk Conducteur
-take clé
+take cle
 go north
 alea Desert_1
 go beam

@@ -30,7 +30,7 @@ go west
 go north
 go quai1
 talk Commandant
-take clé
+take cle
 go north
 alea Desert_1
 go beam

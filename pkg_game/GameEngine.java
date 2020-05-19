@@ -31,7 +31,7 @@ import pkg_items.Bomb;
  * Classe principale du jeu. GameEngine permet de gérer le déroulement une partie.
  *
  * @author PITIOT Pierre-Yves
- * @version 21/04/2020
+ * @version 18/05/2020
  */
 public class GameEngine
 {
@@ -83,7 +83,7 @@ public class GameEngine
     private void createRooms()
     {
         // Déclaration des lieux
-        Room vDesert = new Room("dans le désert de Saand","Images/desert1.png");
+        Room vDesert = new Room("dans le désert de Saand. Il y a de la fumée au Nord","Images/desert1.png");
         aRooms.put("Desert_1", vDesert);
         Room vDesert2 = new Room("dans le désert de Saand","Images/desert2.png");
         aRooms.put("Desert_2", vDesert);
@@ -99,7 +99,7 @@ public class GameEngine
         aRooms.put("ShipInside", vShipInside);
 
         Item vBadge = new Item("badge", "Votre badge militaire de l'Union.",0);
-        Item vOldKey = new Item("clé", "Une clé ancienne.",2);
+        Item vOldKey = new Item("cle", "Une clé ancienne.",2);
         
         Room vGatesFront = new Room("devant les portes de Saand City","Images/gates.png");
         Door vGates = new Door("Gates","Images/gates.png", vBadge);
@@ -115,7 +115,7 @@ public class GameEngine
         aRooms.put("GovernorTower", vGovernorTower);
         Room vCybertaverne = new Room("dans la Cybertaverne","Images/cybertaverne.png");
         aRooms.put("Cybertaverne", vCybertaverne);
-        Room vWeaponMarket = new Room("dans un marché d'arme","Images/weapon_market.png");
+        Room vWeaponMarket = new Room("dans un marché d'armes","Images/weapon_market.png");
         aRooms.put("WeaponMarket", vWeaponMarket);
         
         Room vOldTemple = new Room("dans un temple d'une autre époque","Images/old_temple.png");
@@ -145,7 +145,7 @@ public class GameEngine
         Room vRebelShip = new Room("dans le cargo rebelle","Images/rebel_ship.png");
 
         this.aRoomRandomizer = new RoomRandomizer(this.aRooms);
-        Room vTransporterRoom = new TransporterRoom("Une salle de téléportation. Attention : Cette technologie est instable et peut vous téléporter n'importe où sur la planète","Images/spaceport.png", this.aRoomRandomizer);
+        Room vTransporterRoom = new TransporterRoom("Une salle de téléportation. Attention : Cette technologie est instable et peut vous téléporter n'importe où sur la planète","Images/beam.png", this.aRoomRandomizer);
         
 
         // Positionnement des sorties
@@ -251,8 +251,8 @@ public class GameEngine
         , "Tu peux trouver une bombe au Marché d'Armes.\nUne fois la bombe activée, rejoins le cargo sur le Quai 2 du spatioport, à l'Ouest de la ville."));
         
         vMilitaryTower.addPNJ(new Character("Commandant",
-        "Bonjour, Je suis le Commandant de l'Union sur Saand.\nVous voulez nous aider à gagner la bataille au dessus de nous ?\nPour cela, il va faloir nous aider à vaincre les rebelles.\nVa chercher une bombe au Marché d'Armes, et fais la exploser dans la vielle usine. \nC'est le repère des rebelles.",
-        "Fais exploser la bombe dans la vielle usine, et rejoins le vaisseau de l'union sur le Quai 1 du Spatioport."
+        "Bonjour, Je suis le Commandant de l'Union sur Saand.\nEt vous vous êtes une pilote de notre armée. \nVous voulez nous aider à gagner la bataille au dessus de nous ?\nPour cela, il va faloir nous aider à vaincre les rebelles sur Saand.\nAllez chercher une bombe au Marché d'Armes, et faites la exploser dans la vielle usine à l'est. \nC'est le repère des rebelles.\nEnsuite rendez-vous au vaisseau de l'union sur le Quai 1 du Spatioport.",
+        "Faites exploser la bombe dans la vielle usine, et rendez-vous le vaisseau de l'union sur le Quai 1 du Spatioport."
         ));
         vRebelShip.addPNJ(new Character("Conducteur",
         "Bien le bonjour ! Bienvenue sur le cargo des rebelles !\nC’était une très belle explosion tout à l’heure, bravo !\nMaintenant nous allons pouvoir enfin prendre le contrôle de Saand, et de ses usines d’armement.\nPréparez-vous au décollage !!!\n\n*Le vaisseau décolle dans un grand bruit. \nAu loin vous apercevez la bataille qui fait rage entre les rebelles et l’Union.\nSoudain, le cargo est immobilisé, et des troupes de l’Union entrent. \nVous êtes fait prisonnier et vous êtes amené devant le Commandant des forces de l’Union. *\n\n> Commandant : Alors… Voici le pilote de l’Union qui a détruit la tour du Gouverneur.\nIl est clair que vous avez fait ça sous la contrainte. \nJe vous offre donc une chance de vous racheter.\nNous avons entendu des rumeurs quant à l’existence d’une arme très ancienne sur Saand.\nElle serait dans le désert. Ramenez-la au vaisseau de l’Union et tout sera pardonné. \n\n> Prisonnier rebelle : NOON, les rebelles ont besoin de cette arme !!! Ramenez là aux rebelles !!!\n\n> Commandant : Silence ! Dépêchez-vous de nous ramener l’arme.\nPrener cette clé et descendez sur la planète par le Rayon de téléportation, dans la pièce à coté.\n ",""
@@ -296,6 +296,7 @@ public class GameEngine
 
         // Affichage des sorties
         this.printLocationInfo();
+        this.aGui.println(""); // Laisse un espace entre le message de bienvenue et la prochaine commande entrée.
     }//printWelcome()
 
 
@@ -311,7 +312,7 @@ public class GameEngine
         Command vCommand = this.aParser.getCommand(pCommandLine);
 
         vCommand.execute(this.aPlayer, this, this.aGui);
-        this.aGui.println("");
+        this.aGui.println(""); // Laisse un espace entre deux commandes entrées.
     }
 
 
@@ -333,9 +334,9 @@ public class GameEngine
     public void moveCharacters()
     {
         ListIterator<MovingCharacter> vIt = this.aMovingCharacters.listIterator();
-            while(vIt.hasNext()){
-                vIt.next().move();
-            }
+        while(vIt.hasNext()){
+            vIt.next().move();
+        }
     }
     
     /**
@@ -378,6 +379,7 @@ public class GameEngine
 
     /**
      * Permet de modifier l'AleaRoom
+     * @param La nouvelle AleaRoom
      */
     public void setAleaRoom(final Room pRoom)
     {
@@ -414,6 +416,7 @@ public class GameEngine
     
     /**
      * Retourne les Doors du jeu
+     * @return Les Doors
      */
     public HashMap<String, Door> getDoors()
     {
@@ -441,7 +444,7 @@ public class GameEngine
         this.aDoors.get("Dock1").setOpen();
         this.aRooms.get("OldBuilding").removePNJ("Ragnar");
         this.aRooms.get("MilitaryTower").removePNJ("Commandant");
-        this.aRooms.get("UnionShip").addPNJ(new Character("Commandant", "Toutes mes félicitations. Vous avez vaincu la plupart des troupes rebelles de Saand. \nJ’ai encore quelque chose à vous demander. \nNous avons entendu parler d’un ancien temple datant d’avant la colonisation de la planète.\nIl abriterait une arme très puissante. \nPrenez cette clé, amenez-nous cette arme afin que nous puissions vaincre les rebelles, et vous pourrez rentrer sur Terre. ",
+        this.aRooms.get("UnionShip").addPNJ(new Character("Commandant", "Toutes mes félicitations. Vous avez vaincu la plupart des troupes rebelles de Saand. \nJ’ai encore quelque chose à vous demander. \nNous avons entendu parler d’un ancien temple datant d’avant la colonisation de la planète.\nIl abriterait une arme très puissante. \nPrenez cette clé, amenez-nous cette arme afin que nous puissions vaincre les rebelles, et vous pourrez rentrer sur Terre.\nPour revenir sur Saand, passez par la salle de téléportation. ",
         "La clé, le temple, l'arme, le vaisseau, la Terre."));
     }
     
@@ -461,7 +464,7 @@ public class GameEngine
      */
     public void endWithRebels()
     {
-        this.aGui.println("Vous avez donné des Nanites aux rebelles.\nGrâce à cette nouvelle arme, ils ont facilement pu détruire la Grande Flotte de l'Union,\net prendre le contrôle de la galaxie.\nTous les dirigeants de l'Union ont été jugés et exécutés.\nIls vous ont ramené sur Terre, et vous ont promu Capitaine.");
+        this.aGui.println("Vous avez donné les Nanites aux rebelles.\nGrâce à cette nouvelle arme, ils ont facilement pu détruire la Grande Flotte de l'Union,\net prendre le contrôle de la galaxie.\nTous les dirigeants de l'Union ont été jugés et exécutés.\nIls vous ont ramené sur Terre, et vous ont promu Capitaine.");
         this.endGame();
     }
     
@@ -470,7 +473,7 @@ public class GameEngine
      */
     public void endWithUnion()
     {
-        this.aGui.println("Vous avez donné des Nanites aux forces de l'Union.\nGrâce à cette nouvelle arme, ils ont facilement pu détruire la flotte rebelle.\nTous les leaders rebelles ont été jugés et exécutés.\nVous avez été ramené sur Terre, et avez été promu Capitaine.");
+        this.aGui.println("Vous avez donné les Nanites aux forces de l'Union.\nGrâce à cette nouvelle arme, ils ont facilement pu détruire la flotte rebelle.\nTous les leaders rebelles ont été jugés et exécutés.\nVous avez été ramené sur Terre, et avez été promu Capitaine.");
         this.endGame();
     }
 } // Game

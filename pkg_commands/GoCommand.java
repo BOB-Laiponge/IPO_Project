@@ -32,13 +32,15 @@ public class GoCommand extends Command
         // Si un seul mot, on retourne "go where ?"
         if (!hasSecondWord()) {
             // if there is no second word, we don't know where to go...
-            pGUI.println( "Go where?" );
+            pGUI.println( "Aller où ?" );
             return;
         }
 
         // On cherche la prochaine pièce
         String vDirection = this.getSecondWord();
         
+        
+        // Si les pièces sont quai1 ou 2 et si le joueur possède les nanites, active la fin du jeu 
         if (vDirection.equals("quai1") && pPlayer.hasItem("Nanites"))
         {
             pGE.endWithUnion();
@@ -50,11 +52,12 @@ public class GoCommand extends Command
             return;
         }
         
+                
         Room vNextRoom;
 
         if (pPlayer.getCurrentRoom().isTransporterRoom())
         {
-            pGE.getDoors().get("Dock2").setOpen();
+            pGE.getDoors().get("Dock2").setOpen();  //Pour le scénario : ouvre les portes des vaisseaux.
             pGE.getDoors().get("Dock1").setOpen();
             
             if (pGE.getTestMode() && pGE.getAleaRoom() != null)
@@ -73,7 +76,7 @@ public class GoCommand extends Command
 
         // On effectue ou pas le changement de lieu
         if ( vNextRoom == null )
-            pGUI.println( "There is no door!" );
+            pGUI.println( "Il n'y a rien à cet endroit !" );
         else {
 
 

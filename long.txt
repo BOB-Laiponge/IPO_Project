@@ -1,8 +1,6 @@
 take débrits
 drop débrits
 go north
-take pomme
-eat pomme
 items
 go west
 go north
@@ -16,26 +14,38 @@ go east
 go south
 go south
 look
+help
 go south
 go south
 go south
+go west
+go west
+talk Commandant
+go east
+go east
+go east
+go south
+take bombe
+take Beamer
 go west
 go north
-go south
+go north
+go east
+go east
+use bombe
 go west
-go east
-help
-go east
-go east
 go west
-go south
 go west
-go east
-go south
-go east
-take Beamer
+go north
 load Beamer
-go west
-go south
+go quai1
+talk Commandant
+take cle
+go north
+alea Desert_1
+go beam
+go east
+take Nanites
 use Beamer
 quit
+
